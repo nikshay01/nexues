@@ -320,6 +320,106 @@ body.bg-noise {
   border-color: var(--accent-red);
 }
 
+.btn.success-flash {
+  background-color: var(--accent-green) !important;
+  color: #000 !important;
+  border-color: var(--accent-green) !important;
+}
+
+/* Preview Overlay Panel */
+.overlay-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.overlay-panel.active {
+  display: flex;
+  opacity: 1;
+}
+
+.overlay-content {
+  background-color: var(--bg-panel);
+  width: 90%;
+  max-width: 900px;
+  height: 90vh;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  transform: translateY(20px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.overlay-panel.active .overlay-content {
+  transform: translateY(0);
+}
+
+.overlay-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.overlay-header h2 {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  color: var(--accent-amber);
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-close:hover {
+  color: var(--text-main);
+}
+
+.overlay-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  background-color: #0d0d0d;
+}
+
+.overlay-body pre {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.overlay-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Utility Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .btn-text-link {
   background: none;
   border: none;
