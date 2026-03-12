@@ -1,0 +1,28 @@
+{
+  "_id": "0a774b63-b628-4ac3-b951-003110713c2b",
+  "timestamp": "2026-03-09T18:02:55.761Z",
+  "mood": 5,
+  "energy": 4,
+  "mental_clarity": 6,
+  "calmness": 7,
+  "anxiety": 0,
+  "tiredness": 4,
+  "confidence": 6,
+  "motivation": 4,
+  "frustration": 2,
+  "stress": 2,
+  "overthinking": 1,
+  "brain_fog": 6,
+  "sickness": 0,
+  "lazyness": 3,
+  "boredom": 0,
+  "mindfullness": 2,
+  "emotions": [],
+  "context": {
+    "activity": "working on my project",
+    "location":"work room",
+    "social": "none "
+  },
+  "context_note": "",
+  "created_at": "2026-03-09T18:02:55.762Z"
+}

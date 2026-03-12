@@ -1,0 +1,301 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mood Logger</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6f8;
+padding:25px;
+max-width:900px;
+margin:auto;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+margin-bottom:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.metric{
+display:flex;
+flex-direction:column;
+}
+
+.metric-row{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.metric input[type=range]{
+flex:1;
+}
+
+.value{
+width:30px;
+text-align:center;
+font-weight:bold;
+}
+
+button{
+padding:8px 12px;
+border:none;
+border-radius:6px;
+background:#4CAF50;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#43a047;
+}
+
+.removeBtn{
+background:#e53935;
+}
+
+.removeBtn:hover{
+background:#c62828;
+}
+
+.emotionRow{
+display:flex;
+gap:10px;
+margin-bottom:6px;
+}
+
+textarea{
+width:100%;
+height:70px;
+}
+
+input{
+padding:5px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Mood Entry</h2>
+
+<div class="card">
+<div class="grid">
+
+<script>
+
+const metrics=[
+"mood","energy","mental_clarity","calmness","anxiety","tiredness","sleepiness",
+"confidence","motivation","frustration","stress","overthinking",
+"brain_fog","sickness","laziness","boredom","mindfulness"
+]
+
+document.write(metrics.map(m=>`
+<div class="metric">
+<label>${m.replace("_"," ")}</label>
+<div class="metric-row">
+<input type="range" min="0" max="10" value="5" id="${m}" oninput="updateValue(this)">
+<span class="value">5</span>
+</div>
+</div>
+`).join(""))
+
+</script>
+
+</div>
+</div>
+
+<div class="card">
+<p>D:\Nikshay\coding\big project\self-management\data\mood snapshot</p>
+<h3>Emotions</h3>
+
+<div id="emotionContainer"></div>
+
+<button onclick="addEmotion()">Add Emotion</button>
+
+</div>
+
+<div class="card">
+
+<div class="grid">
+
+<div>
+<label>Activity</label>
+<input id="activity">
+</div>
+
+<div>
+<label>Location</label>
+<input id="location">
+</div>
+
+<div>
+<label>Social</label>
+<input id="social">
+</div>
+
+</div>
+
+<label style="margin-top:10px;">Context Note</label>
+<textarea id="note"></textarea>
+
+</div>
+
+<button onclick="chooseFolder()">Change Save Folder</button>
+<button onclick="saveEntry()">Save Entry</button>
+
+<div class="card">
+    <h3>JSON Preview</h3>
+    <pre id="jsonPreview" style="background:#111;color:#0f0;padding:15px;border-radius:6px;overflow:auto"></pre>
+    </div>
+<script>
+
+let folderHandle=null
+
+function updateValue(slider){
+slider.nextElementSibling.textContent=slider.value
+}
+
+function addEmotion(){
+
+let div=document.createElement("div")
+div.className="emotionRow"
+
+div.innerHTML=`
+<input placeholder="emotion">
+<input type="number" min="0" max="10" placeholder="intensity">
+<button class="removeBtn" onclick="this.parentElement.remove()">✕</button>
+`
+
+document.getElementById("emotionContainer").appendChild(div)
+
+}
+
+async function chooseFolder(){
+folderHandle=await window.showDirectoryPicker()
+localStorage.setItem("moodFolder",true)
+alert("Folder selected")
+}
+
+async function ensureFolder(){
+
+if(folderHandle) return
+
+try{
+folderHandle=await window.showDirectoryPicker()
+}catch(e){
+alert("Please select save folder")
+}
+
+}
+
+function formatFileName(date){
+
+const months=["January","February","March","April","May","June","July","August","September","October","November","December"]
+
+let day=date.getDate()
+let month=months[date.getMonth()]
+
+let hour=date.getHours()
+let minute=date.getMinutes()
+
+let ampm=hour>=12?"PM":"AM"
+
+hour=hour%12
+if(hour===0) hour=12
+
+minute=minute.toString().padStart(2,"0")
+
+return `${day} ${month} ${hour}-${minute} ${ampm}.json`
+}
+
+async function saveEntry(){
+
+await ensureFolder()
+
+let emotions=[]
+
+document.querySelectorAll(".emotionRow").forEach(row=>{
+let e=row.children[0].value
+let i=row.children[1].value
+if(e) emotions.push({emotion:e,intensity:Number(i)})
+})
+
+let data={
+
+_id:crypto.randomUUID(),
+timestamp:new Date().toISOString(),
+
+mood:Number(mood.value),
+energy:Number(energy.value),
+mental_clarity:Number(mental_clarity.value),
+calmness:Number(calmness.value),
+anxiety:Number(anxiety.value),
+tiredness:Number(tiredness.value),
+sleepiness:Number(sleepiness.value),
+
+confidence:Number(confidence.value),
+motivation:Number(motivation.value),
+frustration:Number(frustration.value),
+stress:Number(stress.value),
+overthinking:Number(overthinking.value),
+
+brain_fog:Number(brain_fog.value),
+sickness:Number(sickness.value),
+laziness:Number(laziness.value),
+boredom:Number(boredom.value),
+
+mindfulness:Number(mindfulness.value),
+
+emotions,
+
+context:{
+activity:emptyToNull(activity.value),
+location:emptyToNull(location.value),
+social:emptyToNull(social.value)
+},
+
+context_note:emptyToNull(note.value),
+created_at:new Date().toISOString()
+
+}
+document.getElementById("jsonPreview").textContent = JSON.stringify(data,null,2)
+let date=new Date()
+
+let fileName=formatFileName(date)
+
+let fileHandle=await folderHandle.getFileHandle(fileName,{create:true})
+
+let writable=await fileHandle.createWritable()
+
+await writable.write(JSON.stringify(data,null,2))
+
+await writable.close()
+
+alert("Saved: "+fileName)
+function emptyToNull(value){
+if(!value || value.trim()==="") return null
+return value
+}
+}
+
+</script>
+
+</body>
+</html>
+```

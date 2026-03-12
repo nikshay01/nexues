@@ -1,0 +1,49 @@
+//body metric
+{
+  _id: ObjectId,
+  user_id: ObjectId,
+
+  recorded_at: Date,
+
+  measurements: {
+    arms: {
+      left_bicep_cm: Number,
+      right_bicep_cm: Number,
+      left_forearm_cm: Number,
+      right_forearm_cm: Number,
+      left_upper_arm_cm: Number,
+      right_upper_arm_cm: Number
+    },
+
+    torso: {
+      chest_relaxed_cm: Number,
+      chest_flexed_cm: Number,
+      waist_cm: Number,
+      abdominal_cm: Number,
+      hips_cm: Number
+    },
+
+    shoulders: {
+      left_cm: Number,
+      right_cm: Number,
+      width_cm: Number
+    },
+
+    legs: {
+      left_thigh_cm: Number,
+      right_thigh_cm: Number,
+      left_calf_cm: Number,
+      right_calf_cm: Number
+    },
+
+    body: {
+      height_cm: Number,
+      weight_kg: Number,
+      neck_cm: Number,
+      wrist_cm: Number,
+      body_fat_percent: Number
+    }
+  },
+
+  notes: String
+}

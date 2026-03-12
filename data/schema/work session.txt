@@ -1,0 +1,29 @@
+start 10:11 pm 9 march
+end 12:23 am
+duration 2hr 12min
+task type proffesional
+task name db schema making
+project relation: self management app
+session description: created hobby session and sexuall session complete schema, a frontend to log mood snapshot in json, search some of my projects so i can submit one of them to clg
+focus level 7
+output score 6
+distraction count 1
+distraction description: break and fixing the bed
+pause count: 2
+(
+1: 17min to 24 min = 7 min pause to do my bed
+2: 54min to 1hr 6min = 12 min break for rest and milk)
+total productive time = duration - pause time
+total productive time = 1hr 53 min
+
+mental energy 3
+physical energy 6
+clarity 3
+motivation 2
+confidence 5
+tiredness 3
+frustrassion 3
+sress 2 
+location work room
+session quality 6
+sleepiness 8

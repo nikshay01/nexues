@@ -1,0 +1,106 @@
+work session
+
+{
+  _id: ObjectId(),
+
+  startTime: ISODate("2025-03-09T22:11:00"),
+  endTime: ISODate("2025-03-10T00:23:00"),
+  durationMin: 132,
+  productiveTimeMin: 113,
+
+  taskType: "professional",
+  taskName: "db schema making",
+  project: "self management app",
+  sessionDescription: "created hobby session and sexual session complete schema, a frontend to log mood snapshot in json, searched projects for college submission",
+
+  focusLevel: 7,
+  outputScore: 6,
+  sessionQuality: 6,
+
+  distractionCount: 1,
+  distractionDesc: "break and fixing the bed",
+
+  pauses: [
+    { pauseStartMin: 17, pauseEndMin: 24, durationMin: 7,  reason: "doing my bed" },
+    { pauseStartMin: 54, pauseEndMin: 66, durationMin: 12, reason: "rest and milk" }
+  ],
+
+  mentalState: {
+    mentalEnergy:   3,
+    physicalEnergy: 6,
+    clarity:        3,
+    motivation:     2,
+    confidence:     5,
+    tiredness:      3,
+    frustration:    3,
+    stress:         2,
+    sleepiness:     8,
+    mood:           4,
+    anxiety:        2,
+    flow:           5,
+    overwhelm:      3,
+  },
+
+  music: {
+    on:   true,
+    type: "lofi"
+  },
+
+  location: "work room",
+
+  createdAt: ISODate("2025-03-09T22:11:00"),
+  updatedAt: ISODate("2025-03-09T22:11:00")
+}
+
+
+
+
+
+
+
+
+SCHEMA
+
+const workSessionSchema = new mongoose.Schema({
+  startTime:          { type: Date, required: true },
+  endTime:            { type: Date, required: true },
+  durationMin:        { type: Number, required: true },
+  productiveTimeMin:  { type: Number, required: true },
+
+  taskType:           { type: String, enum: ["professional", "personal", "learning", "creative"], required: true },
+  taskName:           { type: String, required: true },
+  project:            { type: String },
+  sessionDescription: { type: String },
+
+  focusLevel:         { type: Number, min: 0, max: 10 },
+  outputScore:        { type: Number, min: 0, max: 10 },
+  sessionQuality:     { type: Number, min: 0, max: 10 },
+
+  distractionCount:   { type: Number, default: 0 },
+  distractionDesc:    { type: String },
+
+  pauses: [pauseSchema],
+
+  mentalState: {
+    mentalEnergy:   { type: Number, min: 0, max: 10 },
+    physicalEnergy: { type: Number, min: 0, max: 10 },
+    clarity:        { type: Number, min: 0, max: 10 },
+    motivation:     { type: Number, min: 0, max: 10 },
+    confidence:     { type: Number, min: 0, max: 10 },
+    tiredness:      { type: Number, min: 0, max: 10 },
+    frustration:    { type: Number, min: 0, max: 10 },
+    stress:         { type: Number, min: 0, max: 10 },
+    sleepiness:     { type: Number, min: 0, max: 10 },
+    mood:           { type: Number, min: 0, max: 10 },
+    anxiety:        { type: Number, min: 0, max: 10 },
+    flow:           { type: Number, min: 0, max: 10 },
+    overwhelm:      { type: Number, min: 0, max: 10 },
+  },
+
+  music: {
+    on:   { type: Boolean, default: false },
+    type: { type: String }, // "lofi" | "silence" | "anime ost" | "punjabi" etc
+  },
+
+  location: { type: String },
+}, { timestamps: true });

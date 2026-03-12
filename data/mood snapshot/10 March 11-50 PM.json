@@ -1,0 +1,28 @@
+{
+  "_id": "e0e7b71e-486d-4663-a1c3-8ab1070ed1d6",
+  "timestamp": "2026-03-10T18:21:50.000Z",
+  "mood": 5,
+  "energy": 6,
+  "mental_clarity": 5,
+  "calmness": 6,
+  "anxiety": 0,
+  "tiredness": 2,
+  "sleepiness": 2,
+  "confidence": 3,
+  "motivation": 3,
+  "frustration": 1,
+  "stress": 2,
+  "overthinking": 0,
+  "brain_fog": 0,
+  "sickness": 0,
+  "laziness": 0,
+  "boredom": 0,
+  "mindfulness": 6,
+  "emotions": [],
+  "context": {
+    "activity": "before sleep",
+    "social": ""
+  },
+  "context_note": "",
+  "created_at": "2026-03-10T18:31:50.908Z"
+}

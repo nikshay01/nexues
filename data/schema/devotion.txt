@@ -1,0 +1,50 @@
+DEVOTION SESSION
+
+IDENTITY
+_id
+user_id
+timestamp_start
+duration_minutes
+
+TIME
+time_category                       # brahma-muhurta / morning / noon / evening / night
+
+SETUP
+devotion_type                       # mandir / puja / aarti / jaap / path / kirtan / seva / satsang / vrat / other
+deity_focus                         # Shiva / Vishnu / Devi / Ganesha / Ram / Krishna / other
+location                            # home-mandir / temple / ashram / river / open-nature / other
+temple_name                         # if applicable
+
+GUIDE
+guided                              # boolean
+guide_type                          # pandit / guru / organization / self
+guide_name
+organization_name
+
+PHYSICAL
+posture                             # standing / seated / kneeling / prostrating
+
+MENTAL & EMOTIONAL STATE
+pre_mood                            # anxious / sad / neutral / calm / devotional / joyful
+post_mood
+pre_stress_level                    # 1–10
+post_stress_level                   # 1–10
+stress_delta                        # computed: pre minus post
+emotional_intensity                 # 1–10
+sense_of_peace                      # 1–10
+focus_during                        # 1–10
+gratitude_level                     # 1–10
+bhakti_felt                         # 1–10
+surrender_felt                      # 1–10
+
+SPIRITUAL DEPTH
+divine_connection_felt              # 1–10
+
+CONTEXT
+context_note                        # free text
+pre_activity                        # sleep / exercise / work / eating / commute / other
+context_location                    # home / work / travel / pilgrimage / other
+social_context                      # alone / with family / with community / with guru
+
+OUTCOME
+session_rating                      # 1–5

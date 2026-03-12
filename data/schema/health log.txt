@@ -1,0 +1,48 @@
+health log
+
+_id
+user_id
+date
+
+morning,midday,everning_energy
+
+morning_body_stiffness
+soreness_scale
+headache_intensity
+
+digestion_quality
+hydration_level
+
+sleep_quality
+sleep start 
+sleep end 
+total_sleep_hours
+sick status
+sickness intensity
+symptoms
+breathing quality
+cough intesity
+mental fatigue
+physical fatigue
+stomach discomfort 
+resting heartrate
+
+context_note
+created_at
+
+
+
+more sleepfields{
+a set time when you should sleep
+a set time when you should wake up
+a set total sleep time goal
+
+and store how much more or less i slept to the goals
+ex. i should sleep at 9 30pm but i sleep at 10 so its 30 min late and do the same for otherfields like wake up and total sleep time
+
+sleep interruptions
+wake up time between sleep if interrupted
+sleep debt
+dream count 
+dream context 
+}

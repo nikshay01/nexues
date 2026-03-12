@@ -1,0 +1,65 @@
+sexual session
+
+_id
+user_id
+created_at
+
+timestamp_start
+time of day
+
+session type (mastrubation, parnered sex, mutual mastrubation, oral,other)
+session goal
+
+duration_minutes
+gap_since_last_session_hours
+
+trigger type(habit, boredom, sexual desire, partner interaction)
+
+medium_type(visual static, dynamic, interacive, digital interactive)
+porn used?
+
+arousal_intensity
+conscious_control
+
+erection_state
+
+edging_occurred
+edging_duration_minutes
+release_occurred
+
+toy used?
+lubricant used?
+
+pain?
+pain points:''
+
+urge resistance attempts
+
+mental & physical snapshot but important ones are -
+
+pre:
+mood
+energy
+stress
+anxiety
+guilt
+brain fog
+mental clarity
+
+post:
+mood
+energy
+stress
+anxiety
+guilt
+brain fog
+mental clarity
+
+edging-
+occured?
+release?
+
+orgasm quality
+regret level
+
+context_note

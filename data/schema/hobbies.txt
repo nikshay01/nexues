@@ -1,0 +1,48 @@
+hobbies
+_id
+user_id
+
+name
+category
+subcatagory
+description
+intensity_type
+dopamine_type
+skill_growth_possible
+consistency goal //like its once daily weekly or monthly thing
+current level
+selfratedskill
+target elvel
+milestones [{
+title
+achived at
+note
+}]
+
+goals[{
+id
+title 
+type
+targetvalue
+targetunit
+targetp;eriod
+isActive
+created at
+}]
+
+stats-
+totalsessions
+totalminutes
+avsessionminutes
+longestsessionminutes
+currentstreakdays
+longeststreakdays
+lastsessionat
+avQalityScore
+totalexp//idk how will i make this work
+
+
+achivemets-
+
+
+created_at

@@ -1,0 +1,32 @@
+mood entries
+_id
+user_id
+timestamp
+
+mood
+energy
+mental_clarity
+calmness
+anxiety
+tiredness
+
+confidence
+motivation
+frustration
+stress
+overthinking
+
+brain_fog
+sickness
+lazyness
+emotion and intensity{multi entries allowed}
+boredom
+
+mindfullness
+
+context activity
+conrext location
+context socially 
+
+context_note
+created_at 

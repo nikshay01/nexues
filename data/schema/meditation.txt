@@ -1,0 +1,100 @@
+meditation
+_id
+user_id
+
+timestamp_start
+duration_minutes
+
+type
+    (breath / mantra / guided / silent / walking / body_scan)Mindfulness meditation
+Spiritual meditation
+Focused meditation
+Movement meditation
+Mantra meditation
+Transcendental meditation
+Progressive relaxation
+Loving-kindness meditation
+Visualization meditation
+
+technique
+    (box_breathing / raam_nam / mindfulness / visualization / other)
+
+posture
+    (sitting / lying / walking / kneeling)
+
+environment
+    (quiet / music / nature / noisy)
+
+back_support_used (boolean)
+
+music used
+
+----------------------------------
+
+pre_state
+
+pre_stress_level (1–10)
+pre_energy_level (1–10)
+pre_mood (1–10)
+pre_mental_clarity (1–10)
+pre_brain_fog (0–10)
+pre_tiredness (1–10)
+
+----------------------------------
+
+practice_metrics
+
+depth_level (1–10)
+distraction_level (1–10)
+focus_percentage
+distraction_spikes_count
+sleepiness_peak (0–10)
+
+
+mantra_count
+
+
+----------------------------------
+
+physiological_response
+
+body_relaxation_level (1–10)
+heart_rate_before
+heart_rate_after
+
+----------------------------------
+
+post_state
+
+post_stress_level (1–10)
+mental_clarity_after (1–10)
+calmness_after (1–10)
+energy_after (1–10)
+brain_fog_after (0–10)
+motivation_after (1–10)
+
+----------------------------------
+
+spiritual_state
+
+sense_of_presence (1–10)
+devotional_feeling (1–10)
+gratitude_level (1–10)
+
+----------------------------------
+
+quality_metrics
+
+effective_focus_minutes
+session_quality_score (auto)
+
+----------------------------------
+
+context
+
+context_note
+location
+background_audio
+session_intention
+
+created_at

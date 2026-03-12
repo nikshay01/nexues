@@ -1,0 +1,21 @@
+pain log
+_id
+user_id
+timestamp
+
+body_part[]//muscle names or body part name
+pain_type
+intensity//intesity can be given for each muscle involved invividually if possible
+pain start timestamp
+pain end timestamp
+duration_minutes
+
+possible_trigger
+context_note
+
+
+post pain{
+timestamp for start and end of pain
+total time for stay of pain
+avg intensity throught the logs
+}

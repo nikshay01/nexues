@@ -1,0 +1,56 @@
+nutrition
+{
+  _id: ObjectId(),
+
+  userId: ObjectId(),
+
+  date: ISODate(),
+
+  meals: [
+    {
+      mealId: ObjectId(),
+
+      name: String, // breakfast, lunch, snack, dinner etc
+
+      timestamp: Date,
+
+      items: [
+        {
+          foodName: String,
+
+          portion: {
+            quantity: Number,
+            unit: String // g, ml, piece, bowl, tsp
+          },
+
+          nutrition: {
+            caloriesKcal: Number,
+            proteinG: Number,
+            carbsG: Number,
+            fatG: Number,
+            fiberG: Number
+          }
+        }
+      ],
+
+      mealTotals: {
+        caloriesKcal: Number,
+        proteinG: Number,
+        carbsG: Number,
+        fatG: Number,
+        fiberG: Number
+      }
+    }
+  ],
+
+  dailyTotals: {
+    caloriesKcal: Number,
+    proteinG: Number,
+    carbsG: Number,
+    fatG: Number,
+    fiberG: Number
+  },
+
+  createdAt: Date,
+  updatedAt: Date
+}
