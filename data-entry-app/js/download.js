@@ -1,39 +1,45 @@
 // js/download.js
 
-// IndexedDB wrapper for storing the directory handle
+// IndexedDB wrapper for storing the directory handle per schema
 const DB_NAME = 'SelfOS_DB';
-const STORE_NAME = 'settings';
+const STORE_NAME = 'schema_settings'; // renamed store to make it schema specific
 
 function openDB() {
     return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, 1);
-        request.onupgradeneeded = (e) => request.result.createObjectStore(STORE_NAME);
+        const request = indexedDB.open(DB_NAME, 2); // bumped version
+        request.onupgradeneeded = (e) => {
+            if (!request.result.objectStoreNames.contains(STORE_NAME)) {
+                request.result.createObjectStore(STORE_NAME);
+            }
+        };
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);
     });
 }
 
-async function getStoredHandle() {
+async function getStoredHandle(schemaId) {
+    if (!schemaId) return null;
     try {
         const db = await openDB();
         return new Promise((resolve, reject) => {
             const tx = db.transaction(STORE_NAME, 'readonly');
             const store = tx.objectStore(STORE_NAME);
-            const request = store.get('directoryHandle');
+            const request = store.get(`dir_${schemaId}`);
             request.onsuccess = () => resolve(request.result);
             request.onerror = () => reject(request.error);
         });
     } catch (e) {
-        return null; // DB failed or doesn't exist yet
+        return null;
     }
 }
 
-async function storeHandle(handle) {
+async function storeHandle(schemaId, handle) {
+    if (!schemaId) return;
     const db = await openDB();
     return new Promise((resolve, reject) => {
         const tx = db.transaction(STORE_NAME, 'readwrite');
         const store = tx.objectStore(STORE_NAME);
-        const request = handle ? store.put(handle, 'directoryHandle') : store.delete('directoryHandle');
+        const request = handle ? store.put(handle, `dir_${schemaId}`) : store.delete(`dir_${schemaId}`);
         request.onsuccess = () => resolve();
         request.onerror = () => reject(request.error);
     });
@@ -47,25 +53,39 @@ async function verifyPermission(fileHandle) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const btnDownload = document.getElementById('btn-download');
+    const btnDownloadDefault = document.getElementById('btn-download-default');
+    const btnDownloadConfigured = document.getElementById('btn-download-configured');
     const btnSelectFolder = document.getElementById('btn-select-folder');
 
     // Setup Folder UI on Load
     async function updateFolderUI() {
+        if (!state.currentSchemaId) return;
         if (!btnSelectFolder) return;
-        const handle = await getStoredHandle();
+        
+        const handle = await getStoredHandle(state.currentSchemaId);
         if (handle) {
-            btnSelectFolder.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg> ${handle.name}`;
+            btnSelectFolder.innerHTML = `Set Folder: <b>${handle.name}</b>`;
             btnSelectFolder.title = "Click to select a new folder or clear";
+            btnDownloadConfigured.classList.remove('btn-secondary');
+            btnDownloadConfigured.classList.add('btn-primary');
         } else {
-            btnSelectFolder.innerHTML = `Default (Downloads)`;
-            btnSelectFolder.title = "Select default save location";
+            btnSelectFolder.innerHTML = `Set Folder: <b>None</b>`;
+            btnSelectFolder.title = "Select save location directly to folder";
+            // If no folder set, visually deemphasize the "Save to folder" button
+            btnDownloadConfigured.classList.remove('btn-primary');
+            btnDownloadConfigured.classList.add('btn-secondary');
         }
     }
 
+    // Listen for schema changes from app.js to reload UI
+    window.addEventListener('schemaChanged', async (e) => {
+        await updateFolderUI();
+    });
+
     if (btnSelectFolder) {
         btnSelectFolder.addEventListener('click', async () => {
-            const currentHandle = await getStoredHandle();
+            if (!state.currentSchemaId) return;
+            const currentHandle = await getStoredHandle(state.currentSchemaId);
             
             // If API not supported, alert and exit.
             if (!('showDirectoryPicker' in window)) {
@@ -75,8 +95,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (currentHandle) {
                 // Let user decide whether to clear or replace the folder check
-                if (confirm(`Current save folder is "${currentHandle.name}". Do you want to CLEAR it and use normal downloads instead? \n\n(Click Cancel to choose a new folder instead)`)) {
-                    await storeHandle(null);
+                if (confirm(`Current save folder is "${currentHandle.name}". Do you want to CLEAR it? \n\n(Click Cancel to choose a new folder instead)`)) {
+                    await storeHandle(state.currentSchemaId, null);
                     await updateFolderUI();
                     return;
                 }
@@ -85,14 +105,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             try {
                 // Request a new directory
                 const handle = await window.showDirectoryPicker({ mode: 'readwrite' });
-                await storeHandle(handle);
+                await storeHandle(state.currentSchemaId, handle);
                 await updateFolderUI();
             } catch (err) {
                 if (err.name !== 'AbortError') console.error('Directory picker error:', err);
             }
         });
-        
-        await updateFolderUI();
     }
 
     const formatFilenameDate = () => {
@@ -105,20 +123,40 @@ document.addEventListener('DOMContentLoaded', async () => {
         const ampm = hours >= 12 ? 'PM' : 'AM';
         
         hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
+        hours = hours ? hours : 12;
         
         return `${day} ${monthMatch} ${hours}-${minutes} ${ampm}`;
     };
 
-    btnDownload.addEventListener('click', async () => {
+    // --- STANDARD DOWNLOAD BUTTON ---
+    btnDownloadDefault.addEventListener('click', async () => {
         if (!state.currentSchemaId) return;
         
         const data = state.getSchemaState(state.currentSchemaId);
         const jsonString = JSON.stringify(data, null, 2);
         const filenameStr = `${state.currentSchemaId} ${formatFilenameDate()}.json`;
         
-        const dirHandle = await getStoredHandle();
+        fallbackDownload(jsonString, filenameStr, btnDownloadDefault);
+    });
+
+    // --- SAVE TO CONFIGURED FOLDER BUTTON ---
+    btnDownloadConfigured.addEventListener('click', async () => {
+        if (!state.currentSchemaId) return;
         
+        const data = state.getSchemaState(state.currentSchemaId);
+        const jsonString = JSON.stringify(data, null, 2);
+        const filenameStr = `${state.currentSchemaId} ${formatFilenameDate()}.json`;
+        
+        const dirHandle = await getStoredHandle(state.currentSchemaId);
+        
+        if (!dirHandle) {
+            // No folder set for this schema, prompt user to set one
+            alert("No configured folder for this schema! Please click 'Set Folder' first, or use the standard 'Download' button.");
+            // Trigger the set folder click
+            btnSelectFolder.click();
+            return;
+        }
+
         if (dirHandle && 'showDirectoryPicker' in window) {
             try {
                 // Ask the user to re-grant permission if they've restarted the browser
@@ -127,22 +165,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const writable = await fileHandle.createWritable();
                     await writable.write(jsonString);
                     await writable.close();
-                    flashSuccess();
-                    return; // Done
+                    flashSuccess(btnDownloadConfigured);
+                    return;
                 }
             } catch (err) {
                 console.error("Error writing to directory handle:", err);
                 alert("Could not write to the saved folder. Check permissions or select a new folder.\nFalling back to normal download.");
-                await storeHandle(null);
+                await storeHandle(state.currentSchemaId, null);
                 await updateFolderUI();
             }
         }
         
-        // Fallback to traditional download if no folder selected or permission denied
-        fallbackDownload(jsonString, filenameStr);
+        // Fallback to traditional download if permission denied
+        fallbackDownload(jsonString, filenameStr, btnDownloadConfigured);
     });
     
-    function fallbackDownload(content, filename) {
+    function fallbackDownload(content, filename, btn) {
         const blob = new Blob([content], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         
@@ -157,17 +195,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             URL.revokeObjectURL(url);
         }, 100);
         
-        flashSuccess();
+        flashSuccess(btn);
     }
     
-    function flashSuccess() {
-        const originalText = btnDownload.innerHTML;
-        btnDownload.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> Saved!`;
-        btnDownload.classList.add('success-flash');
+    function flashSuccess(btn) {
+        const originalText = btn.innerHTML;
+        // Strip the text content from original html loosely
+        if(originalText.includes('Downloaded') || originalText.includes('Saved')) return;
+        
+        btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> Saved!`;
+        btn.classList.add('success-flash');
         
         setTimeout(() => {
-            btnDownload.innerHTML = originalText;
-            btnDownload.classList.remove('success-flash');
+            btn.innerHTML = originalText;
+            btn.classList.remove('success-flash');
         }, 2000);
     }
 });
