@@ -83,7 +83,7 @@ class FormBuilder {
                 input = document.createElement('input');
                 input.type = 'range';
                 input.className = 'range-input';
-                input.min = fieldDef.min || 1;
+                input.min = fieldDef.min !== undefined ? fieldDef.min : 0;
                 input.max = fieldDef.max || 10;
                 input.value = value !== undefined ? value : Math.floor((input.max - input.min) / 2) + parseInt(input.min);
                 input.required = !!fieldDef.required;
