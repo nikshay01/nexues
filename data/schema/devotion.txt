@@ -40,6 +40,8 @@ surrender_felt                      # 1–10
 SPIRITUAL DEPTH
 divine_connection_felt              # 1–10
 
+Custom fields[]  ex: ram name chants(integer)
+
 CONTEXT
 context_note                        # free text
 pre_activity                        # sleep / exercise / work / eating / commute / other

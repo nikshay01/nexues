@@ -1,0 +1,121 @@
+scores
+
+_id
+user_id
+date
+
+DAILY COMPOSITE SCORES (0–100)
+daily_wellness_score
+productivity_index
+spiritual_score
+mental_health_score
+physical_health_score
+sleep_score
+screen_discipline_score
+hobby_growth_score
+self_control_score
+day_score                               # master score
+
+day_rating                              # Elite / Great / Good / Average / Rough / Bad
+
+INDIVIDUAL COMPONENT BREAKDOWNS
+
+wellness_breakdown {
+  energy_avg
+  sleep_quality
+  mood_avg
+  negative_symptoms_inv
+  physical_state_inv
+  hydration_digestion
+  mindfulness
+}
+
+productivity_breakdown {
+  focus
+  output_quality
+  goal_adherence
+  efficiency
+  mental_state
+  distraction_control
+}
+
+spiritual_breakdown {
+  meditation_depth
+  devotion_intensity
+  inner_peace
+  stress_reduction
+  consistency_bonus
+}
+
+mental_health_breakdown {
+  mood_calm
+  clarity_focus
+  emotional_balance
+  drive
+  fatigue_inv
+}
+
+physical_health_breakdown {
+  energy
+  pain_inv
+  recovery
+  digestion
+  respiratory
+  hydration
+  illness_inv
+}
+
+sleep_breakdown {
+  quality
+  duration_accuracy
+  schedule_adherence
+  interruptions_inv
+  sleep_debt_inv
+}
+
+screen_discipline_breakdown {
+  intentional_use
+  productive_ratio
+  time_control
+  short_form_avoidance
+  late_night_avoidance
+  unlock_discipline
+}
+
+hobby_growth_breakdown {
+  session_quality
+  enjoyment
+  immersion
+  progress
+  focus
+  streak_bonus
+}
+
+self_control_breakdown {
+  screen_discipline
+  work_distraction_control
+  urge_resistance
+  meditation_focus
+  regret_avoidance
+  schedule_adherence
+}
+
+DELTA / TREND SCORES (computed over time windows)
+trends {
+  meditation_progress                   # this week vs last week depth avg
+  mood_trend                            # 7-day rolling avg vs 30-day avg
+  sleep_consistency                     # std deviation of sleep/wake times (7 days)
+  body_composition_trend                # body_fat%, weight change over 30 days
+  habit_streak_score                    # combined streaks across hobbies
+  pain_trend                            # this week avg pain vs last week
+  nutrition_score                       # protein target %, calorie adherence
+  sexual_health_trend                   # gap + regret trending
+}
+
+METADATA
+computed_at                             # when the scores were calculated
+data_completeness_percent               # how many source entries existed for this day
+missing_sources[]                       # e.g. ["nutrition", "screentime"] if no data logged
+
+created_at
+updated_at

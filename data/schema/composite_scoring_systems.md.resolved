@@ -1,0 +1,274 @@
+# 🏆 Composite Scoring Systems
+
+Aggregate scores derived from ~110 raw fields across 12 schemas. All composite scores are normalized to **0–100**.
+
+---
+
+## 1. 🌅 Daily Wellness Score
+> *"How healthy was my day overall?"*
+
+| Component | Source Schema | Fields Used | Weight |
+|---|---|---|---|
+| Energy Avg | Health Log | morning + midday + evening energy | 15% |
+| Sleep Quality | Health Log | sleep_quality, total_sleep_hours vs goal | 20% |
+| Mood Avg | Mood Entries | mood, calmness, confidence, motivation | 15% |
+| Negative Symptoms (inv.) | Mood Entries + Health | anxiety, stress, brain_fog, sickness, headache_intensity | 15% |
+| Physical State (inv.) | Health Log | soreness, stiffness, physical_fatigue, stomach_discomfort | 15% |
+| Hydration & Digestion | Health Log | hydration_level, digestion_quality | 10% |
+| Mindfulness | Mood Entries | mindfulness | 10% |
+
+```
+Formula:
+  positives = avg(energy_avg, sleep_quality, mood_avg, hydration_digestion, mindfulness)
+  negatives = avg(anxiety, stress, brain_fog, soreness, headache...)
+  
+  daily_wellness = (weighted_positives × 0.6) + ((10 - weighted_negatives) × 0.4)
+  → normalized to 0–100
+```
+
+---
+
+## 2. ⚡ Productivity Index
+> *"How productive was this work session / day?"*
+
+| Component | Source | Fields | Weight |
+|---|---|---|---|
+| Focus | Work Session | focus_level | 20% |
+| Output Quality | Work Session | output_score | 20% |
+| Goal Adherence | Work Session | total_work_minutes today vs daily_work_goal | 20% |
+| Efficiency | Work Session | productive_time / duration | 15% |
+| Mental State | Work Session | clarity, motivation, (10 - tiredness) | 15% |
+| Distraction Control | Work Session | (10 - distraction_count normalized) | 10% |
+
+```
+Formula:
+  goal_adherence = min(10, (total_work_today / daily_goal_minutes) × 10)
+    // caps at 10 — meeting 100% of goal = full marks, no bonus for overtime
+    // e.g. goal = 6hrs, worked 4.5hrs → (270/360) × 10 = 7.5
+
+  productivity_index = (focus × 0.20) + (output × 0.20) + (goal_adherence × 0.20)
+                     + (efficiency_ratio × 0.15) + (mental_avg × 0.15)
+                     + (distraction_control × 0.10)
+  → normalized to 0–100
+```
+
+**Daily aggregation**: Sum all work session durations → compare against daily goal for Goal Adherence. Average other per-session scores weighted by duration.
+
+---
+
+## 3. 🧘 Spiritual Score
+> *"How deep was my spiritual practice today?"*
+
+| Component | Source | Fields | Weight |
+|---|---|---|---|
+| Meditation Depth | Meditation | depth_level, focus_%, calmness_after | 30% |
+| Devotion Intensity | Devotion | bhakti_felt, divine_connection, surrender_felt | 25% |
+| Inner Peace | Both | sense_of_peace, sense_of_presence, gratitude_level | 20% |
+| Stress Reduction | Both | stress_delta (pre - post) | 15% |
+| Consistency Bonus | Both | did_meditate + did_devotion today? | 10% |
+
+```
+Formula:
+  med_score = avg(depth, focus_pct/10, calmness_after)
+  dev_score = avg(bhakti, divine_connection, surrender)
+  peace_score = avg(sense_of_peace, sense_of_presence, gratitude)
+  stress_relief = avg(stress_deltas across sessions)  // higher = better
+  consistency = (did_meditate ? 5 : 0) + (did_devotion ? 5 : 0)
+
+  spiritual_score = (med × 0.30) + (dev × 0.25) + (peace × 0.20) 
+                  + (stress_relief × 0.15) + (consistency × 0.10)
+  → normalized to 0–100
+```
+
+---
+
+## 4. 🧠 Mental Health Score
+> *"How is my mental state right now / today?"*
+
+| Component | Source | Fields (positive ↑ / negative ↓) | Weight |
+|---|---|---|---|
+| Mood & Calm | Mood Entries | mood ↑, calmness ↑ | 25% |
+| Clarity & Focus | Mood + Health | mental_clarity ↑, (brain_fog ↓ inverted) | 20% |
+| Emotional Balance | Mood Entries | (anxiety ↓), (frustration ↓), (overthinking ↓), (stress ↓) | 25% |
+| Drive | Mood Entries | motivation ↑, confidence ↑ | 15% |
+| Fatigue (inv.) | Health + Mood | mental_fatigue ↓, tiredness ↓, laziness ↓ | 15% |
+
+```
+Formula:
+  positive_avg = avg(mood, calmness, mental_clarity, motivation, confidence)
+  negative_avg = avg(anxiety, frustration, overthinking, stress, brain_fog, 
+                     mental_fatigue, tiredness, laziness)
+
+  mental_health = (positive_avg × 0.6 + (10 - negative_avg) × 0.4) × 10
+  → 0–100
+```
+
+---
+
+## 5. 💪 Physical Health Score
+> *"How is my body doing?"*
+
+| Component | Source | Fields | Weight |
+|---|---|---|---|
+| Energy | Health Log | avg(morning, midday, evening energy) | 20% |
+| Pain (inv.) | Pain Log | avg intensity across logged pains | 20% |
+| Recovery | Health Log | (10 - soreness), (10 - stiffness) | 15% |
+| Digestion | Health Log | digestion_quality, (10 - stomach_discomfort) | 15% |
+| Respiratory | Health Log | breathing_quality, (10 - cough_intensity) | 10% |
+| Hydration | Health Log | hydration_level | 10% |
+| Illness (inv.) | Health Log | (10 - sickness_intensity) | 10% |
+
+```
+Formula:
+  physical_health = weighted_avg(energy, pain_inv, recovery, digestion, 
+                                  respiratory, hydration, illness_inv)
+  → normalized to 0–100
+```
+
+---
+
+## 6. 😴 Sleep Score
+> *"How well did I sleep?"*
+
+| Component | Source | Fields | Weight |
+|---|---|---|---|
+| Quality | Health Log | sleep_quality | 30% |
+| Duration Accuracy | Health Log | actual hours vs goal hours (deviation penalty) | 25% |
+| Schedule Adherence | Health Log | sleep_time vs target, wake_time vs target | 20% |
+| Interruptions (inv.) | Health Log | sleep_interruptions count | 15% |
+| Sleep Debt (inv.) | Health Log | accumulated sleep_debt | 10% |
+
+```
+Formula:
+  duration_acc = max(0, 10 - abs(actual_hours - goal_hours) × 2)
+  schedule_acc = max(0, 10 - (late_minutes / 15))  // lose 1pt per 15min late
+  interrupt_penalty = max(0, 10 - interruptions × 2)
+
+  sleep_score = (quality × 0.30) + (duration_acc × 0.25) + (schedule_acc × 0.20)
+              + (interrupt_penalty × 0.15) + ((10 - debt_normalized) × 0.10)
+  → normalized to 0–100
+```
+
+---
+
+## 7. 📱 Screen Discipline Score
+> *"How intentionally did I use my phone?"*
+
+| Component | Source | Fields | Weight |
+|---|---|---|---|
+| Intentional Use | Screentime | intentional_percent | 30% |
+| Productive Ratio | Screentime | (productive + learning) / total | 25% |
+| Total Time Control | Screentime | penalty if > daily goal | 15% |
+| Short-Form Avoidance | Screentime | short_form_used (boolean penalty) | 10% |
+| Late Night Avoidance | Screentime | late_night_usage (boolean penalty) | 10% |
+| Unlock Discipline | Screentime | unlock_count (lower = better) | 10% |
+
+```
+Formula:
+  productive_ratio = (productive_min + learning_min) / total_min × 10
+  time_control = max(0, 10 - max(0, total_min - goal_min) / 15)
+  short_form_penalty = short_form_used ? -2 : 0
+  late_night_penalty = late_night_usage ? -1.5 : 0
+  unlock_score = max(0, 10 - unlock_count / 10)
+
+  screen_discipline = weighted sum + penalties
+  → clamped 0–100
+```
+
+---
+
+## 8. 🎨 Hobby Growth Score
+> *"Am I growing and enjoying my hobbies?"*
+
+| Component | Source | Fields | Weight |
+|---|---|---|---|
+| Session Quality | Hobby Session | overall_session_quality | 20% |
+| Enjoyment | Hobby Session | enjoyment | 20% |
+| Immersion | Hobby Session | immersion_level | 15% |
+| Progress | Hobby Session | progress | 20% |
+| Focus | Hobby Session | focus | 10% |
+| Streak Bonus | Hobbies | current_streak_days | 15% |
+
+```
+Formula:
+  session_score = avg(quality, enjoyment, immersion, progress, focus)
+  streak_bonus = min(10, current_streak / target_streak × 10)
+  
+  hobby_growth = (session_score × 0.85) + (streak_bonus × 0.15)
+  → normalized to 0–100
+```
+
+---
+
+## 9. 🛡️ Self-Control Score
+> *"How disciplined was I today?"*
+
+| Component | Source | Fields | Weight |
+|---|---|---|---|
+| Screen Discipline | Screentime | autopilot% inverted, short_form, in_bed_usage | 25% |
+| Work Distraction Control | Work Session | distraction_count (inv.) | 20% |
+| Urge Resistance | Sexual Session | urge_resistance_attempts, conscious_control | 20% |
+| Meditation Focus | Meditation | focus_%, (10 - distraction_level) | 15% |
+| Regret Avoidance | Sexual Session | (10 - regret_level) | 10% |
+| Schedule Adherence | Health Log | sleep schedule adherence | 10% |
+
+```
+Formula:
+  self_control = weighted_avg(screen_disc, work_focus, urge_resist, 
+                               med_focus, regret_inv, schedule_adh)
+  → normalized to 0–100
+```
+
+---
+
+## 10. 🔥 Day Score (Master Score)
+> *"Overall, how was my day?"*
+
+| Sub-Score | Weight |
+|---|---|
+| Daily Wellness | 20% |
+| Mental Health | 20% |
+| Productivity Index | 15% |
+| Sleep Score | 15% |
+| Spiritual Score | 10% |
+| Screen Discipline | 10% |
+| Self-Control | 5% |
+| Hobby Growth | 5% |
+
+```
+Formula:
+  day_score = (wellness × 0.20) + (mental × 0.20) + (productivity × 0.15)
+            + (sleep × 0.15) + (spiritual × 0.10) + (screen × 0.10)
+            + (control × 0.05) + (hobby × 0.05)
+  → 0–100
+
+  Rating Bands:
+    90–100  → 🟢 Elite Day
+    75–89   → 🔵 Great Day
+    60–74   → 🟡 Good Day
+    40–59   → 🟠 Average Day
+    20–39   → 🔴 Rough Day
+     0–19   → ⚫ Bad Day
+```
+
+---
+
+## 📈 Bonus: Delta / Trend Scores
+
+These aren't daily — they track **improvement over time**:
+
+| Score | What It Measures |
+|---|---|
+| **Meditation Progress** | avg session depth this week vs last week |
+| **Mood Trend** | 7-day rolling avg mood vs 30-day avg |
+| **Sleep Consistency** | std deviation of sleep/wake times over 7 days (lower = better) |
+| **Body Composition Trend** | body_fat%, weight, measurement changes over 30 days |
+| **Habit Streak Score** | combined streaks across all tracked hobbies |
+| **Pain Trend** | avg pain intensity this week vs last (lower = improving) |
+| **Nutrition Score** | protein target hit %, calorie adherence |
+| **Sexual Health** | avg gap_since_last trending, regret_level trending down |
+
+---
+
+> [!TIP]
+> All weights are starting suggestions. You can tune them based on what matters most to **you** — e.g., if spirituality is your #1 priority, bump its weight in the Day Score.

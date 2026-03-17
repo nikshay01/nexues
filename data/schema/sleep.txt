@@ -1,0 +1,75 @@
+sleep
+
+_id
+user_id
+date
+
+TIMING
+sleep_start                             # actual time went to sleep
+sleep_end                               # actual time woke up
+total_sleep_hours                       # computed: sleep_end - sleep_start - interruption time
+
+GOALS
+target_sleep_time                       # e.g. 9:30 PM
+target_wake_time                        # e.g. 5:30 AM
+target_sleep_hours                      # e.g. 8
+
+GOAL DELTAS (computed)
+sleep_start_delta_minutes               # actual - target (negative = early, positive = late)
+wake_time_delta_minutes                 # actual - target
+sleep_hours_delta                       # actual - target (negative = underslept, positive = overslept)
+
+QUALITY
+sleep_quality                           # 0–10
+restfulness                             # 0–10 how rested you feel on waking
+sleepiness_on_wake                      # 0–10 how sleepy you still feel
+ease_of_falling_asleep                  # 0–10
+
+INTERRUPTIONS
+sleep_interruptions_count               # number of times woken up
+interruptions [{
+  wake_time
+  back_to_sleep_time
+  duration_minutes                      # computed
+  reason                                # bathroom / noise / anxiety / pain / random / other
+}]
+total_interruption_minutes              # computed sum
+
+SLEEP DEBT
+sleep_debt_hours                        # running accumulated debt (negative = deficit)
+
+NAPS (optional)
+naps [{
+  start_time
+  end_time
+  duration_minutes
+  quality                               # 0–10
+}]
+total_nap_minutes
+
+DREAMS
+dream_count
+dreams [{
+  description
+  vividness                             # 0–10
+  emotional_tone                        # positive / negative / neutral / mixed
+  lucid                                 # boolean
+}]
+
+PRE-SLEEP STATE
+pre_stress                              # 0–10
+pre_anxiety                             # 0–10
+pre_energy                              # 0–10
+pre_screen_time_minutes                 # screen use in last hour before bed
+caffeine_intake_after_2pm               # boolean
+late_meal                               # boolean (ate within 2hrs of sleep)
+pre_activity                            # exercise / work / screen / reading / meditation / other
+
+POST-SLEEP STATE
+post_energy                             # 0–10
+post_mood                               # 0–10
+post_mental_clarity                     # 0–10
+post_body_stiffness                     # 0–10
+
+context_note
+created_at
