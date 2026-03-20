@@ -1,0 +1,41 @@
+{
+  "date": "2026-03-20",
+  "sleep_start": "2026-03-19T23:21",
+  "sleep_end": "2026-03-20T07:00",
+  "sleep_quality": 7,
+  "restfulness": 6,
+  "sleepiness_on_wake": 4,
+  "ease_of_falling_asleep": 6,
+  "interruptions": [
+    {
+      "reason": "i forgot why",
+      "wake_time": "03:15",
+      "back_to_sleep_time": "03:20",
+      "duration_minutes": 5
+    }
+  ],
+  "naps": [],
+  "dreams": [],
+  "pre_stress": 4,
+  "pre_anxiety": 0,
+  "pre_energy": 6,
+  "post_energy": 5,
+  "post_mood": 6,
+  "post_mental_clarity": 4,
+  "post_body_stiffness": 1,
+  "total_sleep_hours": 7.57,
+  "target_sleep_hours": 8,
+  "sleep_interruptions_count": 1,
+  "total_interruption_minutes": 5,
+  "sleep_debt_hours": 0.43,
+  "total_nap_minutes": 0,
+  "pre_activity": "work",
+  "context_note": " took shower before bed",
+  "target_sleep_time": "22:00",
+  "target_wake_time": "06:00",
+  "sleep_start_delta_minutes": 81,
+  "wake_time_delta_minutes": 60,
+  "sleep_hours_delta": -0.43,
+  "dream_count": 0,
+  "pre_bed_shower": false
+}

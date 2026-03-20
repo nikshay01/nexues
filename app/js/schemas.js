@@ -103,6 +103,34 @@ const SCHEMAS = {
       session_rating: { type: "scale", min: 0, max: 5 }
     }
   },
+  gaming_session: {
+    label: "Gaming Session",
+    fields: {
+      timestamp_start: { type: "datetime", required: true },
+      timestamp_end: { type: "datetime" },
+      duration_minutes: { type: "number" },
+      game_name: { type: "text", required: true },
+      platform: { type: "select", options: ["PC", "Console", "Mobile", "VR", "Tabletop"] },
+      session_type: { type: "select", options: ["casual", "competitive", "story/campaign", "grinding", "social/co-op", "esports/tournament"] },
+      social_context: { type: "select", options: ["solo", "friends online", "local co-op", "randoms"] },
+      enjoyment: { type: "scale", min: 0, max: 10 },
+      performance_rating: { type: "scale", min: 0, max: 10 },
+      tilt_frustration_level: { type: "scale", min: 0, max: 10 },
+      flow_state_level: { type: "scale", min: 0, max: 10 },
+      fatigue_after: { type: "scale", min: 0, max: 10 },
+      eye_strain: { type: "scale", min: 0, max: 10 },
+      posture_quality: { type: "scale", min: 0, max: 10 },
+      matches: {
+        type: "group", label: "Matches (Optional)",
+        fields: {
+          played: { type: "number" },
+          won: { type: "number" },
+          lost: { type: "number" }
+        }
+      },
+      notes: { type: "textarea" }
+    }
+  },
 
   health_log: {
     label: "Health Log",
@@ -572,6 +600,7 @@ const SCHEMAS = {
       pre_screen_time_minutes: { type: "number" },
       caffeine_intake_after_2pm: { type: "boolean" },
       late_meal: { type: "boolean" },
+      pre_bed_shower: { type: "boolean" },
       pre_activity: { type: "select", options: ["exercise","work","screen","reading","meditation","other"] },
       post_energy: { type: "scale", min: 0, max: 10 },
       post_mood: { type: "scale", min: 0, max: 10 },

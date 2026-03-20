@@ -39,6 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
         window.dispatchEvent(new CustomEvent('schemaChanged', { detail: { schemaId } }));
     };
 
+    // Listen for schemaHydrated to rebuild form
+    window.addEventListener('schemaHydrated', () => {
+        if (state.currentSchemaId) {
+            formBuilder.buildForm(state.currentSchemaId);
+        }
+    });
+
     // Render Navigation
     Object.keys(SCHEMAS).forEach(schemaId => {
         const schema = SCHEMAS[schemaId];

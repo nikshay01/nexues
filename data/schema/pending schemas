@@ -1,0 +1,59 @@
+workout sessions
+walk sesssion
+running sessions
+
+they can be merged in one single schema
+
+
+
+
+todo list
+-> create, delete,edit tasks
+->complete,incomplete,pending/procrastinated 
+->esitimated time for when the task should be started/completed and time it should take to complete the task
+->actual time taken to complete the task
+->complete procrastination system:
+    ->when a task it todo list goes beyond the estimated start time the time for procrastination starts
+    and another field of procrastination hours will start where it will keep on increasing as the task is not completed
+    and when the task is completed the procrastination hours will stay as it is and will not be reset
+    -> we can later calculate how much we procrastinate in which catagory of task and we can have an procrastinantion trend or graph
+-> we will have tasks in catagory, subcatagory, project relation, subproject relation and a priority scale for tasks which then we can use to filter and sort tasks and to calculate which priority task we complete fast or slow
+-> we should be able to sort tasks by priority, catagory, subcatagory, project, subproject, estimated time, actual time, procrastination hours, completion status, start time, end time, creation time
+
+-> there can be tasks that i enter like: i wnna do it within a week or in this month or anytime between this date to this data and then i can fill up things like how much time it took me to do this task and all the other details
+
+-> pending finalization of things:
+    ->all the charts and graphs
+    -> data calculation and what to do with all that data
+
+
+
+
+
+task manager/habit manager:
+these will be logged daily
+->create, delete,edit tasks/habit
+-> define habit or tasks with:
+    ->name
+    ->description
+    ->catagory
+    ->subcatagory
+    ->project relation
+    ->subproject relation
+    ->priority scale
+    ->procrastination days or depending on the frequency of task/habit
+    ->completion dates
+    -> total time spent on it
+    ->creation time
+    ->frequency:
+        ->daily
+        ->weekly
+        ->monthly
+        ->yearly
+        ->custom
+-> we should be able to sort tasks by priority, catagory, subcatagory, project, subproject, estimated time, actual time, procrastination hours, completion status, start time, end time, creation time
+
+-> how will i log a task or habit: i want it to be like for example i have coding to do 3 hours daily: so in the task i can fill that yeah i did it for lets say 2 hours so then we will have it show that the task is 66% completed. i dont want it as boolean values but more like an versetile entery and it should be optional if i want it boolean, in hours or in percentage or in fraction or in any other way
+-> streak tracking 
+->task scheduling in time blocks(optional)e.g. 5-6am, 6-7am, 7-8am, etc. and thier procrastination calculations
+

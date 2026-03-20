@@ -1,0 +1,14 @@
+{
+  "self_rated_skill": 5,
+  "milestones": [],
+  "goals": [],
+  "name": "drawing",
+  "category": "creative",
+  "subcategory": "art",
+  "intensity_type": "moderate",
+  "dopamine_type": "delayed",
+  "skill_growth_possible": true,
+  "consistency_goal": "weekly",
+  "current_level": "6",
+  "target_level": "7"
+}

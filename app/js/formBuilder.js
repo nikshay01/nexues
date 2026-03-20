@@ -12,6 +12,9 @@ class FormBuilder {
             if (!this.state.currentSchemaId) return;
             const schema = SCHEMAS[this.state.currentSchemaId];
             this.updateComputedFields(schema.fields, "");
+            if (this.state.currentSchemaId === 'sleep') {
+                this.runSleepCalculations();
+            }
         });
     }
 
@@ -263,6 +266,10 @@ class FormBuilder {
                 break;
         }
 
+        if (input && input.tagName !== 'DIV') {
+             input.id = `field-${path.replace(/\./g, '-')}`;
+        }
+
         if (input && fieldDef.required && input.tagName === 'INPUT') {
              input.required = true;
         }
@@ -399,5 +406,123 @@ class FormBuilder {
                 }
             }
         }
+    }
+
+    runSleepCalculations() {
+        const updateVal = (path, val) => {
+            if (this.state.getValue('sleep', path) !== val) {
+                this.state.setValue(path, val);
+                const el = document.getElementById(`field-${path.replace(/\./g, '-')}`);
+                if (el && document.activeElement !== el) {
+                    el.value = val;
+                }
+            }
+        };
+
+        let targetHours = localStorage.getItem('target_sleep_hours') || "8";
+        let targetSleep = localStorage.getItem('target_sleep_time') || "22:00";
+        let targetWake = localStorage.getItem('target_wake_time') || "06:00";
+        
+        let stateTargetHours = this.state.getValue('sleep', 'target_sleep_hours');
+        let stateTargetSleep = this.state.getValue('sleep', 'target_sleep_time');
+        let stateTargetWake = this.state.getValue('sleep', 'target_wake_time');
+
+        if (stateTargetHours && String(stateTargetHours) !== targetHours) {
+            localStorage.setItem('target_sleep_hours', String(stateTargetHours));
+            targetHours = String(stateTargetHours);
+        } else if (!stateTargetHours) {
+            updateVal('target_sleep_hours', Number(targetHours));
+        }
+
+        if (stateTargetSleep && stateTargetSleep !== targetSleep) {
+            localStorage.setItem('target_sleep_time', stateTargetSleep);
+            targetSleep = stateTargetSleep;
+        } else if (!stateTargetSleep) {
+            updateVal('target_sleep_time', targetSleep);
+        }
+
+        if (stateTargetWake && stateTargetWake !== targetWake) {
+            localStorage.setItem('target_wake_time', stateTargetWake);
+            targetWake = stateTargetWake;
+        } else if (!stateTargetWake) {
+            updateVal('target_wake_time', targetWake);
+        }
+
+        const timeToMins = (tStr) => {
+            if (!tStr) return 0;
+            const parts = tStr.split(':');
+            return Number(parts[0]) * 60 + Number(parts[1]);
+        };
+        const parseDatetime = (dtStr) => {
+             if (!dtStr) return null;
+             return new Date(dtStr);
+        };
+
+        let totalInterruptionMins = 0;
+        const interruptions = this.state.getValue('sleep', 'interruptions') || [];
+        interruptions.forEach((intrp, idx) => {
+            if (intrp.wake_time && intrp.back_to_sleep_time) {
+                let w = timeToMins(intrp.wake_time);
+                let b = timeToMins(intrp.back_to_sleep_time);
+                let dur = b - w;
+                if (dur < 0) dur += 24 * 60; 
+                updateVal(`interruptions.${idx}.duration_minutes`, dur);
+                totalInterruptionMins += dur;
+            }
+        });
+        updateVal('total_interruption_minutes', totalInterruptionMins);
+
+        const startDt = parseDatetime(this.state.getValue('sleep', 'sleep_start'));
+        const endDt = parseDatetime(this.state.getValue('sleep', 'sleep_end'));
+        
+        if (startDt && endDt) {
+            let diffMins = Math.max(0, (endDt - startDt) / 60000) - totalInterruptionMins;
+            let totalSleepMins = Math.max(0, diffMins);
+            let totalHoursStr = (totalSleepMins / 60).toFixed(2);
+            updateVal('total_sleep_hours', Number(totalHoursStr));
+        }
+
+        if (startDt && targetSleep) {
+            let startMins = startDt.getHours() * 60 + startDt.getMinutes();
+            let targetMins = timeToMins(targetSleep);
+            let diff = startMins - targetMins;
+            if (diff > 12 * 60) diff -= 24 * 60;
+            if (diff < -12 * 60) diff += 24 * 60;
+            updateVal('sleep_start_delta_minutes', diff);
+        }
+
+        if (endDt && targetWake) {
+            let wakeMins = endDt.getHours() * 60 + endDt.getMinutes();
+            let targetMins = timeToMins(targetWake);
+            let diff = wakeMins - targetMins;
+            if (diff > 12 * 60) diff -= 24 * 60;
+            if (diff < -12 * 60) diff += 24 * 60;
+            updateVal('wake_time_delta_minutes', diff);
+        }
+
+        let actualSleep = this.state.getValue('sleep', 'total_sleep_hours');
+        if (actualSleep !== undefined && actualSleep !== null) {
+            let th = Number(targetHours);
+            let deltaHours = actualSleep - th;
+            updateVal('sleep_hours_delta', Number(deltaHours.toFixed(2)));
+            updateVal('sleep_debt_hours', Number((-deltaHours).toFixed(2)));
+        }
+
+        let totalNapMins = 0;
+        const naps = this.state.getValue('sleep', 'naps') || [];
+        naps.forEach((nap, idx) => {
+            if (nap.start_time && nap.end_time) {
+                let s = timeToMins(nap.start_time);
+                let e = timeToMins(nap.end_time);
+                let dur = e - s;
+                if (dur < 0) dur += 24 * 60;
+                updateVal(`naps.${idx}.duration_minutes`, dur);
+                totalNapMins += dur;
+            }
+        });
+        updateVal('total_nap_minutes', totalNapMins);
+
+        const dreams = this.state.getValue('sleep', 'dreams') || [];
+        updateVal('dream_count', dreams.length);
     }
 }

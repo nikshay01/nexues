@@ -1,0 +1,39 @@
+{
+  "timestamp_start": "2026-03-20T08:00",
+  "timestamp_end": "2026-03-20T10:05",
+  "focus_level": 6,
+  "output_score": 6,
+  "pauses": [
+    {
+      "pause_start_minutes": 30,
+      "pause_end_minutes": 36,
+      "duration_minutes": 6,
+      "reason": "milk"
+    },
+    {
+      "pause_start_minutes": 73,
+      "pause_end_minutes": 85,
+      "duration_minutes": 12,
+      "reason": "breakfast"
+    }
+  ],
+  "mental_energy": 4,
+  "physical_energy": 7,
+  "clarity": 6,
+  "motivation": 6,
+  "confidence": 6,
+  "tiredness": 4,
+  "frustration": 2,
+  "stress": 2,
+  "sleepiness": 2,
+  "session_quality": 6,
+  "duration_minutes": 123,
+  "task_type": "professional",
+  "task_name": "self dev",
+  "project": "self management app",
+  "session_description": "Session Log & Schema Summary (March 20)\n\n========================================\nSUMMARY\n========================================\nToday focused on building core infrastructure for the SELF OS system:\n- Implemented full JSON import + UI hydration pipeline\n- Enabled overwrite-based saving for imported files\n- Built intelligent sleep calculation engine\n- Upgraded input systems and schema structures\n- Validated legacy schema compatibility\n- Defined future architecture for workouts, task management, and procrastination tracking\n\nOverall: Transitioned from static logging → dynamic, state-driven system with strong foundations for analytics and behavioral tracking.\n\n----------------------------------------\n1. ACCOMPLISHMENTS & FEATURES BUILT\n----------------------------------------\n\n- JSON Import & Hydration System\n  Added \"Import JSON\" button with direct file system access.\n  Defaults to target folders automatically.\n  Implemented deep hydration engine (state.setSchemaState).\n  Restores all inputs, tags, and dynamic arrays (e.g., Naps, Dreams) perfectly.\n\n- Save Override Engine\n  Imported files are now overwritten on save.\n  Prevents creation of duplicate timestamped files.\n\n- Sleep Calculation Engine\n  Automatically calculates:\n    total_sleep_hours\n    sleep_debt_hours\n  Subtracts interruptions dynamically.\n  Handles duration calculations for naps and interruptions.\n\n- Local Storage Integration\n  Sleep goals are cached in browser localStorage.\n  Auto-loaded for every new session.\n\n- Improved Time Inputs\n  Upgraded to:\n    <input type=\"time\">\n    <input type=\"datetime-local\">\n  Enables native UI (AM/PM, calendar picker).\n\n- Schema Updates\n  Added:\n    pre_bed_shower tracker\n    gaming_session schema (sidebar)\n  Verified legacy .txt schemas match JS schemas (no data loss).\n\n----------------------------------------\n2. SCHEMA FOLDER SUMMARY & ANALYSIS\n----------------------------------------\n\n- data/schema folder contains 14 legacy .txt schema outlines.\n- All schemas have been successfully implemented in the app.\n- Current folder acts as a staging/blueprint reference.\n\n----------------------------------------\n3. FUTURE SYSTEM DESIGNS (PLANNED)\n----------------------------------------\n\nA. ATHLETIC ENDURANCE ARRAYS (body metric)\n\n- Shift from static body metrics → dynamic performance tracking.\n- Planned metrics:\n  - Movement stamina (jogging, walking, sprinting)\n  - Isometric holds (plank, handstand, hangs)\n  - Calisthenics max reps (pushups, squats, pull-ups)\n  - Recovery speed tracking\n  - Meditation endurance\n\n----------------------------------------\n\nB. ACTION ENGINE (PENDING SYSTEMS)\n\n1. Unified Workout Schema\n   Merge:\n     walking\n     running\n     general workouts\n   into a single session-based structure.\n\n2. Advanced Task / Habit Manager\n   - Nested structure:\n     category → subcategory → project → subproject\n   - Priority-based task system\n   - Advanced sorting and filtering logic\n\n3. Procrastination Tracking System\n   - Each task has an Estimated Start Time.\n   - If missed:\n       → procrastination timer starts\n       → continuously increases\n   - Value is preserved after completion.\n   - Enables long-term procrastination analytics.\n\n4. Flexible Habit Completion System\n   - Replace binary (done/not done) with percentage completion.\n   - Example:\n       planned: 3 hours\n       actual: 2 hours\n       → completion: 66%\n   - Supports:\n       time blocks\n       streak tracking\n       partial success evaluation\n\n----------------------------------------\nEND OF LOG\n----------------------------------------",
+  "distraction_count": 2,
+  "total_pause_minutes": 18,
+  "total_productive_minutes": 105,
+  "location": "work room"
+}

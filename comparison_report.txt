@@ -1,0 +1,327 @@
+--- SCHEMA COMPARISON REPORT ---
+
+=== SCEMA: body metric ===
+EXTRA in App (In JS, but not in TXT):
+  - body
+
+=== SCEMA: devotion ===
+MISSING in App (In TXT, but missing in JS):
+  - timestamp_start
+  - mental
+  - custom
+
+EXTRA in App (In JS, but not in TXT):
+  - custom_fields
+  - field_name
+  - value
+
+=== SCEMA: health log ===
+MISSING in App (In TXT, but missing in JS):
+  - morning
+  - sick
+  - sickness
+  - breathing
+  - cough
+  - mental
+  - physical
+  - stomach
+  - resting
+
+EXTRA in App (In JS, but not in TXT):
+  - morning_energy
+  - midday_energy
+  - evening_energy
+  - sick_status
+  - sickness_intensity
+  - breathing_quality
+  - cough_intensity
+  - mental_fatigue
+  - physical_fatigue
+  - stomach_discomfort
+  - resting_heart_rate
+
+=== SCEMA: hobbies ===
+MISSING in App (In TXT, but missing in JS):
+  - subcatagory
+  - consistency
+  - current
+  - selfratedskill
+  - target
+  - achived
+  - id
+  - targetvalue
+  - targetunit
+  - targetp
+  - isactive
+  - created
+  - stats
+  - totalsessions
+  - totalminutes
+  - avsessionminutes
+  - longestsessionminutes
+  - currentstreakdays
+  - longeststreakdays
+  - lastsessionat
+  - avqalityscore
+  - totalexp
+  - achivemets
+
+EXTRA in App (In JS, but not in TXT):
+  - subcategory
+  - consistency_goal
+  - current_level
+  - self_rated_skill
+  - target_level
+  - achieved_at
+  - target_value
+  - target_unit
+  - target_period
+  - is_active
+
+=== SCEMA: hobby session ===
+MISSING in App (In TXT, but missing in JS):
+  - immersion
+  - attachment
+  - moodsnapshot
+
+EXTRA in App (In JS, but not in TXT):
+  - hobby_id
+  - started_at
+  - ended_at
+  - duration_minutes
+  - location
+  - main_focus
+  - immersion_level
+  - notes
+  - attachment_text
+  - overall_session_quality
+  - focus
+  - energy
+  - enjoyment
+  - progress
+  - difficulty
+  - mood_snapshot
+  - mood
+  - energy
+  - stress
+
+=== SCEMA: meditation ===
+MISSING in App (In TXT, but missing in JS):
+  - timestamp_start
+  - spiritual
+  - focused
+  - movement
+  - mantra
+  - transcendental
+  - progressive
+  - loving
+  - visualization
+  - music
+  - pre_state
+  - practice_metrics
+  - physiological_response
+  - post_state
+  - spiritual_state
+  - quality_metrics
+  - session_quality_score
+  - context
+
+EXTRA in App (In JS, but not in TXT):
+  - music_used
+
+=== SCEMA: mood entries ===
+MISSING in App (In TXT, but missing in JS):
+  - timestamp
+  - lazyness
+  - mindfullness
+  - context
+  - conrext
+  - context
+
+EXTRA in App (In JS, but not in TXT):
+  - mood
+  - sleepiness
+  - laziness
+  - mindfulness
+  - emotions
+  - intensity
+  - context_activity
+  - context_location
+  - context_social
+
+=== SCEMA: nutrition ===
+MISSING in App (In TXT, but missing in JS):
+  - userid
+  - mealid
+  - timestamp
+  - foodname
+  - portion
+  - calorieskcal
+  - proteing
+  - carbsg
+  - fatg
+  - fiberg
+  - mealtotals
+  - calorieskcal
+  - proteing
+  - carbsg
+  - fatg
+  - fiberg
+  - dailytotals
+  - calorieskcal
+  - proteing
+  - carbsg
+  - fatg
+  - fiberg
+  - createdat
+  - updatedat
+
+EXTRA in App (In JS, but not in TXT):
+  - food_name
+  - calories_kcal
+  - protein_g
+  - carbs_g
+  - fat_g
+  - fiber_g
+  - daily_calories_kcal
+  - daily_protein_g
+  - daily_carbs_g
+  - daily_fat_g
+  - daily_fiber_g
+
+=== SCEMA: pain log ===
+MISSING in App (In TXT, but missing in JS):
+  - timestamp
+  - body_part
+  - post
+  - timestamp
+  - total
+  - avg
+
+EXTRA in App (In JS, but not in TXT):
+  - body_parts
+  - pain_start
+  - pain_end
+  - post_pain_avg_intensity
+  - post_pain_total_duration_minutes
+
+=== SCEMA: scores ===
+MISSING in App (In TXT, but missing in JS):
+  - daily
+  - delta
+
+=== SCEMA: screentime ===
+PERFECT MATCH
+
+=== SCEMA: sexual session ===
+MISSING in App (In TXT, but missing in JS):
+  - timestamp_start
+  - time
+  - session
+  - session
+  - trigger
+  - porn
+  - toy
+  - lubricant
+  - urge
+  - mental
+  - pre
+  - mood
+  - energy
+  - stress
+  - anxiety
+  - guilt
+  - brain
+  - mental
+  - post
+  - mood
+  - energy
+  - stress
+  - anxiety
+  - guilt
+  - brain
+  - mental
+  - edging
+  - occured
+  - release
+  - orgasm
+  - regret
+
+EXTRA in App (In JS, but not in TXT):
+  - time_of_day
+  - session_type
+  - session_goal
+  - trigger_type
+  - porn_used
+  - toy_used
+  - lubricant_used
+  - pain_points
+  - urge_resistance_attempts
+  - pre_mood
+  - pre_energy
+  - pre_stress
+  - pre_anxiety
+  - pre_guilt
+  - pre_brain_fog
+  - pre_mental_clarity
+  - post_mood
+  - post_energy
+  - post_stress
+  - post_anxiety
+  - post_guilt
+  - post_brain_fog
+  - post_mental_clarity
+  - orgasm_quality
+  - regret_level
+
+=== SCEMA: sleep ===
+MISSING in App (In TXT, but missing in JS):
+  - goal
+
+=== SCEMA: work session ===
+MISSING in App (In TXT, but missing in JS):
+  - start
+  - end
+  - duration
+  - task
+  - task
+  - session
+  - focus
+  - output
+  - distraction
+  - distraction
+  - pause
+  - 1
+  - 2
+  - total
+  - total
+  - mental
+  - physical
+  - frustrassion
+  - sress
+  - session
+
+EXTRA in App (In JS, but not in TXT):
+  - timestamp_start
+  - timestamp_end
+  - duration_minutes
+  - task_type
+  - task_name
+  - session_description
+  - focus_level
+  - output_score
+  - distraction_count
+  - distraction_description
+  - pauses
+  - pause_start_minutes
+  - pause_end_minutes
+  - duration_minutes
+  - reason
+  - total_pause_minutes
+  - total_productive_minutes
+  - mental_energy
+  - physical_energy
+  - frustration
+  - stress
+  - session_quality
+

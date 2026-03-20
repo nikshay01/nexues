@@ -20,6 +20,7 @@ class StateManager {
 
   setCurrentSchema(schemaId) {
     this.currentSchemaId = schemaId;
+    this.importedFilename = null;
     this.initSchema(schemaId);
   }
 
@@ -78,6 +79,13 @@ class StateManager {
   // Get the full state object for a schema
   getSchemaState(schemaId) {
     return this.store[schemaId] || {};
+  }
+
+  // Set the full state object for a schema (used for hydrating from imported JSON)
+  setSchemaState(schemaId, data) {
+    this.store[schemaId] = data || {};
+    this.currentSchemaId = schemaId;
+    this._notifyListeners();
   }
 
   subscribe(callback) {

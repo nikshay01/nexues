@@ -53,6 +53,7 @@ async function verifyPermission(fileHandle) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    const btnImportJson = document.getElementById('btn-import-json');
     const btnDownloadDefault = document.getElementById('btn-download-default');
     const btnDownloadConfigured = document.getElementById('btn-download-configured');
     const btnSelectFolder = document.getElementById('btn-select-folder');
@@ -128,13 +129,77 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `${day} ${monthMatch} ${hours}-${minutes} ${ampm}`;
     };
 
+    // --- IMPORT JSON BUTTON ---
+    if (btnImportJson) {
+        btnImportJson.addEventListener('click', async () => {
+            if (!state.currentSchemaId) return;
+
+            // Use File System Access API if available
+            if ('showOpenFilePicker' in window) {
+                try {
+                    const pickerOptions = {
+                        types: [{
+                            description: 'JSON Files',
+                            accept: { 'application/json': ['.json'] }
+                        }],
+                        multiple: false
+                    };
+
+                    const currentHandle = await getStoredHandle(state.currentSchemaId);
+                    if (currentHandle) {
+                        pickerOptions.startIn = currentHandle;
+                    }
+
+                    const [fileHandle] = await window.showOpenFilePicker(pickerOptions);
+                    const file = await fileHandle.getFile();
+                    const content = await file.text();
+                    
+                    try {
+                        const jsonData = JSON.parse(content);
+                        state.setSchemaState(state.currentSchemaId, jsonData);
+                        state.importedFilename = file.name;
+                        window.dispatchEvent(new CustomEvent('schemaHydrated'));
+                        flashSuccess(btnImportJson, "Imported!");
+                    } catch(e) {
+                        alert("Error parsing JSON file: " + e.message);
+                    }
+                } catch (err) {
+                    if (err.name !== 'AbortError') console.error('File picker error:', err);
+                }
+            } else {
+                // Fallback to traditional file input
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'application/json';
+                input.onchange = e => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = event => {
+                        try {
+                            const jsonData = JSON.parse(event.target.result);
+                            state.setSchemaState(state.currentSchemaId, jsonData);
+                            state.importedFilename = file.name;
+                            window.dispatchEvent(new CustomEvent('schemaHydrated'));
+                            flashSuccess(btnImportJson, "Imported!");
+                        } catch(err) {
+                            alert("Error parsing JSON file: " + err.message);
+                        }
+                    };
+                    reader.readAsText(file);
+                };
+                input.click();
+            }
+        });
+    }
+
     // --- STANDARD DOWNLOAD BUTTON ---
     btnDownloadDefault.addEventListener('click', async () => {
         if (!state.currentSchemaId) return;
         
         const data = state.getSchemaState(state.currentSchemaId);
         const jsonString = JSON.stringify(data, null, 2);
-        const filenameStr = `${state.currentSchemaId} ${formatFilenameDate()}.json`;
+        const filenameStr = state.importedFilename || `${state.currentSchemaId} ${formatFilenameDate()}.json`;
         
         fallbackDownload(jsonString, filenameStr, btnDownloadDefault);
     });
@@ -145,7 +210,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         const data = state.getSchemaState(state.currentSchemaId);
         const jsonString = JSON.stringify(data, null, 2);
-        const filenameStr = `${state.currentSchemaId} ${formatFilenameDate()}.json`;
+        const filenameStr = state.importedFilename || `${state.currentSchemaId} ${formatFilenameDate()}.json`;
         
         const dirHandle = await getStoredHandle(state.currentSchemaId);
         
@@ -198,12 +263,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         flashSuccess(btn);
     }
     
-    function flashSuccess(btn) {
+    function flashSuccess(btn, message = "Saved!") {
         const originalText = btn.innerHTML;
         // Strip the text content from original html loosely
-        if(originalText.includes('Downloaded') || originalText.includes('Saved')) return;
+        if(originalText.includes('Downloaded') || originalText.includes('Saved') || originalText.includes('Imported')) return;
         
-        btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> Saved!`;
+        btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg> ${message}`;
         btn.classList.add('success-flash');
         
         setTimeout(() => {
