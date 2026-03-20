@@ -89,6 +89,13 @@ const SCHEMAS = {
       bhakti_felt: { type: "scale", min: 0, max: 10 },
       surrender_felt: { type: "scale", min: 0, max: 10 },
       divine_connection_felt: { type: "scale", min: 0, max: 10 },
+      custom_fields: {
+        type: "array", label: "Custom fields (e.g. ram name chants)",
+        itemFields: {
+          field_name: { type: "text", label: "Field Name" },
+          value: { type: "text", label: "Value" }
+        }
+      },
       context_note: { type: "textarea" },
       pre_activity: { type: "select", options: ["sleep","exercise","work","eating","commute","other"] },
       context_location: { type: "select", options: ["home","work","travel","pilgrimage","other"] },
@@ -109,21 +116,6 @@ const SCHEMAS = {
       headache_intensity: { type: "scale", min: 0, max: 10 },
       digestion_quality: { type: "scale", min: 0, max: 10 },
       hydration_level: { type: "scale", min: 0, max: 10 },
-      sleep_quality: { type: "scale", min: 0, max: 10 },
-      sleep_start: { type: "time" },
-      sleep_end: { type: "time" },
-      total_sleep_hours: { type: "number" },
-      target_sleep_time: { type: "time", label: "Target Sleep Time (Goal)" },
-      target_wake_time: { type: "time", label: "Target Wake Time (Goal)" },
-      target_total_sleep_hours: { type: "number", label: "Target Total Sleep Hours (Goal)" },
-      sleep_time_delta_minutes: { type: "number", label: "Sleep Time Delta (mins, + = late)" },
-      wake_time_delta_minutes: { type: "number", label: "Wake Time Delta (mins, + = late)" },
-      sleep_hours_delta: { type: "number", label: "Sleep Hours Delta (+ = over, - = under)" },
-      sleep_interruptions: { type: "number" },
-      wake_up_time_during_interruption: { type: "time" },
-      sleep_debt_hours: { type: "number" },
-      dream_count: { type: "number" },
-      dream_context: { type: "textarea" },
       sick_status: { type: "boolean" },
       sickness_intensity: { type: "scale", min: 0, max: 10 },
       symptoms: { type: "tags", placeholder: "e.g. fever, headache, nausea" },
@@ -331,6 +323,138 @@ const SCHEMAS = {
     }
   },
 
+  scores: {
+    label: "Daily Scores",
+    fields: {
+      date: { type: "date", required: true },
+      daily_wellness_score: { type: "number", label: "Daily Wellness Score (0-100)" },
+      productivity_index: { type: "number", label: "Productivity Index (0-100)" },
+      spiritual_score: { type: "number", label: "Spiritual Score (0-100)" },
+      mental_health_score: { type: "number", label: "Mental Health Score (0-100)" },
+      physical_health_score: { type: "number", label: "Physical Health Score (0-100)" },
+      sleep_score: { type: "number", label: "Sleep Score (0-100)" },
+      screen_discipline_score: { type: "number", label: "Screen Discipline Score (0-100)" },
+      hobby_growth_score: { type: "number", label: "Hobby Growth Score (0-100)" },
+      self_control_score: { type: "number", label: "Self Control Score (0-100)" },
+      day_score: { type: "number", label: "Master Day Score (0-100)" },
+      day_rating: { type: "select", options: ["Elite", "Great", "Good", "Average", "Rough", "Bad"] },
+      wellness_breakdown: {
+        type: "group", label: "Wellness Breakdown",
+        fields: {
+          energy_avg: { type: "number" },
+          sleep_quality: { type: "number" },
+          mood_avg: { type: "number" },
+          negative_symptoms_inv: { type: "number" },
+          physical_state_inv: { type: "number" },
+          hydration_digestion: { type: "number" },
+          mindfulness: { type: "number" }
+        }
+      },
+      productivity_breakdown: {
+        type: "group", label: "Productivity Breakdown",
+        fields: {
+          focus: { type: "number" },
+          output_quality: { type: "number" },
+          goal_adherence: { type: "number" },
+          efficiency: { type: "number" },
+          mental_state: { type: "number" },
+          distraction_control: { type: "number" }
+        }
+      },
+      spiritual_breakdown: {
+        type: "group", label: "Spiritual Breakdown",
+        fields: {
+          meditation_depth: { type: "number" },
+          devotion_intensity: { type: "number" },
+          inner_peace: { type: "number" },
+          stress_reduction: { type: "number" },
+          consistency_bonus: { type: "number" }
+        }
+      },
+      mental_health_breakdown: {
+        type: "group", label: "Mental Health Breakdown",
+        fields: {
+          mood_calm: { type: "number" },
+          clarity_focus: { type: "number" },
+          emotional_balance: { type: "number" },
+          drive: { type: "number" },
+          fatigue_inv: { type: "number" }
+        }
+      },
+      physical_health_breakdown: {
+        type: "group", label: "Physical Health Breakdown",
+        fields: {
+          energy: { type: "number" },
+          pain_inv: { type: "number" },
+          recovery: { type: "number" },
+          digestion: { type: "number" },
+          respiratory: { type: "number" },
+          hydration: { type: "number" },
+          illness_inv: { type: "number" }
+        }
+      },
+      sleep_breakdown: {
+        type: "group", label: "Sleep Breakdown",
+        fields: {
+          quality: { type: "number" },
+          duration_accuracy: { type: "number" },
+          schedule_adherence: { type: "number" },
+          interruptions_inv: { type: "number" },
+          sleep_debt_inv: { type: "number" }
+        }
+      },
+      screen_discipline_breakdown: {
+        type: "group", label: "Screen Discipline Breakdown",
+        fields: {
+          intentional_use: { type: "number" },
+          productive_ratio: { type: "number" },
+          time_control: { type: "number" },
+          short_form_avoidance: { type: "number" },
+          late_night_avoidance: { type: "number" },
+          unlock_discipline: { type: "number" }
+        }
+      },
+      hobby_growth_breakdown: {
+        type: "group", label: "Hobby Growth Breakdown",
+        fields: {
+          session_quality: { type: "number" },
+          enjoyment: { type: "number" },
+          immersion: { type: "number" },
+          progress: { type: "number" },
+          focus: { type: "number" },
+          streak_bonus: { type: "number" }
+        }
+      },
+      self_control_breakdown: {
+        type: "group", label: "Self Control Breakdown",
+        fields: {
+          screen_discipline: { type: "number" },
+          work_distraction_control: { type: "number" },
+          urge_resistance: { type: "number" },
+          meditation_focus: { type: "number" },
+          regret_avoidance: { type: "number" },
+          schedule_adherence: { type: "number" }
+        }
+      },
+      trends: {
+        type: "group", label: "Trends",
+        fields: {
+          meditation_progress: { type: "number" },
+          mood_trend: { type: "number" },
+          sleep_consistency: { type: "number" },
+          body_composition_trend: { type: "number" },
+          habit_streak_score: { type: "number" },
+          pain_trend: { type: "number" },
+          nutrition_score: { type: "number" },
+          sexual_health_trend: { type: "number" }
+        }
+      },
+      computed_at: { type: "datetime" },
+      data_completeness_percent: { type: "number" },
+      missing_sources: { type: "tags", placeholder: "e.g. nutrition, screentime" }
+    }
+  },
+
   screentime: {
     label: "Screen Time",
     fields: {
@@ -389,6 +513,70 @@ const SCHEMAS = {
       post_mental_clarity: { type: "scale", min: 0, max: 10 },
       orgasm_quality: { type: "scale", min: 0, max: 10 },
       regret_level: { type: "scale", min: 0, max: 10 },
+      context_note: { type: "textarea" }
+    }
+  },
+
+  sleep: {
+    label: "Sleep",
+    fields: {
+      date: { type: "date", required: true },
+      sleep_start: { type: "datetime" },
+      sleep_end: { type: "datetime" },
+      total_sleep_hours: { type: "number" },
+      target_sleep_time: { type: "time" },
+      target_wake_time: { type: "time" },
+      target_sleep_hours: { type: "number" },
+      sleep_start_delta_minutes: { type: "number" },
+      wake_time_delta_minutes: { type: "number" },
+      sleep_hours_delta: { type: "number" },
+      sleep_quality: { type: "scale", min: 0, max: 10 },
+      restfulness: { type: "scale", min: 0, max: 10 },
+      sleepiness_on_wake: { type: "scale", min: 0, max: 10 },
+      ease_of_falling_asleep: { type: "scale", min: 0, max: 10 },
+      sleep_interruptions_count: { type: "number" },
+      interruptions: {
+        type: "array", label: "Interruptions",
+        itemFields: {
+          wake_time: { type: "time" },
+          back_to_sleep_time: { type: "time" },
+          duration_minutes: { type: "number" },
+          reason: { type: "text" }
+        }
+      },
+      total_interruption_minutes: { type: "number" },
+      sleep_debt_hours: { type: "number" },
+      naps: {
+        type: "array", label: "Naps",
+        itemFields: {
+          start_time: { type: "time" },
+          end_time: { type: "time" },
+          duration_minutes: { type: "number" },
+          quality: { type: "scale", min: 0, max: 10 }
+        }
+      },
+      total_nap_minutes: { type: "number" },
+      dream_count: { type: "number" },
+      dreams: {
+        type: "array", label: "Dreams",
+        itemFields: {
+          description: { type: "textarea" },
+          vividness: { type: "scale", min: 0, max: 10 },
+          emotional_tone: { type: "select", options: ["positive","negative","neutral","mixed"] },
+          lucid: { type: "boolean" }
+        }
+      },
+      pre_stress: { type: "scale", min: 0, max: 10 },
+      pre_anxiety: { type: "scale", min: 0, max: 10 },
+      pre_energy: { type: "scale", min: 0, max: 10 },
+      pre_screen_time_minutes: { type: "number" },
+      caffeine_intake_after_2pm: { type: "boolean" },
+      late_meal: { type: "boolean" },
+      pre_activity: { type: "select", options: ["exercise","work","screen","reading","meditation","other"] },
+      post_energy: { type: "scale", min: 0, max: 10 },
+      post_mood: { type: "scale", min: 0, max: 10 },
+      post_mental_clarity: { type: "scale", min: 0, max: 10 },
+      post_body_stiffness: { type: "scale", min: 0, max: 10 },
       context_note: { type: "textarea" }
     }
   },
