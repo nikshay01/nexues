@@ -1,0 +1,22 @@
+{
+  "timestamp_start": "2026-03-20T13:00",
+  "timestamp_end": "2026-03-20T14:32",
+  "enjoyment": 6,
+  "performance_rating": 7,
+  "tilt_frustration_level": 5,
+  "flow_state_level": 5,
+  "fatigue_after": 7,
+  "eye_strain": 8,
+  "posture_quality": 1,
+  "duration_minutes": 152,
+  "game_name": "brawlhalla",
+  "platform": "PC",
+  "session_type": "competitive",
+  "social_context": "friends online",
+  "matches": {
+    "played": 13,
+    "won": 9,
+    "lost": 4
+  },
+  "notes": "played with ankit abhishek naruto 12-1pm was wasted in fixing my steam glitch "
+}

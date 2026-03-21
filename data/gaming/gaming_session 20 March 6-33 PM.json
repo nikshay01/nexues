@@ -1,0 +1,16 @@
+{
+  "timestamp_start": "2026-03-20T17:43",
+  "timestamp_end": "2026-03-20T18:32",
+  "enjoyment": 6,
+  "performance_rating": 7,
+  "tilt_frustration_level": 1,
+  "flow_state_level": 3,
+  "fatigue_after": 1,
+  "eye_strain": 4,
+  "posture_quality": 1,
+  "duration_minutes": 51,
+  "game_name": "endfield",
+  "platform": "PC",
+  "session_type": "story/campaign",
+  "social_context": "solo"
+}

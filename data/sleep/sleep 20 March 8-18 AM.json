@@ -14,7 +14,14 @@
       "duration_minutes": 5
     }
   ],
-  "naps": [],
+  "naps": [
+    {
+      "quality": 4,
+      "start_time": "14:57",
+      "end_time": "16:59",
+      "duration_minutes": 122
+    }
+  ],
   "dreams": [],
   "pre_stress": 4,
   "pre_anxiety": 0,
@@ -28,7 +35,7 @@
   "sleep_interruptions_count": 1,
   "total_interruption_minutes": 5,
   "sleep_debt_hours": 0.43,
-  "total_nap_minutes": 0,
+  "total_nap_minutes": 122,
   "pre_activity": "work",
   "context_note": " took shower before bed",
   "target_sleep_time": "22:00",
