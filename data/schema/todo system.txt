@@ -1,0 +1,59 @@
+{
+  _id: ObjectId,
+  title: String,                        // required
+  description: String,
+
+  // Classification
+  category: String,                     // slug ref → categories
+  subcategory: String,
+  project: String,
+  subproject: String,
+  priority: Number,                     // 1 (urgent) → 5 (someday)
+  labels: [String],
+
+  // Deadline system
+  deadline: {
+    type: String,                       // "exact" | "within" | "range" | "anytime"
+    exactDate: Date,                    // for "exact"
+    windowStart: Date,                  // for "range" / "within"
+    windowEnd: Date,                    // for "range" / "within"
+  },
+
+  // Time planning
+  estimatedStartTime: Date,             // procrastination clock starts here
+  estimatedDuration: Number,            // in minutes
+  estimatedEndTime: Date,               // calculated or manual
+
+  // Actual execution
+  actualStartTime: Date,
+  actualEndTime: Date,
+  actualDuration: Number,               // in minutes, calculated on completion
+
+  // Status
+  status: String,                       // "todo" | "in_progress" | "completed" | "procrastinated"
+  completedAt: Date,
+
+  // Procrastination system
+  procrastination: {
+    isActive: Boolean,                  // true = clock is running right now
+    triggeredBy: String,                // "auto" | "manual"
+    clockStartedAt: Date,               // when procrastination began
+    totalMinutes: Number,               // accumulates until completion, then frozen
+    manuallyFlagged: Boolean,
+    checkpoints: [                      // recorded on app open/close or manual
+      {
+        recordedAt: Date,
+        minutesSoFar: Number
+      }
+    ]
+  },
+
+  sessions: [
+  { start: Date, end: Date, duration: Number },
+  { start: Date, end: Date, duration: Number }
+]
+// actualDuration = sum of all session durations
+
+  createdAt: Date,
+  updatedAt: Date
+}

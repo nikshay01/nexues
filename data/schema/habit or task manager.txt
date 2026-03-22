@@ -1,0 +1,51 @@
+{
+  _id: ObjectId,
+  name: String,                         // "Morning Run"
+  description: String,
+
+  // Classification
+  category: String,
+  subcategory: String,
+  project: String,
+  subproject: String,
+  priority: Number,                     // 1–5
+
+  // Versatile completion system
+  completionType: String,               // "boolean" | "duration" | "percentage" | "fraction" | "count" | "custom"
+  targetValue: Number,                  // e.g. 3 (hours), 10000 (steps), 1 (boolean)
+  targetUnit: String,                   // "hours" | "minutes" | "pages" | "steps" | "%" | ""
+
+  // Frequency
+  frequency: {
+    type: String,                       // "daily" | "weekly" | "monthly" | "yearly" | "custom"
+    timesPerPeriod: Number,             // e.g. 3 times per week
+    customDays: [String],               // ["monday", "thursday"]
+    timeBlock: {
+      enabled: Boolean,
+      startTime: String,                // "05:00"
+      endTime: String,                  // "06:00"
+    }
+  },
+
+  // Streak config
+  streak: {
+    current: Number,
+    longest: Number,
+    lastLoggedDate: Date,
+    allowedMissesBeforeBreak: Number,   // default: 1
+    currentConsecutiveMisses: Number
+  },
+
+  // Procrastination
+  procrastination: {
+    enabled: Boolean,                   // auto-true only if timeBlock.enabled = true
+    totalMissedPeriods: Number,         // lifetime count, always tracked
+    missedDates: [Date],                // every missed period date, always tracked
+    longestMissStreak: Number,          // calculated from missedDates
+    currentMissStreak: Number           // resets when a period is completed
+  },
+
+  isActive: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}

@@ -7,7 +7,7 @@ they can be merged in one single schema
 
 
 
-todo list
+<!-- todo list
 -> create, delete,edit tasks
 ->complete,incomplete,pending/procrastinated 
 ->esitimated time for when the task should be started/completed and time it should take to complete the task
@@ -57,3 +57,14 @@ these will be logged daily
 -> streak tracking 
 ->task scheduling in time blocks(optional)e.g. 5-6am, 6-7am, 7-8am, etc. and thier procrastination calculations
 
+ -->
+
+
+i would want custum metric in every schema like for example my eyes have some condition that bright points or object seems double like if i am looking at the text right now i  can see an ghost of that text which is 50% above it at 0.5 opacity but these matrics both get worse and good so i wanna track minute by minute while i work on my computer and i can have a graph of it and i can see how it affects my work and all that 
+
+so thats my condition but many people have stuff like that so we should make something that can be used by anyone to track their custom metrics
+
+
+
+
+we do need to make an schema for daily summary of all the things that i did that day
