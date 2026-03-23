@@ -1,0 +1,26 @@
+{
+  "date": "2026-03-22",
+  "morning_energy": 4,
+  "midday_energy": 4,
+  "evening_energy": 6,
+  "morning_body_stiffness": 1,
+  "soreness_scale": 1,
+  "headache_intensity": 3,
+  "digestion_quality": 6,
+  "hydration_level": 3,
+  "sickness_intensity": 0,
+  "symptoms": [],
+  "breathing_quality": 7,
+  "cough_intensity": 0,
+  "mental_fatigue": 7,
+  "physical_fatigue": 5,
+  "stomach_discomfort": 5,
+  "custom_metrics": [
+    {
+      "intensity_or_scale": 6,
+      "metric_name": "vertical monocular diplopia",
+      "notes": "mostly in left eye and range was offset-y:30-120% opacity 0.2-0.6"
+    }
+  ],
+  "resting_heart_rate": null
+}

@@ -1,0 +1,51 @@
+{
+  "timestamp_start": "2026-03-22T17:23",
+  "timestamp_end": "2026-03-22T18:54",
+  "focus_level": 6,
+  "output_score": 7,
+  "pauses": [
+    {
+      "pause_start_minutes": 20,
+      "pause_end_minutes": 25,
+      "duration_minutes": 5,
+      "reason": "pomodoro rest"
+    },
+    {
+      "pause_start_minutes": 51,
+      "pause_end_minutes": 57,
+      "duration_minutes": 6,
+      "reason": "eye closed,lay down,box breathing break for eyes"
+    }
+  ],
+  "mental_energy": 6,
+  "physical_energy": 7,
+  "clarity": 4,
+  "motivation": 5,
+  "confidence": 5,
+  "tiredness": 4,
+  "frustration": 0,
+  "stress": 0,
+  "sleepiness": 6,
+  "session_quality": 7,
+  "custom_metrics": [
+    {
+      "intensity_or_scale": 6,
+      "metric_name": "vertical monocular diplopia",
+      "value": "",
+      "notes": "in the description"
+    },
+    {
+      "intensity_or_scale": 5,
+      "metric_name": "git commit messege",
+      "notes": "git commit -m \"Schema Design Changelog\n\nSelf-Management App — Database Architecture\n\nv1.3.0 — Logging Strategy Finalized\n- todoTasks updated in place (no separate log collection)\n  - status transitions: todo → in_progress → completed\n  - procrastination fields updated directly on document\n- habitDefinitions used only for config changes, not logging\n- habitLogs creates new document per log entry (summed per period)\n- Streak and procrastination fields updated after each log\n\nv1.2.0 — Habit Procrastination System Clarified\n- Removed flat totalMissedPeriods / lastMissedAt\n- Added missedDates array for full miss history\n- Added longestMissStreak and currentMissStreak derived from missedDates\n- Added procrastination.enabled (true only when timeBlock.enabled = true)\n- habitLogs.timeBlock.minutesLate set to null when no time block\n- Anytime habits track misses only\n- Time-blocked habits track full procrastination clock + misses\n\nv1.1.0 — Core Schema Decisions Locked\nProcrastination (Todo):\n- Triggered automatically (past estimatedStartTime) or manually\n- Clock starts when estimatedStartTime is reached and task not started\n- checkpoints[] records procrastination over time\n- totalMinutes accumulates until completion and is then frozen\n\nHabit Logs:\n- Multiple entries allowed per period\n- Entries summed into periodTotalValue\n- completionPercent = (periodTotalValue / targetValue) * 100\n\nStreak Logic:\n- Default allowedMissesBeforeBreak = 1\n- Configurable per habit\n\nCategories:\n- Predefined + custom user categories\n- Stored in categories collection with slugs\n- Referenced by slug across collections\n\nExercise Sessions:\n- Only walk and run supported\n- Metrics: distanceKm, steps, avgPaceMinPerKm, caloriesBurned, mood, energy\n\nv1.0.0 — Initial Schema Architecture\nCollections:\n- categories: classification lookup\n- todoTasks: one-time tasks with procrastination tracking\n- habitDefinitions: recurring habit definitions\n- habitLogs: per-entry logs\n- exerciseSessions: walk/run tracking\n- dailySummaries: aggregated daily snapshot\n\nPredefined Categories:\n- Personal & Habits\n- Creative & Side Projects\n- Finance\n- Self Development\n- Professional Work\n- Academic\n- Health & Fitness\n\nKey Design Principles:\n- Shared classification fields across todoTasks and habitDefinitions\n- All collections feed into dailySummaries\n- Flexible habit completion types: boolean, duration, percentage, fraction, count, custom\n- Procrastination tracked at:\n  - minute-level (todos)\n  - period-level (habits)\n\nPending:\n- Charts and graphs system\n- dailySummaries aggregation logic\n- todo sessions[] support\n- Workout schema\n- API route design\n- Frontend UI\""
+    }
+  ],
+  "duration_minutes": 93,
+  "task_type": "professional",
+  "task_name": "todo list and task/habit manager schema finalizing",
+  "project": "self management app",
+  "total_pause_minutes": 11,
+  "total_productive_minutes": 82,
+  "location": "work room",
+  "session_description": "Format: Time — (L, R) | Mode | Top (pos, α) | Bottom (pos, α) | Notes \n\n10 min — (3,2) | Single | Top ~(+20–30%, α≈0.2–0.3) | — | Creating schema for task & todo\n20 min — (3,2) | Single | Top ~(+20–30%, α≈0.2–0.3) | — | finalizing from options\n25 min — (4,1) | Single | Top ~(+60–80%, α≈0.4–0.5) | — | Pomodoro break\n35 min — (6,0) | Dual | Top ~(+80–90%, α≈0.7–0.8) | Bottom ~(−20–30%, α≥0.5) | 75% schema; heavy fine-tuning\n51 min — (5,0) | Dual | Top ~(+70–80%, α≈0.6–0.7) | Bottom ~(−20–30%, α≥0.5) | Tuning; structural errors\n57 min — (1,0) | Single | Top ~(+10–20%, α≈0.2) | — | Eyes closed + box breathing (recovery)\n70 min — (4,0) | Single | Top ~(+60–80%, α≈0.4–0.5) | — | Finalized procrastination system\n84 min — (3,0) | Single | Top ~(+30–50%, α≈0.3–0.4) | — | Schema done; needs optimization\n93 min — (4,0) | Single | Top ~(+60–80%, α≈0.4–0.5) | — | IDE updating prototype to the new schema which it was shit at so I'll have to update the app myself later\nNotes\nvertical monocular diplopia\n(L, R) = perceived ghosting intensity per eye\nDual mode aligns with your “worst” state (both above and below visible)\nRight eye drops to ~0 after ~35 min → left-eye–dominant perception during overload\n\nDefinitions (standardized)\nIntensity (0–6): your original scale → perceived severity\nOpacity (α): 0.0–1.0 (how visible the ghost is)\nPosition (%): vertical offset of ghost relative to source text\nTop: ghost above text (e.g., +80%)\nBottom: ghost below text (e.g., −30%)\nMode:\nSingle: one ghost (top or bottom)\nDual: both top and bottom ghosts present"
+}

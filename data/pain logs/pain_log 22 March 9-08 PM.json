@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-03-22T21:07",
+  "body_parts": [
+    "headache",
+    "left face",
+    "left eye"
+  ],
+  "intensity": 3,
+  "pain_start": "2026-03-22T16:07",
+  "pain_end": "2026-03-22T21:07",
+  "custom_metrics": [],
+  "pain_type": "pressure",
+  "possible_trigger": "sleep debt and hight screen"
+}
