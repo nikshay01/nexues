@@ -1,0 +1,22 @@
+{
+  "date": "2026-03-24",
+  "custom_metrics": [
+    {
+      "intensity_or_scale": 5,
+      "metric_name": "app vise devision",
+      "notes": "duet night abyss\n3hr 53min\ninsta\n2hr 59min\nyt\n2hr 21min\nchrome 30min\ngpt 14min\nclaude 7 min"
+    }
+  ],
+  "total_screen_time_minutes": 647,
+  "unlock_count": 51,
+  "social_media_minutes": 260,
+  "entertainment_minutes": 0,
+  "productive_minutes": 30,
+  "learning_minutes": 0,
+  "gaming_minutes": 233,
+  "late_night_usage": true,
+  "in_bed_usage": true,
+  "short_form_used": true,
+  "intentional_percent": 40,
+  "autopilot_percent": 60
+}

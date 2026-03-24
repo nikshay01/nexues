@@ -1,0 +1,17 @@
+{
+  "timestamp_start": "2026-03-23T22:10",
+  "timestamp_end": "2026-03-24T23:20",
+  "enjoyment": 7,
+  "performance_rating": 7,
+  "tilt_frustration_level": 3,
+  "flow_state_level": 5,
+  "fatigue_after": 3,
+  "eye_strain": 5,
+  "posture_quality": 4,
+  "custom_metrics": [],
+  "duration_minutes": 70,
+  "game_name": "Duet night abyss",
+  "platform": "Mobile",
+  "session_type": "grinding",
+  "social_context": "solo"
+}
