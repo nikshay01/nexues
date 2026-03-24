@@ -73,3 +73,31 @@ we do need to make an schema for daily summary of all the things that i did that
 
 
 gemini ka felaya gaya rayta saaf karna h
+
+
+
+
+
+
+changes:
+1.gaming session
+i want duration minutes
+to be calculated by itself using timestamp start and
+
+same in meditation, devotion session, pain log,sexual session, work session
+
+automatically calculate autopilot percent in screen time when i enter intentional percent
+
+2. sleep: i want you to show sleep hours delta in hours and minute both. store it in float point hours as we are already doing but in the ui show it like that lets say its 1.50hours so show it as 1hr 30min and if 0.50hr then 0hr 30 min
+
+3. work session:
+   calculate total pause minutes and productive time
+
+
+
+
+
+
+
+
+

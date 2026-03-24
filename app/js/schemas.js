@@ -148,9 +148,11 @@ const SCHEMAS = {
         "type": "datetime",
         "required": true
       },
+      "timestamp_end": {
+        "type": "datetime"
+      },
       "duration_minutes": {
-        "type": "number",
-        "required": true
+        "type": "number"
       },
       "time_category": {
         "type": "select",
@@ -879,9 +881,11 @@ const SCHEMAS = {
         "type": "datetime",
         "required": true
       },
+      "timestamp_end": {
+        "type": "datetime"
+      },
       "duration_minutes": {
-        "type": "number",
-        "required": true
+        "type": "number"
       },
       "type": {
         "type": "select",
@@ -1812,7 +1816,9 @@ const SCHEMAS = {
         "type": "number"
       },
       "autopilot_percent": {
-        "type": "number"
+        "type": "computed",
+        "formula": "100 - intentional_percent",
+        "label": "Autopilot % (auto)"
       },
       "custom_metrics": {
         "type": "array",
@@ -1846,6 +1852,9 @@ const SCHEMAS = {
       "timestamp_start": {
         "type": "datetime",
         "required": true
+      },
+      "timestamp_end": {
+        "type": "datetime"
       },
       "time_of_day": {
         "type": "select",

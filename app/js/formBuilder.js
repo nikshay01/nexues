@@ -12,8 +12,26 @@ class FormBuilder {
             if (!this.state.currentSchemaId) return;
             const schema = SCHEMAS[this.state.currentSchemaId];
             this.updateComputedFields(schema.fields, "");
-            if (this.state.currentSchemaId === 'sleep') {
+
+            const id = this.state.currentSchemaId;
+
+            // Duration auto-calc for session-based schemas
+            const durationSchemas = ['gaming_session', 'devotion', 'meditation', 'sexual_session', 'work_session'];
+            if (durationSchemas.includes(id)) {
+                this.runDurationCalculations(id, 'timestamp_start', 'timestamp_end', 'duration_minutes');
+            }
+            if (id === 'pain_log') {
+                this.runDurationCalculations(id, 'pain_start', 'pain_end', 'duration_minutes');
+            }
+
+            if (id === 'sleep') {
                 this.runSleepCalculations();
+            }
+            if (id === 'screentime') {
+                this.runScreentimeCalculations();
+            }
+            if (id === 'work_session') {
+                this.runWorkSessionCalculations();
             }
         });
     }
@@ -375,8 +393,6 @@ class FormBuilder {
     updateComputedFields(fields, basePath) {
         if (!this.state.currentSchemaId) return;
         
-        const currState = this.state.getSchemaState(this.state.currentSchemaId);
-        
         for (const [key, fieldDef] of Object.entries(fields)) {
             const path = basePath ? `${basePath}.${key}` : key;
             
@@ -384,28 +400,104 @@ class FormBuilder {
                 this.updateComputedFields(fieldDef.fields, path);
             } else if (fieldDef.type === 'computed') {
                 try {
-                    // Extremely simple expression evaluator just for the specific formulas requested
-                    // e.g. "pre_stress_level - post_stress_level"
-                    let result = 0;
+                    let result = null;
                     
-                    if (fieldDef.formula.includes('-')) {
+                    if (fieldDef.formula && fieldDef.formula.includes('-')) {
                          const parts = fieldDef.formula.split('-').map(p => p.trim());
                          if (parts.length === 2) {
-                             const a = this.state.getValue(this.state.currentSchemaId, `${basePath ? basePath + '.' : ''}${parts[0]}`);
-                             const b = this.state.getValue(this.state.currentSchemaId, `${basePath ? basePath + '.' : ''}${parts[1]}`);
-                             if (a !== undefined && b !== undefined) {
+                             // Check if either part is a numeric constant
+                             const aIsNum = !isNaN(Number(parts[0]));
+                             const bIsNum = !isNaN(Number(parts[1]));
+                             
+                             const a = aIsNum ? Number(parts[0]) : this.state.getValue(this.state.currentSchemaId, `${basePath ? basePath + '.' : ''}${parts[0]}`);
+                             const b = bIsNum ? Number(parts[1]) : this.state.getValue(this.state.currentSchemaId, `${basePath ? basePath + '.' : ''}${parts[1]}`);
+                             
+                             if (a !== undefined && a !== null && b !== undefined && b !== null) {
                                  result = Number(a) - Number(b);
-                                 this.state.setValue(path, result);
-                                 const el = document.getElementById(`computed-${path.replace(/\./g, '-')}`);
-                                 if (el) el.textContent = result;
                              }
                          }
+                    }
+                    
+                    if (result !== null) {
+                        this.state.setValue(path, result);
+                        const el = document.getElementById(`computed-${path.replace(/\./g, '-')}`);
+                        if (el) el.textContent = result;
                     }
                 } catch(e) {
                     console.error("Error computing field:", path, e);
                 }
             }
         }
+    }
+
+    // Generic duration calculator for session-based schemas
+    runDurationCalculations(schemaId, startField, endField, durationField) {
+        const parseDt = (dtStr) => dtStr ? new Date(dtStr) : null;
+        
+        const startDt = parseDt(this.state.getValue(schemaId, startField));
+        const endDt = parseDt(this.state.getValue(schemaId, endField));
+        
+        if (startDt && endDt && endDt > startDt) {
+            const diffMins = Math.round((endDt - startDt) / 60000);
+            const currentVal = this.state.getValue(schemaId, durationField);
+            if (currentVal !== diffMins) {
+                this.state.setValue(durationField, diffMins);
+                const el = document.getElementById(`field-${durationField.replace(/\./g, '-')}`);
+                if (el && document.activeElement !== el) {
+                    el.value = diffMins;
+                }
+            }
+        }
+    }
+
+    // Screen time: autopilot = 100 - intentional
+    runScreentimeCalculations() {
+        // Handled by updateComputedFields since autopilot_percent is now a computed field
+        // No extra logic needed here beyond what updateComputedFields does
+    }
+
+    // Work session: sum pauses, calculate productive time
+    runWorkSessionCalculations() {
+        const updateVal = (path, val) => {
+            if (this.state.getValue('work_session', path) !== val) {
+                this.state.setValue(path, val);
+                const el = document.getElementById(`field-${path.replace(/\./g, '-')}`);
+                if (el && document.activeElement !== el) {
+                    el.value = val;
+                }
+            }
+        };
+
+        // Sum pause durations
+        let totalPauseMins = 0;
+        const pauses = this.state.getValue('work_session', 'pauses') || [];
+        pauses.forEach((pause, idx) => {
+            if (pause.pause_start_minutes !== undefined && pause.pause_end_minutes !== undefined &&
+                pause.pause_start_minutes !== null && pause.pause_end_minutes !== null) {
+                const dur = Math.max(0, Number(pause.pause_end_minutes) - Number(pause.pause_start_minutes));
+                updateVal(`pauses.${idx}.duration_minutes`, dur);
+                totalPauseMins += dur;
+            } else if (pause.duration_minutes !== undefined && pause.duration_minutes !== null) {
+                totalPauseMins += Number(pause.duration_minutes);
+            }
+        });
+        updateVal('total_pause_minutes', totalPauseMins);
+
+        // Productive time = duration - pauses
+        const duration = this.state.getValue('work_session', 'duration_minutes');
+        if (duration !== undefined && duration !== null) {
+            const productive = Math.max(0, Number(duration) - totalPauseMins);
+            updateVal('total_productive_minutes', productive);
+        }
+    }
+
+    // Helper: format float hours as "Xhr Ymin"
+    formatHoursToHrMin(floatHours) {
+        const totalMins = Math.round(Math.abs(floatHours) * 60);
+        const hrs = Math.floor(totalMins / 60);
+        const mins = totalMins % 60;
+        const sign = floatHours < 0 ? '-' : '';
+        return `${sign}${hrs}hr ${mins}min`;
     }
 
     runSleepCalculations() {
@@ -506,6 +598,19 @@ class FormBuilder {
             let deltaHours = actualSleep - th;
             updateVal('sleep_hours_delta', Number(deltaHours.toFixed(2)));
             updateVal('sleep_debt_hours', Number((-deltaHours).toFixed(2)));
+
+            // Show human-readable format next to the sleep_hours_delta field
+            const deltaEl = document.getElementById('field-sleep_hours_delta');
+            if (deltaEl) {
+                let displaySpan = deltaEl.parentElement.querySelector('.sleep-delta-display');
+                if (!displaySpan) {
+                    displaySpan = document.createElement('span');
+                    displaySpan.className = 'sleep-delta-display';
+                    displaySpan.style.cssText = 'margin-left: 8px; font-size: 0.85em; color: var(--text-secondary, #aaa); font-weight: 500;';
+                    deltaEl.parentElement.appendChild(displaySpan);
+                }
+                displaySpan.textContent = `(${this.formatHoursToHrMin(deltaHours)})`;
+            }
         }
 
         let totalNapMins = 0;

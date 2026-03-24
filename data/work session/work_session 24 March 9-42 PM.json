@@ -1,0 +1,35 @@
+{
+  "timestamp_start": "2026-03-24T20:20",
+  "total_pause_minutes": 10,
+  "timestamp_end": "2026-03-24T21:35",
+  "focus_level": 3,
+  "output_score": 1,
+  "pauses": [
+    {
+      "pause_start_minutes": 45,
+      "pause_end_minutes": 55,
+      "duration_minutes": 10,
+      "reason": "to take a shit"
+    }
+  ],
+  "mental_energy": 2,
+  "physical_energy": 4,
+  "clarity": 2,
+  "motivation": 2,
+  "confidence": 2,
+  "tiredness": 7,
+  "frustration": 7,
+  "stress": 7,
+  "sleepiness": 8,
+  "session_quality": 1,
+  "custom_metrics": [],
+  "duration_minutes": 75,
+  "total_productive_minutes": 65,
+  "task_type": "professional",
+  "task_name": "user schema creation",
+  "project": "self management app",
+  "session_description": "Timeline\n\nFormat: Time — (L, R) | Mode | Top (pos, α) | Bottom (pos, α) | Notes\n\n10 min — (2,0) | — | — | —\n→ writing fixing prompt for prototype\n\n22 min — (2,0) | — | — | —\n→ executed prompt and started working on user schema\n\n30 min — (0.5,0) | — | — | —\n→ no progress got distracted by comments on music playing\n\n35 min — (0,0) | — | — | —\n→ calude hit its limit\n\n40 min — (1,0) | — | — | —\n→ using multi claude account on the same chat to keep it going, analyzing existing data with claude\n\n45 min — (0,0) | — | — | —\n→ gotta take a shit\n\n55 min — (1,0) | — | — | —\n→ back but somehow the new claude accound already hit the limit with just 3 data analysis prompt\n\n60 min — (1,0) | — | — | —\n→ cant focus at all\n\n70 min — (2,0.5) | — | — | —\n→ i just gave up already because i just simply cant focus and I'm just waiting for antigravity to complete its work which somehow got interrupted so I'm doing it all over again and now its 80% done. I'm gonna sleep\n\nDefinitions (standardized)\nIntensity (0–6): your original scale → perceived severity\nOpacity (α): 0.0–1.0 (how visible the ghost is)\nPosition (%): vertical offset of ghost relative to source text\nTop: ghost above text (e.g., +80%)\nBottom: ghost below text (e.g., −30%)\nMode:\nSingle: one ghost (top or bottom)\nDual: both top and bottom ghosts present\n\nRules you observed\n\nTypical α ≈ 0.2–0.3\nSevere α ≈ 0.7–0.8\nBottom ghosts: α ≥ 0.5\nWorst case: dual (top + bottom)",
+  "distraction_count": 2,
+  "distraction_description": "just too many here and there and in my mind i just couldn't focus",
+  "location": "work room"
+}
