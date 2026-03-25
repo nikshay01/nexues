@@ -116,4 +116,3 @@ user {
     start_of_day_offset_hours  // custom day start (e.g. 3 = day starts at 3 AM, 0 = 12 am and the scale is 0-6)
   }
 }
-```
