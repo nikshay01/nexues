@@ -47,17 +47,3 @@
 
   notes: String
 }
-
-future addditions:
-stamina,how long can i run at jogging/normal speed/sprinting
-how far can i run at jogging/normal speed/sprinting
-how long can i hold a plank
-how long can i hold a handstand
-how long can i hold a pullup
-how many pushups can i do
-how many situps can i do
-how many squats can i do
-how many pullups can i do
-how long can i meditate
-how long it takes to recover from exaustion
-all m 

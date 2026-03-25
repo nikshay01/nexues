@@ -1,0 +1,42 @@
+gaming session
+{
+  "_id": ObjectId,
+  "user_id": ObjectId,
+  
+  "timestamp_start": Date,
+  "timestamp_end": Date,
+  "duration_minutes": Number,
+  
+  "game_name": String,
+  "platform": String, // "PC" | "Console" | "Mobile" | "VR" | "Tabletop"
+  "session_type": String, // "casual" | "competitive" | "story/campaign" | "grinding" | "social/co-op" | "esports/tournament"
+  "social_context": String, // "solo" | "friends online" | "local co-op" | "randoms"
+  
+  "enjoyment": Number, // 0-10
+  "performance_rating": Number, // 0-10
+  "tilt_frustration_level": Number, // 0-10
+  "flow_state_level": Number, // 0-10
+  "fatigue_after": Number, // 0-10
+  "eye_strain": Number, // 0-10
+  "posture_quality": Number, // 0-10
+  
+  "matches": {
+    "played": Number,
+    "won": Number,
+    "lost": Number
+  },
+  
+  "notes": String,
+  
+  "custom_metrics": [
+    {
+      "metric_name": String,
+      "value": String,
+      "intensity_or_scale": Number,
+      "notes": String
+    }
+  ],
+  
+  "createdAt": Date,
+  "updatedAt": Date
+}

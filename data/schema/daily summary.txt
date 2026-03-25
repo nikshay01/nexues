@@ -1,0 +1,34 @@
+daily summary
+{
+  "_id": ObjectId,
+  "user_id": ObjectId,
+  
+  "date": Date,
+  
+  "overall_day_rating": Number, // 0-10
+  
+  "highlights": String,
+  "lowlights": String,
+  
+  "tasks_completed": Number,
+  "major_achievements": [String],
+  "habits_completed_percent": Number,
+  
+  "mood_average": Number, // 0-10
+  "energy_average": Number, // 0-10
+  "stress_average": Number, // 0-10
+  
+  "notes": String,
+  
+  "custom_metrics": [
+    {
+      "metric_name": String,
+      "value": String,
+      "intensity_or_scale": Number,
+      "notes": String
+    }
+  ],
+  
+  "createdAt": Date,
+  "updatedAt": Date
+}

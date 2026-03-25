@@ -96,8 +96,22 @@ automatically calculate autopilot percent in screen time when i enter intentiona
 
 
 
+future addditions:
+stamina,how long can i run at jogging/normal speed/sprinting
+how far can i run at jogging/normal speed/sprinting
+how long can i hold a plank
+how long can i hold a handstand
+how long can i hold a pullup
+how many pushups can i do
+how many situps can i do
+how many squats can i do
+how many pullups can i do
+how long can i meditate
+how long it takes to recover from exaustion
+all m 
 
+add a new schema for nutrition goals which will be stores in user schema
 
+a sleep debt decay system
 
-
-
+i will create something where the data i log today will be stored in thier places but as well as another place where every data or log of the day is in one place and that folder/collection gets cleared on the day reset time set by the user. the use: to track which stuff is logged for today and whcih is not

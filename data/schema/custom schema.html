@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #0d0d0f;
+    --surface: #141416;
+    --card:    #1a1a1e;
+    --border:  #2a2a30;
+    --border2: #3a3a42;
+    --text:    #e8e8ec;
+    --muted:   #6b6b78;
+    --dim:     #3f3f4a;
+    --accent:  #c8f060;
+    --accent2: #7060f0;
+    --warn:    #f06060;
+    --mono:    'JetBrains Mono', monospace;
+    --sans:    'DM Sans', sans-serif;
+    --r:       6px;
+  }
+
+  body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:14px; min-height:100vh; display:flex; flex-direction:column; }
+
+  header { border-bottom:1px solid var(--border); padding:16px 28px; display:flex; align-items:center; gap:16px; background:var(--surface); position:sticky; top:0; z-index:100; }
+  .logo { font-family:var(--mono); font-weight:700; font-size:13px; letter-spacing:.12em; color:var(--accent); text-transform:uppercase; }
+  .logo span { color:var(--muted); font-weight:300; }
+  header .actions { margin-left:auto; display:flex; gap:8px; }
+
+  .main { display:grid; grid-template-columns:1fr 440px; flex:1; min-height:0; }
+
+  .form-panel { padding:28px 32px; border-right:1px solid var(--border); overflow-y:auto; }
+  .panel-title { font-family:var(--mono); font-size:10px; letter-spacing:.2em; color:var(--muted); text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:8px; }
+  .panel-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .form-group { margin-bottom:18px; }
+  label { display:block; font-family:var(--mono); font-size:10px; letter-spacing:.15em; color:var(--muted); text-transform:uppercase; margin-bottom:6px; }
+  label .req { color:var(--warn); margin-left:2px; }
+
+  input[type=text], input[type=number], select, textarea {
+    width:100%; background:var(--card); border:1px solid var(--border); border-radius:var(--r);
+    color:var(--text); font-family:var(--sans); font-size:14px; padding:10px 12px; outline:none;
+    transition:border-color .15s; -webkit-appearance:none;
+  }
+  input[type=text]:focus, input[type=number]:focus, select:focus, textarea:focus { border-color:var(--accent2); }
+  select {
+    cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6b78' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;
+  }
+  textarea { resize:vertical; min-height:72px; line-height:1.5; }
+
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+
+  .type-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+  .type-btn { background:var(--card); border:1px solid var(--border); border-radius:var(--r); color:var(--muted); font-family:var(--mono); font-size:11px; padding:8px 4px; cursor:pointer; text-align:center; transition:all .12s; letter-spacing:.05em; }
+  .type-btn:hover { border-color:var(--border2); color:var(--text); }
+  .type-btn.active { background:#1e1e2e; border-color:var(--accent2); color:var(--accent); }
+  .type-icon { font-size:15px; display:block; margin-bottom:3px; }
+
+  .config-block { background:var(--card); border:1px solid var(--border); border-radius:var(--r); padding:16px; margin-top:4px; }
+  .config-block .form-group { margin-bottom:12px; }
+  .config-block .form-group:last-child { margin-bottom:0; }
+
+  .options-list { display:flex; flex-direction:column; gap:6px; margin-bottom:8px; }
+  .option-row { display:flex; gap:6px; align-items:center; }
+  .option-row input { flex:1; }
+  .btn-icon { background:none; border:1px solid var(--border); border-radius:var(--r); color:var(--muted); width:34px; height:36px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .12s; }
+  .btn-icon:hover { border-color:var(--warn); color:var(--warn); }
+  .btn-icon.add:hover { border-color:var(--accent); color:var(--accent); }
+
+  .toggle-row { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r); }
+  .toggle-label { font-size:13px; color:var(--text); }
+  .toggle { position:relative; width:36px; height:20px; flex-shrink:0; }
+  .toggle input { opacity:0; width:0; height:0; }
+  .toggle-track { position:absolute; inset:0; background:var(--dim); border-radius:20px; cursor:pointer; transition:background .2s; }
+  .toggle-track::after { content:''; position:absolute; width:14px; height:14px; left:3px; top:3px; background:#fff; border-radius:50%; transition:transform .2s; }
+  .toggle input:checked + .toggle-track { background:var(--accent2); }
+  .toggle input:checked + .toggle-track::after { transform:translateX(16px); }
+
+  .meta-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+
+  .btn { font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; border-radius:var(--r); padding:10px 16px; cursor:pointer; border:none; transition:all .15s; }
+  .btn-primary { background:var(--accent); color:#0d0d0f; font-weight:700; }
+  .btn-primary:hover { background:#d8ff70; }
+  .btn-ghost { background:none; border:1px solid var(--border); color:var(--muted); }
+  .btn-ghost:hover { border-color:var(--border2); color:var(--text); }
+
+  .form-actions { display:flex; gap:8px; margin-top:24px; padding-top:20px; border-top:1px solid var(--border); }
+  .form-actions .btn-primary { flex:1; padding:12px; }
+
+  .list-panel { padding:24px; overflow-y:auto; background:var(--surface); }
+
+  .tabs { display:flex; gap:2px; margin-bottom:20px; background:var(--bg); border-radius:var(--r); padding:3px; border:1px solid var(--border); }
+  .tab { flex:1; font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; padding:7px; text-align:center; cursor:pointer; border-radius:4px; color:var(--muted); transition:all .15s; border:none; background:none; }
+  .tab.active { background:var(--card); color:var(--text); }
+  .view { display:none; }
+  .view.active { display:block; }
+
+  .empty-state { text-align:center; padding:50px 20px; color:var(--muted); }
+  .empty-state .big { font-size:36px; margin-bottom:12px; opacity:.4; }
+  .empty-state p { font-size:12px; line-height:1.6; }
+
+  .field-card { background:var(--card); border:1px solid var(--border); border-radius:var(--r); margin-bottom:8px; overflow:hidden; transition:border-color .15s; animation:slideIn .2s ease; }
+  @keyframes slideIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+  .field-card:hover { border-color:var(--border2); }
+  .field-card-head { display:flex; align-items:center; gap:10px; padding:11px 13px; cursor:pointer; }
+  .field-type-badge { font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; padding:3px 7px; border-radius:3px; background:#1e1e2e; color:var(--accent); border:1px solid var(--accent2); flex-shrink:0; }
+  .field-name { font-weight:500; font-size:13px; flex:1; }
+  .field-context { font-family:var(--mono); font-size:9px; color:var(--muted); }
+  .field-card-actions { display:flex; gap:4px; }
+  .card-btn { background:none; border:none; color:var(--dim); cursor:pointer; padding:4px 6px; border-radius:4px; font-size:13px; transition:all .12s; }
+  .card-btn:hover { color:var(--text); background:var(--border); }
+  .card-btn.del:hover { color:var(--warn); background:rgba(240,96,96,.1); }
+  .field-card-body { border-top:1px solid var(--border); padding:12px 13px; display:none; }
+  .field-card-body.open { display:block; }
+  .config-preview { font-family:var(--mono); font-size:11px; color:var(--muted); line-height:1.7; white-space:pre-wrap; word-break:break-all; }
+  .config-key { color:var(--accent2); }
+  .config-val { color:var(--accent); }
+  .config-str { color:#f0c060; }
+  .count-badge { font-family:var(--mono); font-size:10px; background:var(--border); color:var(--muted); padding:2px 7px; border-radius:20px; margin-left:6px; }
+
+  .export-area { background:var(--bg); border:1px solid var(--border); border-radius:var(--r); padding:14px; font-family:var(--mono); font-size:11px; color:var(--muted); line-height:1.6; white-space:pre; overflow-x:auto; max-height:500px; overflow-y:auto; }
+
+  /* ════════════════════════════
+     PREVIEW PANEL
+  ════════════════════════════ */
+  .preview-wrap { padding:2px 0 40px; }
+
+  .pf { margin-bottom:22px; }
+  .pf-label { display:flex; align-items:baseline; gap:6px; font-family:var(--mono); font-size:10px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; margin-bottom:8px; }
+  .pf-req { color:var(--warn); font-size:11px; }
+  .pf-type { color:var(--dim); font-size:9px; letter-spacing:.06em; margin-left:auto; }
+
+  .pf input[type=text], .pf input[type=number], .pf input[type=url],
+  .pf input[type=time], .pf input[type=date], .pf input[type=datetime-local],
+  .pf select, .pf textarea {
+    width:100%; background:var(--bg); border:1px solid var(--border); border-radius:var(--r);
+    color:var(--text); font-family:var(--sans); font-size:14px; padding:10px 12px; outline:none;
+    transition:border-color .15s, box-shadow .15s; -webkit-appearance:none;
+  }
+  .pf input:focus, .pf select:focus, .pf textarea:focus { border-color:var(--accent2); box-shadow:0 0 0 3px rgba(112,96,240,.12); }
+  .pf select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6b78' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px; cursor:pointer; }
+  .pf textarea { resize:vertical; min-height:80px; line-height:1.5; }
+
+  .pf-number-wrap { display:flex; }
+  .pf-number-wrap input { border-radius:var(--r) 0 0 var(--r); flex:1; }
+  .pf-unit { background:var(--border); border:1px solid var(--border); border-left:none; border-radius:0 var(--r) var(--r) 0; padding:0 13px; color:var(--muted); font-family:var(--mono); font-size:12px; display:flex; align-items:center; white-space:nowrap; }
+
+  .pf-scale-row { display:flex; align-items:center; gap:14px; }
+  .pf-scale-row input[type=range] { -webkit-appearance:none; appearance:none; flex:1; height:4px; background:var(--border); border-radius:4px; outline:none; cursor:pointer; border:none; padding:0; }
+  .pf-scale-row input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:var(--accent2); cursor:pointer; border:2px solid var(--bg); box-shadow:0 0 0 1px var(--accent2); }
+  .pf-scale-val { font-family:var(--mono); font-size:20px; font-weight:700; color:var(--accent); min-width:28px; text-align:right; }
+  .pf-scale-ends { display:flex; justify-content:space-between; margin-top:5px; padding:0 2px; }
+  .pf-scale-ends span { font-family:var(--mono); font-size:10px; color:var(--dim); }
+
+  .pf-multiselect { display:flex; flex-wrap:wrap; gap:6px; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:var(--r); min-height:46px; }
+  .pf-opt { padding:5px 14px; border-radius:20px; border:1px solid var(--border); background:var(--card); color:var(--muted); font-size:13px; cursor:pointer; transition:all .12s; user-select:none; }
+  .pf-opt:hover { border-color:var(--border2); color:var(--text); }
+  .pf-opt.sel { background:#1e1e2e; border-color:var(--accent2); color:var(--accent); }
+
+  .pf-bool-wrap { display:flex; align-items:center; gap:14px; padding:11px 14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--r); cursor:pointer; user-select:none; transition:border-color .15s; }
+  .pf-bool-wrap:hover { border-color:var(--border2); }
+  .pf-bool-lbl { flex:1; font-size:14px; }
+  .pf-bool-pill { position:relative; width:42px; height:24px; background:var(--dim); border-radius:24px; transition:background .2s; flex-shrink:0; }
+  .pf-bool-pill::after { content:''; position:absolute; width:18px; height:18px; left:3px; top:3px; background:#fff; border-radius:50%; transition:transform .2s; }
+  .pf-bool-pill.on { background:var(--accent2); }
+  .pf-bool-pill.on::after { transform:translateX(18px); }
+
+  .pf-tags-wrap { display:flex; flex-wrap:wrap; gap:6px; align-items:center; padding:8px; background:var(--bg); border:1px solid var(--border); border-radius:var(--r); min-height:46px; cursor:text; }
+  .pf-tag { display:flex; align-items:center; gap:5px; padding:4px 10px; border-radius:20px; background:#1e1e2e; border:1px solid var(--accent2); color:var(--accent); font-size:12px; }
+  .pf-tag button { background:none; border:none; color:var(--accent2); cursor:pointer; padding:0 0 0 2px; font-size:15px; line-height:1; }
+  .pf-tag-input { background:none; border:none; outline:none; color:var(--text); font-family:var(--sans); font-size:13px; min-width:90px; flex:1; padding:2px 4px; }
+  .pf-sugg { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
+  .pf-sugg-chip { padding:3px 11px; border-radius:20px; border:1px solid var(--border); color:var(--muted); font-size:11px; cursor:pointer; transition:all .1s; }
+  .pf-sugg-chip:hover { border-color:var(--accent2); color:var(--accent); }
+
+  .pf-checklist { display:flex; flex-direction:column; gap:6px; }
+  .pf-check-item { display:flex; align-items:center; gap:10px; padding:10px 13px; background:var(--bg); border:1px solid var(--border); border-radius:var(--r); cursor:pointer; transition:border-color .12s; user-select:none; }
+  .pf-check-item:hover { border-color:var(--border2); }
+  .pf-check-box { width:18px; height:18px; border-radius:4px; border:1px solid var(--border2); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; transition:all .15s; }
+  .pf-check-item.checked .pf-check-box { background:var(--accent2); border-color:var(--accent2); color:#fff; }
+  .pf-check-text { font-size:13px; flex:1; transition:color .15s; }
+  .pf-check-item.checked .pf-check-text { color:var(--dim); text-decoration:line-through; }
+
+  .pf-link-list { display:flex; flex-direction:column; gap:6px; }
+  .pf-link-row { display:flex; gap:6px; }
+  .pf-link-row input { flex:1; }
+  .pf-link-add { background:none; border:1px dashed var(--border); border-radius:var(--r); color:var(--muted); font-size:12px; font-family:var(--mono); padding:8px; cursor:pointer; text-align:center; transition:all .12s; width:100%; }
+  .pf-link-add:hover { border-color:var(--accent); color:var(--accent); }
+
+  .pf-context-sep { font-family:var(--mono); font-size:9px; letter-spacing:.18em; color:var(--dim); text-transform:uppercase; margin:24px 0 16px; display:flex; align-items:center; gap:8px; }
+  .pf-context-sep::before, .pf-context-sep::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .preview-submit { margin-top:28px; padding-top:20px; border-top:1px solid var(--border); display:flex; gap:8px; }
+  .preview-submit .btn-primary { flex:1; padding:12px; }
+
+  .preview-output { margin-top:14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--r); padding:14px; font-family:var(--mono); font-size:11px; color:var(--muted); line-height:1.7; white-space:pre-wrap; display:none; max-height:300px; overflow-y:auto; animation:slideIn .2s ease; }
+  .preview-output.show { display:block; }
+
+  ::-webkit-scrollbar { width:4px; height:4px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Field<span>Builder</span></div>
+  <span style="color:var(--dim);font-family:var(--mono);font-size:11px;">// define → preview → export</span>
+  <div class="actions">
+    <button class="btn btn-ghost" onclick="exportJSON()">Export JSON</button>
+    <button class="btn btn-ghost" onclick="clearAll()">Clear all</button>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- LEFT: Builder -->
+  <div class="form-panel">
+    <div class="panel-title">Define field</div>
+
+    <div class="form-group">
+      <label>Field name <span class="req">*</span></label>
+      <input type="text" id="f-name" placeholder="e.g. Left eye offset-Y">
+    </div>
+    <div class="row2">
+      <div class="form-group">
+        <label>Context</label>
+        <input type="text" id="f-context" placeholder="e.g. session, daily">
+      </div>
+      <div class="form-group">
+        <label>Display order</label>
+        <input type="number" id="f-order" placeholder="auto" min="1">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Field type <span class="req">*</span></label>
+      <div class="type-grid">
+        <button class="type-btn" data-type="text"      onclick="selectType('text')">      <span class="type-icon">T</span>text</button>
+        <button class="type-btn" data-type="number"    onclick="selectType('number')">    <span class="type-icon">#</span>number</button>
+        <button class="type-btn" data-type="scale"     onclick="selectType('scale')">     <span class="type-icon">↔</span>scale</button>
+        <button class="type-btn" data-type="select"    onclick="selectType('select')">    <span class="type-icon">⌄</span>select</button>
+        <button class="type-btn" data-type="boolean"   onclick="selectType('boolean')">   <span class="type-icon">✓</span>boolean</button>
+        <button class="type-btn" data-type="duration"  onclick="selectType('duration')">  <span class="type-icon">⏱</span>duration</button>
+        <button class="type-btn" data-type="time"      onclick="selectType('time')">      <span class="type-icon">🕐</span>time</button>
+        <button class="type-btn" data-type="date"      onclick="selectType('date')">      <span class="type-icon">📅</span>date</button>
+        <button class="type-btn" data-type="tags"      onclick="selectType('tags')">      <span class="type-icon">🏷</span>tags</button>
+        <button class="type-btn" data-type="checklist" onclick="selectType('checklist')"> <span class="type-icon">☑</span>checklist</button>
+        <button class="type-btn" data-type="link"      onclick="selectType('link')">      <span class="type-icon">🔗</span>link</button>
+        <button class="type-btn" data-type="textarea"  onclick="selectType('textarea')">  <span class="type-icon">¶</span>textarea</button>
+      </div>
+    </div>
+
+    <div id="type-config"></div>
+
+    <div class="form-group">
+      <label>Options</label>
+      <div class="meta-row">
+        <div class="toggle-row">
+          <span class="toggle-label">Required</span>
+          <label class="toggle"><input type="checkbox" id="f-required"><span class="toggle-track"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Archived</span>
+          <label class="toggle"><input type="checkbox" id="f-archived"><span class="toggle-track"></span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="resetForm()">Reset</button>
+      <button class="btn btn-primary" id="save-btn" onclick="saveField()">+ Add field</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: Tabs -->
+  <div class="list-panel">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('fields')">Fields <span class="count-badge" id="count-badge">0</span></button>
+      <button class="tab"        onclick="switchTab('preview')">Preview</button>
+      <button class="tab"        onclick="switchTab('json')">JSON</button>
+    </div>
+
+    <div class="view active" id="view-fields">
+      <div id="fields-list"></div>
+    </div>
+
+    <div class="view" id="view-preview">
+      <div id="preview-form" class="preview-wrap"></div>
+    </div>
+
+    <div class="view" id="view-json">
+      <p style="font-size:11px;color:var(--muted);margin-bottom:10px;font-family:var(--mono);">// field_definitions — paste into MongoDB</p>
+      <pre class="export-area" id="json-output"></pre>
+      <button class="btn btn-ghost" style="margin-top:10px;width:100%" onclick="copyJSON()">Copy to clipboard</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let fields = JSON.parse(localStorage.getItem('fb_fields') || '[]');
+let selectedType = null;
+let editingId = null;
+
+// ── type config templates ──
+const TYPE_CONFIGS = {
+  text: () => `
+    <div class="form-group"><label>Placeholder</label><input type="text" id="cfg-placeholder" placeholder="e.g. Write anything..."></div>
+    <div class="form-group"><label>Max length</label><input type="number" id="cfg-max_length" placeholder="300" min="1"></div>`,
+  textarea: () => `
+    <div class="form-group"><label>Placeholder</label><input type="text" id="cfg-placeholder" placeholder="Write your note here..."></div>
+    <div class="form-group"><label>Max length</label><input type="number" id="cfg-max_length" placeholder="2000" min="1"></div>`,
+  number: () => `
+    <div class="row3">
+      <div class="form-group"><label>Min</label><input type="number" id="cfg-min" placeholder="0"></div>
+      <div class="form-group"><label>Max</label><input type="number" id="cfg-max" placeholder="100"></div>
+      <div class="form-group"><label>Step</label><input type="number" id="cfg-step" placeholder="1" step="any"></div>
+    </div>
+    <div class="row2">
+      <div class="form-group"><label>Unit</label><input type="text" id="cfg-unit" placeholder="%, min, ml..."></div>
+      <div class="form-group"><label>Placeholder</label><input type="text" id="cfg-placeholder" placeholder="e.g. 0"></div>
+    </div>`,
+  scale: () => `
+    <div class="row2">
+      <div class="form-group"><label>Min</label><input type="number" id="cfg-min" placeholder="1"></div>
+      <div class="form-group"><label>Max</label><input type="number" id="cfg-max" placeholder="10"></div>
+    </div>
+    <div class="form-group"><label>End labels (left, right)</label><input type="text" id="cfg-labels" placeholder="e.g. dead,,,,,ok,,,,,peak"></div>`,
+  select: () => `
+    <div class="form-group">
+      <label>Options</label>
+      <div class="options-list" id="options-list"></div>
+      <button class="btn btn-ghost btn-icon add" style="width:100%;height:34px;font-size:12px" onclick="addOption()">+ add option</button>
+    </div>
+    <div class="toggle-row" style="margin-top:8px">
+      <span class="toggle-label">Allow multi-select</span>
+      <label class="toggle"><input type="checkbox" id="cfg-multi"><span class="toggle-track"></span></label>
+    </div>`,
+  boolean: () => `
+    <div class="row2">
+      <div class="form-group"><label>True label</label><input type="text" id="cfg-true_label" placeholder="Yes"></div>
+      <div class="form-group"><label>False label</label><input type="text" id="cfg-false_label" placeholder="No"></div>
+    </div>`,
+  duration: () => `
+    <div class="form-group"><label>Unit</label>
+      <select id="cfg-unit"><option value="min">Minutes</option><option value="hr">Hours</option><option value="sec">Seconds</option></select>
+    </div>`,
+  time: () => `
+    <div class="form-group"><label>Format</label>
+      <select id="cfg-format"><option value="24h">24-hour</option><option value="12h">12-hour</option></select>
+    </div>`,
+  date: () => `
+    <div class="toggle-row">
+      <span class="toggle-label">Include time</span>
+      <label class="toggle"><input type="checkbox" id="cfg-include_time"><span class="toggle-track"></span></label>
+    </div>`,
+  tags: () => `
+    <div class="form-group"><label>Suggestions (comma-separated)</label><input type="text" id="cfg-suggestions" placeholder="e.g. focus, tired, blocked"></div>
+    <div class="toggle-row" style="margin-top:8px">
+      <span class="toggle-label">Allow free input</span>
+      <label class="toggle"><input type="checkbox" id="cfg-free_input" checked><span class="toggle-track"></span></label>
+    </div>`,
+  checklist: () => `
+    <div class="form-group">
+      <label>Items</label>
+      <div class="options-list" id="options-list"></div>
+      <button class="btn btn-ghost btn-icon add" style="width:100%;height:34px;font-size:12px" onclick="addOption()">+ add item</button>
+    </div>`,
+  link: () => `
+    <div class="toggle-row">
+      <span class="toggle-label">Allow multiple links</span>
+      <label class="toggle"><input type="checkbox" id="cfg-allow_multiple"><span class="toggle-track"></span></label>
+    </div>`,
+};
+
+function selectType(type) {
+  selectedType = type;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-type="${type}"]`).classList.add('active');
+  const fn = TYPE_CONFIGS[type];
+  document.getElementById('type-config').innerHTML = fn
+    ? `<div class="form-group"><label>Config — ${type}</label><div class="config-block">${fn()}</div></div>` : '';
+  if (type === 'select' || type === 'checklist') addOption();
+}
+
+function addOption() {
+  const list = document.getElementById('options-list');
+  if (!list) return;
+  const row = document.createElement('div');
+  row.className = 'option-row';
+  row.innerHTML = `<input type="text" placeholder="value"><button class="btn-icon" onclick="this.parentElement.remove()">×</button>`;
+  list.appendChild(row);
+  row.querySelector('input').focus();
+}
+
+function collectConfig() {
+  const cfg = {};
+  const get  = id => { const e=document.getElementById(id); return e?e.value.trim():null; };
+  const getN = id => { const e=document.getElementById(id); return e&&e.value!==''?parseFloat(e.value):null; };
+  const getB = id => { const e=document.getElementById(id); return e?e.checked:false; };
+  switch (selectedType) {
+    case 'text': case 'textarea':
+      if (get('cfg-placeholder')) cfg.placeholder = get('cfg-placeholder');
+      if (getN('cfg-max_length')) cfg.max_length = getN('cfg-max_length');
+      break;
+    case 'number':
+      if (getN('cfg-min')!==null) cfg.min=getN('cfg-min');
+      if (getN('cfg-max')!==null) cfg.max=getN('cfg-max');
+      if (getN('cfg-step')!==null) cfg.step=getN('cfg-step');
+      if (get('cfg-unit')) cfg.unit=get('cfg-unit');
+      if (get('cfg-placeholder')) cfg.placeholder=get('cfg-placeholder');
+      break;
+    case 'scale':
+      cfg.min=getN('cfg-min')??1; cfg.max=getN('cfg-max')??10;
+      if (get('cfg-labels')) cfg.labels=get('cfg-labels').split(',').map(s=>s.trim());
+      break;
+    case 'select':
+      cfg.options=[...document.querySelectorAll('#options-list .option-row input')].map(i=>i.value.trim()).filter(Boolean);
+      cfg.multi=getB('cfg-multi'); break;
+    case 'boolean':
+      cfg.true_label=get('cfg-true_label')||'Yes'; cfg.false_label=get('cfg-false_label')||'No'; break;
+    case 'duration': cfg.unit=get('cfg-unit')||'min'; break;
+    case 'time': cfg.format=get('cfg-format')||'24h'; break;
+    case 'date': cfg.include_time=getB('cfg-include_time'); break;
+    case 'tags': {
+      const s=get('cfg-suggestions'); if(s) cfg.suggestions=s.split(',').map(x=>x.trim()).filter(Boolean);
+      cfg.free_input=getB('cfg-free_input'); break;
+    }
+    case 'checklist':
+      cfg.items=[...document.querySelectorAll('#options-list .option-row input')].map(i=>i.value.trim()).filter(Boolean); break;
+    case 'link': cfg.allow_multiple=getB('cfg-allow_multiple'); break;
+  }
+  return cfg;
+}
+
+function saveField() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { flash('f-name','Need a name'); return; }
+  if (!selectedType) { alert('Pick a field type'); return; }
+  const field = {
+    _id: editingId || crypto.randomUUID(),
+    name, type: selectedType,
+    context: document.getElementById('f-context').value.trim() || null,
+    display_order: parseInt(document.getElementById('f-order').value) || fields.length+1,
+    config: collectConfig(),
+    is_required: document.getElementById('f-required').checked,
+    is_archived: document.getElementById('f-archived').checked,
+    created_at: editingId?(fields.find(f=>f._id===editingId)?.created_at||new Date().toISOString()):new Date().toISOString(),
+  };
+  if (editingId) { fields[fields.findIndex(f=>f._id===editingId)]=field; editingId=null; document.getElementById('save-btn').textContent='+ Add field'; }
+  else fields.push(field);
+  persist(); renderList(); switchTab('preview');
+  resetForm();
+}
+
+function flash(id, msg) {
+  const el=document.getElementById(id); el.style.borderColor='var(--warn)'; el.placeholder=msg;
+  setTimeout(()=>{el.style.borderColor='';el.placeholder='';},1600); el.focus();
+}
+
+function resetForm() {
+  ['f-name','f-context','f-order'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-required').checked=false;
+  document.getElementById('f-archived').checked=false;
+  document.getElementById('type-config').innerHTML='';
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
+  selectedType=null; editingId=null;
+  document.getElementById('save-btn').textContent='+ Add field';
+}
+
+// ── fields list ──
+function renderList() {
+  const list = document.getElementById('fields-list');
+  document.getElementById('count-badge').textContent = fields.length;
+  if (!fields.length) { list.innerHTML=`<div class="empty-state"><div class="big">◫</div><p>No fields yet.</p></div>`; return; }
+  const sorted = [...fields].sort((a,b)=>(a.display_order||99)-(b.display_order||99));
+  list.innerHTML = sorted.map(f => {
+    const cfgLines = Object.entries(f.config||{}).map(([k,v])=>{
+      const val=Array.isArray(v)?`[${v.map(x=>typeof x==='string'?`"${x}"`:x).join(', ')}]`:typeof v==='string'?`"${v}"`:v;
+      return `<span class="config-key">${k}</span>: <span class="${typeof v==='string'?'config-str':'config-val'}">${val}</span>`;
+    }).join('\n');
+    return `<div class="field-card" id="card-${f._id}">
+      <div class="field-card-head" onclick="toggleCard('${f._id}')">
+        <span class="field-type-badge">${f.type}</span>
+        <span class="field-name">${f.name}</span>
+        ${f.context?`<span class="field-context">${f.context}</span>`:''}
+        <div class="field-card-actions">
+          <button class="card-btn" onclick="event.stopPropagation();editField('${f._id}')">✎</button>
+          <button class="card-btn del" onclick="event.stopPropagation();deleteField('${f._id}')">✕</button>
+        </div>
+      </div>
+      <div class="field-card-body" id="body-${f._id}">
+        ${f.is_required?`<div style="margin-bottom:6px"><span style="color:var(--warn);font-size:10px;font-family:var(--mono)">required</span></div>`:''}
+        <div class="config-preview">${cfgLines||'<span style="color:var(--dim)">no config</span>'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCard(id) { document.getElementById(`body-${id}`).classList.toggle('open'); }
+
+function deleteField(id) {
+  fields=fields.filter(f=>f._id!==id);
+  const card=document.getElementById(`card-${id}`);
+  if(card){card.style.opacity='0';card.style.transform='translateX(8px)';card.style.transition='.15s';}
+  setTimeout(()=>{persist();renderList();renderPreview();},150);
+}
+
+function clearAll() {
+  if(!fields.length||confirm('Delete all fields?')){fields=[];persist();renderList();renderPreview();}
+}
+
+function editField(id) {
+  const f=fields.find(x=>x._id===id); if(!f) return;
+  editingId=id;
+  document.getElementById('f-name').value=f.name;
+  document.getElementById('f-context').value=f.context||'';
+  document.getElementById('f-order').value=f.display_order||'';
+  document.getElementById('f-required').checked=f.is_required;
+  document.getElementById('f-archived').checked=f.is_archived;
+  selectType(f.type);
+  setTimeout(()=>{
+    const c=f.config||{};
+    const set=(id,val)=>{const e=document.getElementById(id);if(e){if(e.type==='checkbox')e.checked=val;else e.value=val;}};
+    switch(f.type){
+      case 'text': case 'textarea': set('cfg-placeholder',c.placeholder||'');set('cfg-max_length',c.max_length||'');break;
+      case 'number': set('cfg-min',c.min??'');set('cfg-max',c.max??'');set('cfg-step',c.step??'');set('cfg-unit',c.unit||'');set('cfg-placeholder',c.placeholder||'');break;
+      case 'scale': set('cfg-min',c.min??'');set('cfg-max',c.max??'');set('cfg-labels',(c.labels||[]).join(','));break;
+      case 'select':{const l=document.getElementById('options-list');l.innerHTML='';(c.options||[]).forEach(o=>{addOption();l.lastChild.querySelector('input').value=o;});set('cfg-multi',c.multi);break;}
+      case 'boolean': set('cfg-true_label',c.true_label||'');set('cfg-false_label',c.false_label||'');break;
+      case 'duration': set('cfg-unit',c.unit||'min');break;
+      case 'time': set('cfg-format',c.format||'24h');break;
+      case 'date': set('cfg-include_time',c.include_time||false);break;
+      case 'tags': set('cfg-suggestions',(c.suggestions||[]).join(', '));set('cfg-free_input',c.free_input!==false);break;
+      case 'checklist':{const l=document.getElementById('options-list');l.innerHTML='';(c.items||[]).forEach(o=>{addOption();l.lastChild.querySelector('input').value=o;});break;}
+      case 'link': set('cfg-allow_multiple',c.allow_multiple||false);break;
+    }
+  },10);
+  document.getElementById('save-btn').textContent='Save changes';
+  document.querySelector('.form-panel').scrollTo({top:0,behavior:'smooth'});
+  switchTab('fields');
+}
+
+// ── PREVIEW ──
+function renderPreview() {
+  const wrap = document.getElementById('preview-form');
+  if (!fields.length) {
+    wrap.innerHTML=`<div class="empty-state"><div class="big" style="font-size:32px;opacity:.3">👁</div><p>Add fields on the left.<br>They'll appear here as live inputs.</p></div>`;
+    return;
+  }
+  const sorted = [...fields].filter(f=>!f.is_archived).sort((a,b)=>(a.display_order||99)-(b.display_order||99));
+  const groups={};
+  sorted.forEach(f=>{ const k=f.context||'__'; if(!groups[k])groups[k]=[]; groups[k].push(f); });
+
+  let html='';
+  const keys=Object.keys(groups);
+  const multi=keys.length>1||(keys[0]&&keys[0]!=='__');
+
+  keys.forEach((ctx,gi)=>{
+    if(multi){ html+=`<div class="pf-context-sep">${ctx==='__'?'general':ctx}</div>`; }
+    groups[ctx].forEach(f=>{ html+=buildFieldHTML(f); });
+  });
+
+  html+=`<div class="preview-submit">
+    <button class="btn btn-ghost" onclick="renderPreview()">Clear</button>
+    <button class="btn btn-primary" onclick="collectPreviewValues()">Simulate submit →</button>
+  </div>
+  <pre class="preview-output" id="preview-output"></pre>`;
+
+  wrap.innerHTML=html;
+}
+
+function buildFieldHTML(f) {
+  const c=f.config||{};
+  const req=f.is_required?'<span class="pf-req">*</span>':'';
+  let input='';
+
+  switch(f.type) {
+    case 'text':
+      input=`<input type="text" id="pf-${f._id}" placeholder="${c.placeholder||''}" ${c.max_length?`maxlength="${c.max_length}"`:''}>`;
+      break;
+    case 'textarea':
+      input=`<textarea id="pf-${f._id}" placeholder="${c.placeholder||''}" ${c.max_length?`maxlength="${c.max_length}"`:''} rows="3"></textarea>`;
+      break;
+    case 'number': {
+      const a=[c.min!==undefined?`min="${c.min}"`:'',(c.max!==undefined?`max="${c.max}"`:''),c.step!==undefined?`step="${c.step}"`:'',c.placeholder?`placeholder="${c.placeholder}"`:''].join(' ');
+      input=c.unit
+        ?`<div class="pf-number-wrap"><input type="number" id="pf-${f._id}" ${a}><span class="pf-unit">${c.unit}</span></div>`
+        :`<input type="number" id="pf-${f._id}" ${a}>`;
+      break;
+    }
+    case 'scale': {
+      const min=c.min??1, max=c.max??10;
+      const lbls=c.labels||[];
+      const lbl0=lbls[0]||String(min), lblN=lbls[lbls.length-1]||String(max);
+      input=`<div>
+        <div class="pf-scale-row">
+          <input type="range" id="pf-${f._id}" min="${min}" max="${max}" value="${min}" oninput="document.getElementById('pf-sv-${f._id}').textContent=this.value">
+          <span class="pf-scale-val" id="pf-sv-${f._id}">${min}</span>
+        </div>
+        <div class="pf-scale-ends"><span>${lbl0}</span><span>${lblN}</span></div>
+      </div>`;
+      break;
+    }
+    case 'select': {
+      const opts=c.options||[];
+      if(c.multi){
+        input=`<div class="pf-multiselect" id="pf-${f._id}">${opts.map(o=>`<div class="pf-opt" onclick="this.classList.toggle('sel')">${o}</div>`).join('')}</div>`;
+      } else {
+        input=`<select id="pf-${f._id}"><option value="">— select —</option>${opts.map(o=>`<option>${o}</option>`).join('')}</select>`;
+      }
+      break;
+    }
+    case 'boolean': {
+      const tl=c.true_label||'Yes', fl=c.false_label||'No';
+      input=`<div class="pf-bool-wrap" onclick="toggleBool('${f._id}')">
+        <span class="pf-bool-lbl" id="pf-bl-${f._id}">${fl}</span>
+        <div class="pf-bool-pill" id="pf-${f._id}" data-val="false" data-true="${tl}" data-false="${fl}"></div>
+      </div>`;
+      break;
+    }
+    case 'duration':
+      input=`<div class="pf-number-wrap"><input type="number" id="pf-${f._id}" min="0" step="1" placeholder="0"><span class="pf-unit">${c.unit||'min'}</span></div>`;
+      break;
+    case 'time':
+      input=`<input type="time" id="pf-${f._id}">`;
+      break;
+    case 'date':
+      input=`<input type="${c.include_time?'datetime-local':'date'}" id="pf-${f._id}">`;
+      break;
+    case 'tags': {
+      const suggs=c.suggestions||[];
+      const suggHtml=suggs.length?`<div class="pf-sugg">${suggs.map(s=>`<span class="pf-sugg-chip" onclick="addTag('${f._id}','${s}')">${s}</span>`).join('')}</div>`:'';
+      input=`<div>
+        <div class="pf-tags-wrap" id="pf-${f._id}">
+          ${c.free_input!==false?`<input class="pf-tag-input" placeholder="type + enter..." onkeydown="tagKeydown(event,'${f._id}')">` : ''}
+        </div>${suggHtml}
+      </div>`;
+      break;
+    }
+    case 'checklist': {
+      const items=c.items||[];
+      input=`<div class="pf-checklist" id="pf-${f._id}">${items.map((item,i)=>`
+        <div class="pf-check-item" id="pci-${f._id}-${i}" onclick="toggleCheck('${f._id}',${i})">
+          <div class="pf-check-box" id="pcb-${f._id}-${i}"></div>
+          <span class="pf-check-text">${item}</span>
+        </div>`).join('')}
+        ${!items.length?`<div style="color:var(--dim);font-size:12px;font-family:var(--mono);padding:4px">no items defined</div>`:''}</div>`;
+      break;
+    }
+    case 'link':
+      input=`<div id="pf-${f._id}" class="pf-link-list">
+        <div class="pf-link-row"><input type="url" placeholder="https://"><button class="btn-icon" onclick="removeLinkRow(this)">×</button></div>
+        ${c.allow_multiple?`<button class="pf-link-add" onclick="addLinkRow('${f._id}')">+ add link</button>`:''}
+      </div>`;
+      break;
+    default:
+      input=`<input type="text" id="pf-${f._id}">`;
+  }
+
+  return `<div class="pf">
+    <div class="pf-label">${f.name} ${req} <span class="pf-type">${f.type}</span></div>
+    ${input}
+  </div>`;
+}
+
+// preview interactive handlers
+function toggleBool(id) {
+  const pill=document.getElementById(`pf-${id}`), lbl=document.getElementById(`pf-bl-${id}`);
+  const on=pill.dataset.val==='true';
+  pill.dataset.val=on?'false':'true';
+  pill.classList.toggle('on',!on);
+  lbl.textContent=on?pill.dataset.false:pill.dataset.true;
+}
+function toggleCheck(fid,idx) {
+  document.getElementById(`pci-${fid}-${idx}`).classList.toggle('checked');
+  const box=document.getElementById(`pcb-${fid}-${idx}`);
+  const isNowChecked=document.getElementById(`pci-${fid}-${idx}`).classList.contains('checked');
+  box.classList.toggle('checked',isNowChecked);
+  box.textContent=isNowChecked?'✓':'';
+}
+function tagKeydown(e,id) {
+  if(e.key!=='Enter'&&e.key!==',') return;
+  e.preventDefault(); const v=e.target.value.trim(); if(!v) return;
+  addTag(id,v); e.target.value='';
+}
+function addTag(id,val) {
+  const wrap=document.getElementById(`pf-${id}`);
+  if([...wrap.querySelectorAll('.pf-tag')].some(t=>t.dataset.val===val)) return;
+  const tag=document.createElement('div'); tag.className='pf-tag'; tag.dataset.val=val;
+  tag.innerHTML=`${val}<button onclick="this.parentElement.remove()">×</button>`;
+  const inp=wrap.querySelector('.pf-tag-input');
+  inp?wrap.insertBefore(tag,inp):wrap.appendChild(tag);
+}
+function addLinkRow(id) {
+  const wrap=document.getElementById(`pf-${id}`), add=wrap.querySelector('.pf-link-add');
+  const row=document.createElement('div'); row.className='pf-link-row';
+  row.innerHTML=`<input type="url" placeholder="https://"><button class="btn-icon" onclick="removeLinkRow(this)">×</button>`;
+  wrap.insertBefore(row,add);
+}
+function removeLinkRow(btn) {
+  const wrap=btn.closest('.pf-link-list');
+  if(wrap.querySelectorAll('.pf-link-row').length>1) btn.closest('.pf-link-row').remove();
+  else btn.closest('.pf-link-row').querySelector('input').value='';
+}
+
+// simulate submit — show what the DB object would look like
+function collectPreviewValues() {
+  const result={};
+  const sorted=[...fields].filter(f=>!f.is_archived).sort((a,b)=>(a.display_order||99)-(b.display_order||99));
+  sorted.forEach(f=>{
+    const el=document.getElementById(`pf-${f._id}`); if(!el) return;
+    switch(f.type){
+      case 'text': case 'textarea': case 'time': case 'date': result[f.name]=el.value||null; break;
+      case 'number': case 'duration': result[f.name]=el.value!==''?parseFloat(el.value):null; break;
+      case 'scale': result[f.name]=parseInt(el.value); break;
+      case 'select':
+        result[f.name]=f.config?.multi
+          ?[...el.querySelectorAll('.pf-opt.sel')].map(o=>o.textContent)
+          :(el.value||null); break;
+      case 'boolean': result[f.name]=el.dataset.val==='true'; break;
+      case 'tags': result[f.name]=[...el.querySelectorAll('.pf-tag')].map(t=>t.dataset.val); break;
+      case 'checklist': result[f.name]=[...el.querySelectorAll('.pf-check-item')].map((item,i)=>({item:item.querySelector('.pf-check-text').textContent,checked:item.classList.contains('checked')})); break;
+      case 'link': result[f.name]=[...el.querySelectorAll('input[type=url]')].map(i=>i.value).filter(Boolean); break;
+    }
+  });
+  const out=document.getElementById('preview-output');
+  out.textContent=JSON.stringify(result,null,2);
+  out.classList.add('show');
+  out.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ── JSON export ──
+function updateJSON() {
+  const out=document.getElementById('json-output');
+  if(!fields.length){out.textContent='// no fields defined yet';return;}
+  out.textContent=JSON.stringify(fields.map(f=>({
+    name:f.name,type:f.type,...(f.context?{context:f.context}:{}),
+    display_order:f.display_order,config:f.config,
+    is_required:f.is_required,is_archived:f.is_archived,
+    created_at:{$date:f.created_at}
+  })),null,2);
+}
+function exportJSON(){updateJSON();switchTab('json');}
+function copyJSON(){
+  navigator.clipboard.writeText(document.getElementById('json-output').textContent).then(()=>{
+    const btn=event.target; btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy to clipboard',1500);
+  });
+}
+
+// ── tabs ──
+function switchTab(name) {
+  const names=['fields','preview','json'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===name));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(`view-${name}`).classList.add('active');
+  if(name==='json') updateJSON();
+  if(name==='preview') renderPreview();
+}
+
+function persist(){localStorage.setItem('fb_fields',JSON.stringify(fields));}
+
+// init
+renderList(); renderPreview();
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+```json id="p4s9kx"
+user {
+  // ===================== IDENTITY =====================
+  id                  // unique user identifier
+  username            // unique username for login/display
+  name                // full name of the user
+  email               // email address
+  phone_no            // contact number
+  password_hash       // securely stored password hash
+
+  age                 // current age
+  DOB                 // date of birth
+  time_zones          // user's time zone(s)
+
+
+  // ===================== BODY / HEALTH =====================
+  body_metrics {      // physical/health-related data (external schema reference)
+    // using body metric schema
+  }
+
+
+  // ===================== ORGANIZATION SYSTEM =====================
+  categories {        // hierarchical categories for organizing data
+    id
+    name
+    parent_category_id   // null if top-level, otherwise points to parent category
+  }
+
+  projects {          // hierarchical project structure
+    id
+    name
+    parent_project_id    // supports nesting of projects (sub-projects)
+  }
+
+  labels              // global reusable tags across all modules (tasks, logs, etc.)
+
+
+  // ===================== CONFIGURATION =====================
+  meditation {        // meditation customization and user-defined options
+    types: [          // predefined + extendable meditation types
+      "breath",
+      "mantra",
+      "guided",
+      "silent",
+      "walking",
+      "body_scan",
+      "mindfulness"
+    ]
+    techniques        // specific techniques (e.g. box breathing, visualization)
+    posture           // sitting, lying, walking, etc.
+    environment       // quiet, music, nature, noisy, etc.
+  }
+
+  task_types          // predefined types for tasks (e.g. work, study, personal)
+  locations           // commonly used locations for sessions (home, library, etc.)
+
+
+  // ===================== GOALS =====================
+  sleep_goals {       // target sleep schedule configuration
+    start_time        // intended sleep start time
+    wake_time         // intended wake-up time
+    target_sleep_hours // desired sleep duration
+  }
+
+  global_goals [      // high-level goals spanning multiple modules
+    {
+      id
+      title
+      type              // health | productivity | spiritual | social
+      target_value      // numeric goal target
+      unit              // unit of measurement (hours, days, etc.)
+      deadline          // goal completion deadline
+      priority          // importance level
+      linked_modules[]  // modules involved (e.g. sleep, meditation, work)
+    }
+  ]
+
+  screen_time_target          // daily allowed screen time limit
+
+  daily_work_hours_goal       // daily target work duration
+  daily_meditation_goal       // daily meditation goal
+  daily_devotion_goal         // daily devotion/spiritual goal
+
+
+  // ===================== AGGREGATES =====================
+  sleep_debt                  // accumulated sleep deficit over time
+  total_dream_count           // total number of dreams recorded
+
+  total_meditation_hours      // cumulative meditation duration
+  total_devotion_hours        // cumulative devotion duration
+  total_sleep_hours           // cumulative sleep duration
+  total_gaming_hours          // cumulative gaming time
+  total_work_hours            // cumulative work duration
+
+
+  // ===================== PREFERENCES =====================
+  preferences {               // user-specific app behavior and settings
+    notifications_enabled     // toggle notifications on/off
+    theme                     // UI theme preference (light/dark/system)
+
+    active_modules {          // feature toggles for different modules
+      mood
+      sexual_regulation
+      meditation
+      devotion
+      work
+      screen_time
+      health
+      physical_activity
+      hobby
+      nutrition
+      tasks
+      daily_evaluation
+    }
+
+    start_of_day_offset_hours  // custom day start (e.g. 3 = day starts at 3 AM, 0 = 12 am and the scale is 0-6)
+  }
+}
+```
