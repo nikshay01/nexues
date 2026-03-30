@@ -1,0 +1,24 @@
+{
+  "timestamp_start": "2026-03-28T09:28",
+  "timestamp_end": "2026-03-28T10:36",
+  "enjoyment": 5,
+  "performance_rating": 6,
+  "tilt_frustration_level": 2,
+  "flow_state_level": 6,
+  "fatigue_after": 5,
+  "eye_strain": 3,
+  "posture_quality": 6,
+  "custom_metrics": [
+    {
+      "intensity_or_scale": 5,
+      "metric_name": "Level",
+      "value": "46"
+    }
+  ],
+  "duration_minutes": 68,
+  "game_name": "Duet night abyss ",
+  "platform": "Mobile",
+  "session_type": "grinding",
+  "social_context": "solo",
+  "notes": "Completed first theatre and leveled niffle and lynm to 60"
+}
