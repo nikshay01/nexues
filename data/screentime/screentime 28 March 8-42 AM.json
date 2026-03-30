@@ -1,0 +1,19 @@
+{
+  "date": "2026-03-28",
+  "custom_metrics": [
+    {
+      "intensity_or_scale": 5,
+      "notes": "4hr insta 1hr yt 30min dc"
+    }
+  ],
+  "total_screen_time_minutes": 454,
+  "unlock_count": 89,
+  "social_media_minutes": 330,
+  "entertainment_minutes": 30,
+  "productive_minutes": 0,
+  "learning_minutes": 0,
+  "gaming_minutes": 102,
+  "short_form_used": true,
+  "intentional_percent": 33,
+  "autopilot_percent": 67
+}

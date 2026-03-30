@@ -1,0 +1,15 @@
+{
+  "date": "2026-03-25",
+  "custom_metrics": [],
+  "total_screen_time_minutes": 528,
+  "unlock_count": 38,
+  "social_media_minutes": 300,
+  "entertainment_minutes": 0,
+  "productive_minutes": 90,
+  "learning_minutes": 0,
+  "gaming_minutes": 20,
+  "intentional_percent": 40,
+  "autopilot_percent": 60,
+  "late_night_usage": true,
+  "in_bed_usage": true
+}

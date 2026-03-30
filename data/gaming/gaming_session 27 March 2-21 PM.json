@@ -1,0 +1,18 @@
+{
+  "timestamp_start": "2026-03-27T12:35",
+  "timestamp_end": "2026-03-27T14:17",
+  "enjoyment": 7,
+  "performance_rating": 4,
+  "tilt_frustration_level": 4,
+  "flow_state_level": 6,
+  "fatigue_after": 6,
+  "eye_strain": 7,
+  "posture_quality": 7,
+  "custom_metrics": [],
+  "duration_minutes": 102,
+  "game_name": "brawlhalla",
+  "platform": "PC",
+  "session_type": "competitive",
+  "social_context": "friends online",
+  "notes": "40% 0.4 and -70% 0.6 in left eye and 30% 0.2 and -20% 0.5\nmy vertical diplopia's status at the end of the session "
+}

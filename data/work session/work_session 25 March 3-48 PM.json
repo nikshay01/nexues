@@ -1,0 +1,31 @@
+{
+  "timestamp_start": "2026-03-25T13:18",
+  "total_pause_minutes": 5,
+  "timestamp_end": "2026-03-25T15:08",
+  "focus_level": 6,
+  "output_score": 7,
+  "pauses": [
+    {
+      "duration_minutes": 5,
+      "reason": "for water,pee etc"
+    }
+  ],
+  "mental_energy": 3,
+  "physical_energy": 6,
+  "clarity": 6,
+  "motivation": 4,
+  "confidence": 5,
+  "tiredness": 7,
+  "frustration": 3,
+  "stress": 2,
+  "sleepiness": 6,
+  "session_quality": 5,
+  "custom_metrics": [],
+  "duration_minutes": 110,
+  "total_productive_minutes": 105,
+  "task_type": "professional",
+  "task_name": "user schema and custom schema",
+  "project": "self management app",
+  "session_description": "\n-15% 0.5 left 10min: started writing user scheam myself without ai help\n-15% 0.4 left 25min: 50% done with the schema and optimizing other schemas\n-10% 0.6 left 45min: done with user schema just tweaking it\n-20% 0.7 left 55min: done with user schema and now creating the custom metric schema\n-10% 0.6 left 70min: took a break and workingon sleep debt module which was wrong before and workingon custom matric schema as well\n-20% 0.6 left 83min: done with custom schema system and fine tuning the user schema\n-40% 0.5 left 110min: completed user schema and gonna take lunch break\n\nguess i never returned after that luch\nNotes\nvertical monocular diplopia\n(L, R) = perceived ghosting intensity per eye\nDual mode aligns with your “worst” state (both above and below visible)\n\nDefinitions (standardized)\nIntensity (0–6): your original scale → perceived severity\nOpacity (α): 0.0–1.0 (how visible the ghost is)\nPosition (%): vertical offset of ghost relative to source text\nTop: ghost above text (e.g., +80%)\nBottom: ghost below text (e.g., −30%)\nMode:\nSingle: one ghost (top or bottom)\nDual: both top and bottom ghosts present",
+  "location": "work room"
+}
