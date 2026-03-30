@@ -1,0 +1,17 @@
+{
+  "timestamp_start": "2026-03-29T10:50",
+  "timestamp_end": "2026-03-29T11:51",
+  "enjoyment": 7,
+  "performance_rating": 3,
+  "tilt_frustration_level": 6,
+  "flow_state_level": 6,
+  "fatigue_after": 5,
+  "eye_strain": 4,
+  "posture_quality": 9,
+  "custom_metrics": [],
+  "duration_minutes": 61,
+  "game_name": "brawlhalla",
+  "platform": "PC",
+  "session_type": "competitive",
+  "social_context": "friends online"
+}
