@@ -1,0 +1,19 @@
+{
+  "date": "2026-03-30",
+  "morning_energy": 6,
+  "midday_energy": 7,
+  "evening_energy": 6,
+  "morning_body_stiffness": 0,
+  "soreness_scale": 0,
+  "headache_intensity": 1,
+  "digestion_quality": 2,
+  "hydration_level": 3,
+  "sickness_intensity": 0,
+  "symptoms": [],
+  "breathing_quality": 3,
+  "cough_intensity": 0,
+  "mental_fatigue": 2,
+  "physical_fatigue": 3,
+  "stomach_discomfort": 5,
+  "custom_metrics": []
+}
