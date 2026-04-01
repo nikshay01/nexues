@@ -39,11 +39,7 @@
   }
   .container { max-width:1280px; margin:0 auto; padding:40px 24px; position:relative; z-index:1; }
 
-  /* Header */
-  .header {
-    text-align:center; margin-bottom:48px;
-    animation: fadeInDown 0.8s ease;
-  }
+  .header { text-align:center; margin-bottom:48px; animation: fadeInDown 0.8s ease; }
   .header h1 {
     font-size:3rem; font-weight:900;
     background:linear-gradient(135deg, var(--accent), var(--accent2));
@@ -56,18 +52,21 @@
     background:rgba(99,102,241,0.1); border:1px solid var(--card-border);
     border-radius:100px; font-size:0.85rem; color:var(--accent);
   }
+  .header .live-badge {
+    display:inline-block; margin-left:10px; padding:4px 12px;
+    background:rgba(74,222,128,0.15); border:1px solid rgba(74,222,128,0.3);
+    border-radius:100px; font-size:0.75rem; color:var(--good); font-weight:600;
+    animation: pulse 2s ease-in-out infinite;
+  }
 
-  /* Grid */
   .grid { display:grid; gap:24px; margin-bottom:32px; }
   .grid-4 { grid-template-columns:repeat(4,1fr); }
   .grid-3 { grid-template-columns:repeat(3,1fr); }
   .grid-2 { grid-template-columns:repeat(2,1fr); }
   .grid-1 { grid-template-columns:1fr; }
-
   @media(max-width:1024px) { .grid-4,.grid-3 { grid-template-columns:repeat(2,1fr); } }
   @media(max-width:640px) { .grid-4,.grid-3,.grid-2 { grid-template-columns:1fr; } }
 
-  /* Cards */
   .card {
     background:var(--card);
     border:1px solid var(--card-border);
@@ -82,7 +81,6 @@
     box-shadow:0 8px 32px rgba(99,102,241,0.12);
   }
 
-  /* KPI cards */
   .kpi { text-align:center; }
   .kpi .icon { font-size:1.6rem; margin-bottom:8px; }
   .kpi .value { font-size:2.4rem; font-weight:800; letter-spacing:-1px; line-height:1.1; }
@@ -95,36 +93,24 @@
   .val-accent { color:var(--accent); }
   .val-pink { color:var(--accent2); }
 
-  /* Section titles */
   .section-title {
     font-size:1.5rem; font-weight:700; margin-bottom:20px;
     display:flex; align-items:center; gap:10px;
   }
-  .section-title .dot {
-    width:10px; height:10px; border-radius:50%;
-    background:var(--accent);
-  }
+  .section-title .dot { width:10px; height:10px; border-radius:50%; background:var(--accent); }
 
-  /* Chart containers */
   .chart-box { position:relative; height:320px; }
   .chart-box canvas { max-height:100%; }
 
-  /* Tables */
   .data-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
   .data-table th {
     text-align:left; padding:10px 12px; color:var(--text-dim);
     font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px;
     border-bottom:1px solid var(--card-border);
   }
-  .data-table td {
-    padding:10px 12px; border-bottom:1px solid rgba(99,102,241,0.08);
-  }
+  .data-table td { padding:10px 12px; border-bottom:1px solid rgba(99,102,241,0.08); }
   .data-table tr:hover td { background:rgba(99,102,241,0.04); }
 
-  /* Bar mini */
-  .mini-bar { display:inline-block; height:8px; border-radius:4px; vertical-align:middle; }
-
-  /* Insight boxes */
   .insight-box {
     background:rgba(99,102,241,0.06);
     border-left:3px solid var(--accent);
@@ -138,144 +124,101 @@
   .insight-box.danger { border-left-color:var(--danger); background:rgba(248,113,113,0.06); }
   .insight-box.good { border-left-color:var(--good); background:rgba(74,222,128,0.06); }
   .insight-box strong { color:var(--text); }
-  .insight-box .tag {
-    display:inline-block; padding:2px 8px; border-radius:6px;
-    font-size:0.72rem; font-weight:600; margin-right:6px;
-  }
+  .tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:0.72rem; font-weight:600; margin-right:6px; }
   .tag-finding { background:rgba(99,102,241,0.2); color:var(--accent); }
   .tag-warning { background:rgba(248,113,113,0.2); color:var(--danger); }
   .tag-tip { background:rgba(52,211,153,0.2); color:var(--accent3); }
   .tag-stat { background:rgba(251,191,36,0.2); color:var(--accent4); }
 
-  /* Correlation matrix */
-  .corr-cell {
-    display:inline-flex; align-items:center; justify-content:center;
-    width:52px; height:52px; border-radius:10px; font-size:0.72rem; font-weight:700;
-    margin:2px;
-  }
-
-  /* Animations */
-  @keyframes fadeInUp {
-    from { opacity:0; transform:translateY(24px); }
-    to { opacity:1; transform:translateY(0); }
-  }
-  @keyframes fadeInDown {
-    from { opacity:0; transform:translateY(-24px); }
-    to { opacity:1; transform:translateY(0); }
-  }
-
-  /* Score badge */
   .score-badge {
     display:inline-flex;align-items:center;justify-content:center;
     width:36px;height:36px;border-radius:10px;font-weight:700;font-size:0.85rem;
   }
-
-  /* Scrollable */
   .scroll-x { overflow-x:auto; }
 
-  /* Footer */
-  .footer {
-    text-align:center; padding:48px 0 24px;
-    color:var(--text-dim); font-size:0.78rem;
-  }
-
-  /* Divider */
   hr.section-divider {
     border:none; height:1px; margin:48px 0;
     background:linear-gradient(90deg, transparent, var(--card-border), transparent);
   }
+
+  .footer { text-align:center; padding:48px 0 24px; color:var(--text-dim); font-size:0.78rem; }
+
+  /* Loading overlay */
+  #loading-overlay {
+    position:fixed; inset:0; z-index:1000;
+    background:var(--bg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition: opacity 0.5s;
+  }
+  #loading-overlay.hidden { opacity:0; pointer-events:none; }
+  .loader { width:48px; height:48px; border:3px solid var(--card-border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; }
+  .loader-text { color:var(--text-dim); margin-top:16px; font-size:0.9rem; }
+
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeInDown { from{opacity:0;transform:translateY(-24px)}to{opacity:1;transform:translateY(0)} }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.5} }
 </style>
 </head>
 <body>
 
-<div class="container">
+<!-- Loading overlay -->
+<div id="loading-overlay">
+  <div class="loader"></div>
+  <div class="loader-text">Loading sleep data from folder…</div>
+</div>
 
-  <!-- HEADER -->
+<div class="container" id="app" style="display:none">
+
   <div class="header">
     <h1>🌙 Sleep Deep Dive</h1>
     <p class="subtitle">Comprehensive Sleep Pattern Analysis &amp; Insights</p>
-    <span class="date-range">March 20 – March 30, 2026 · 11 sessions tracked</span>
+    <span class="date-range" id="dateRange"></span>
+    <span class="live-badge">● LIVE — Auto-updates on refresh</span>
   </div>
 
-  <!-- KPI ROW 1 -->
   <div id="kpi-row" class="grid grid-4"></div>
-
   <hr class="section-divider">
 
-  <!-- SLEEP DURATION TREND -->
   <div class="section-title"><span class="dot"></span> Sleep Duration Trend</div>
-  <div class="grid grid-1">
-    <div class="card" style="animation-delay:0.1s">
-      <div class="chart-box"><canvas id="chartDuration"></canvas></div>
-    </div>
-  </div>
-
+  <div class="grid grid-1"><div class="card"><div class="chart-box"><canvas id="chartDuration"></canvas></div></div></div>
   <hr class="section-divider">
 
-  <!-- QUALITY & RESTFULNESS -->
   <div class="section-title"><span class="dot" style="background:var(--accent2)"></span> Quality &amp; Restfulness</div>
   <div class="grid grid-2">
-    <div class="card" style="animation-delay:0.15s">
-      <div class="chart-box"><canvas id="chartQuality"></canvas></div>
-    </div>
-    <div class="card" style="animation-delay:0.2s">
-      <div class="chart-box"><canvas id="chartRadar"></canvas></div>
-    </div>
+    <div class="card"><div class="chart-box"><canvas id="chartQuality"></canvas></div></div>
+    <div class="card"><div class="chart-box"><canvas id="chartRadar"></canvas></div></div>
   </div>
-
   <hr class="section-divider">
 
-  <!-- BEDTIME DISCIPLINE -->
   <div class="section-title"><span class="dot" style="background:var(--accent4)"></span> Bedtime Discipline</div>
   <div class="grid grid-2">
-    <div class="card" style="animation-delay:0.25s">
-      <div class="chart-box"><canvas id="chartBedtime"></canvas></div>
-    </div>
-    <div class="card" style="animation-delay:0.3s">
-      <div class="chart-box"><canvas id="chartDebt"></canvas></div>
-    </div>
+    <div class="card"><div class="chart-box"><canvas id="chartBedtime"></canvas></div></div>
+    <div class="card"><div class="chart-box"><canvas id="chartDebt"></canvas></div></div>
   </div>
-
   <hr class="section-divider">
 
-  <!-- PRE-SLEEP MENTAL STATE -->
   <div class="section-title"><span class="dot" style="background:var(--accent3)"></span> Pre-Sleep Mental State vs Outcomes</div>
   <div class="grid grid-2">
-    <div class="card" style="animation-delay:0.35s">
-      <div class="chart-box"><canvas id="chartPreState"></canvas></div>
-    </div>
-    <div class="card" style="animation-delay:0.4s">
-      <div class="chart-box"><canvas id="chartPostState"></canvas></div>
-    </div>
+    <div class="card"><div class="chart-box"><canvas id="chartPreState"></canvas></div></div>
+    <div class="card"><div class="chart-box"><canvas id="chartPostState"></canvas></div></div>
   </div>
-
   <hr class="section-divider">
 
-  <!-- PRE-ACTIVITY IMPACT -->
   <div class="section-title"><span class="dot" style="background:var(--danger)"></span> Pre-Bedtime Activity Impact</div>
   <div class="grid grid-2">
-    <div class="card" style="animation-delay:0.45s">
-      <div class="chart-box"><canvas id="chartActivityBar"></canvas></div>
-    </div>
-    <div class="card" style="animation-delay:0.5s" id="activityInsights"></div>
+    <div class="card"><div class="chart-box"><canvas id="chartActivityBar"></canvas></div></div>
+    <div class="card" id="activityInsights"></div>
   </div>
-
   <hr class="section-divider">
 
-  <!-- CORRELATION ANALYSIS -->
   <div class="section-title"><span class="dot" style="background:var(--accent2)"></span> Correlation Analysis</div>
-  <div class="grid grid-1">
-    <div class="card" style="animation-delay:0.55s">
-      <div class="chart-box" style="height:380px"><canvas id="chartScatter"></canvas></div>
-    </div>
-  </div>
-
+  <div class="grid grid-1"><div class="card"><div class="chart-box" style="height:380px"><canvas id="chartScatter"></canvas></div></div></div>
   <hr class="section-divider">
 
-  <!-- SESSION DETAILS TABLE -->
   <div class="section-title"><span class="dot"></span> Session-by-Session Breakdown</div>
   <div class="grid grid-1">
-    <div class="card scroll-x" style="animation-delay:0.6s">
+    <div class="card scroll-x">
       <table class="data-table" id="sessionTable">
         <thead><tr>
           <th>Date</th><th>Bedtime</th><th>Wake</th><th>Hours</th><th>Quality</th>
@@ -285,478 +228,375 @@
       </table>
     </div>
   </div>
-
   <hr class="section-divider">
 
-  <!-- DEEP INSIGHTS -->
   <div class="section-title"><span class="dot" style="background:var(--accent3)"></span> Deep Insights &amp; Patterns</div>
-  <div class="grid grid-1">
-    <div class="card" id="deepInsights" style="animation-delay:0.65s"></div>
-  </div>
-
+  <div class="grid grid-1"><div class="card" id="deepInsights"></div></div>
   <hr class="section-divider">
 
-  <!-- RECOMMENDATIONS -->
   <div class="section-title"><span class="dot" style="background:var(--good)"></span> Actionable Recommendations</div>
-  <div class="grid grid-1">
-    <div class="card" id="recommendations" style="animation-delay:0.7s"></div>
-  </div>
+  <div class="grid grid-1"><div class="card" id="recommendations"></div></div>
 
-  <div class="footer">
-    Generated on March 30, 2026 · Sleep Analysis Engine v1.0
-  </div>
+  <div class="footer" id="footer"></div>
 </div>
 
 <script>
-// ─── RAW DATA ───
-const sessions = [
-  {"date":"2026-03-20","sleep_start":"2026-03-19T23:21","sleep_end":"2026-03-20T07:00","sleep_quality":7,"restfulness":6,"sleepiness_on_wake":4,"ease_of_falling_asleep":6,"sleep_start_delta_minutes":81,"wake_time_delta_minutes":60,"total_sleep_hours":7.57,"sleep_debt_hours":0.43,"sleep_hours_delta":-0.43,"pre_stress":4,"pre_anxiety":0,"pre_energy":6,"post_energy":5,"post_mood":6,"post_mental_clarity":4,"post_body_stiffness":1,"pre_activity":"work","context_note":"took shower before bed","total_interruption_minutes":5,"total_nap_minutes":122,"dream_count":0,"interruptions":1,"pre_bed_shower":false},
-  {"date":"2026-03-21","sleep_start":"2026-03-22T01:13","sleep_end":"2026-03-22T08:01","sleep_quality":6,"restfulness":6,"sleepiness_on_wake":6,"ease_of_falling_asleep":3,"sleep_start_delta_minutes":193,"wake_time_delta_minutes":121,"total_sleep_hours":6.8,"sleep_debt_hours":1.2,"sleep_hours_delta":-1.2,"pre_stress":6,"pre_anxiety":0,"pre_energy":4,"post_energy":7,"post_mood":7,"post_mental_clarity":6,"post_body_stiffness":0,"pre_activity":"other","context_note":"was talking to my fiance before i slept and there were argument","total_interruption_minutes":0,"total_nap_minutes":0,"dream_count":0,"interruptions":0},
-  {"date":"2026-03-22","sleep_start":"2026-03-22T01:49","sleep_end":"2026-03-22T07:44","sleep_quality":4,"restfulness":4,"sleepiness_on_wake":6,"ease_of_falling_asleep":2,"sleep_start_delta_minutes":229,"wake_time_delta_minutes":104,"total_sleep_hours":5.92,"sleep_debt_hours":2.08,"sleep_hours_delta":-2.08,"pre_stress":6,"pre_anxiety":0,"pre_energy":2,"post_energy":4,"post_mood":3,"post_mental_clarity":3,"post_body_stiffness":0,"pre_activity":"work","context_note":"did mathematics for straight 3 hours before bed","total_interruption_minutes":0,"total_nap_minutes":0,"dream_count":0,"interruptions":0},
-  {"date":"2026-03-23","sleep_start":"2026-03-22T22:00","sleep_end":"2026-03-23T06:57","sleep_quality":7,"restfulness":7,"sleepiness_on_wake":3,"ease_of_falling_asleep":3,"sleep_start_delta_minutes":0,"wake_time_delta_minutes":57,"total_sleep_hours":8.95,"sleep_debt_hours":-0.95,"sleep_hours_delta":0.95,"pre_stress":3,"pre_anxiety":0,"pre_energy":3,"post_energy":4,"post_mood":5,"post_mental_clarity":6,"post_body_stiffness":1,"pre_activity":"work","context_note":"","total_interruption_minutes":0,"total_nap_minutes":0,"dream_count":0,"interruptions":1},
-  {"date":"2026-03-24","sleep_start":"2026-03-23T23:44","sleep_end":"2026-03-24T06:46","sleep_quality":6,"restfulness":6,"sleepiness_on_wake":2,"ease_of_falling_asleep":6,"sleep_start_delta_minutes":104,"wake_time_delta_minutes":46,"total_sleep_hours":7.03,"sleep_debt_hours":0.97,"sleep_hours_delta":-0.97,"pre_stress":5,"pre_anxiety":0,"pre_energy":5,"post_energy":6,"post_mood":4,"post_mental_clarity":5,"post_body_stiffness":1,"pre_activity":"screen","context_note":"","total_interruption_minutes":0,"total_nap_minutes":0,"dream_count":0,"interruptions":0,"late_meal":true},
-  {"date":"2026-03-25","sleep_start":"2026-03-25T01:24","sleep_end":"2026-03-25T07:30","sleep_quality":4,"restfulness":4,"sleepiness_on_wake":3,"ease_of_falling_asleep":1,"sleep_start_delta_minutes":204,"wake_time_delta_minutes":90,"total_sleep_hours":6.1,"sleep_debt_hours":1.9,"sleep_hours_delta":-1.9,"pre_stress":4,"pre_anxiety":4,"pre_energy":3,"post_energy":6,"post_mood":5,"post_mental_clarity":5,"post_body_stiffness":0,"pre_activity":"work","context_note":"","total_interruption_minutes":0,"total_nap_minutes":0,"dream_count":0,"interruptions":0,"late_meal":true},
-  {"date":"2026-03-26","sleep_start":"2026-03-26T00:51","sleep_end":"2026-03-26T06:40","sleep_quality":5,"restfulness":4,"sleepiness_on_wake":6,"ease_of_falling_asleep":3,"sleep_start_delta_minutes":171,"wake_time_delta_minutes":40,"total_sleep_hours":5.82,"sleep_debt_hours":2.18,"sleep_hours_delta":-2.18,"pre_stress":4,"pre_anxiety":4,"pre_energy":4,"post_energy":5,"post_mood":5,"post_mental_clarity":5,"post_body_stiffness":5,"pre_activity":"work","context_note":"","total_interruption_minutes":0,"total_nap_minutes":0,"dream_count":0,"interruptions":0,"late_meal":true},
-  {"date":"2026-03-27","sleep_start":"2026-03-26T23:51","sleep_end":"2026-03-27T08:00","sleep_quality":7,"restfulness":7,"sleepiness_on_wake":5,"ease_of_falling_asleep":8,"sleep_start_delta_minutes":111,"wake_time_delta_minutes":120,"total_sleep_hours":8.15,"sleep_debt_hours":-0.15,"sleep_hours_delta":0.15,"pre_stress":2,"pre_anxiety":1,"pre_energy":3,"post_energy":5,"post_mood":5,"post_mental_clarity":5,"post_body_stiffness":5,"pre_activity":"work","context_note":"4hr dhurandhar 2 in theatre and 4hr dhurandhar 1 at home","total_interruption_minutes":0,"total_nap_minutes":0,"dream_count":0,"interruptions":0,"late_meal":true},
-  {"date":"2026-03-28","sleep_start":"2026-03-28T00:24","sleep_end":"2026-03-28T06:10","sleep_quality":6,"restfulness":3,"sleepiness_on_wake":7,"ease_of_falling_asleep":7,"sleep_start_delta_minutes":144,"wake_time_delta_minutes":10,"total_sleep_hours":5.77,"sleep_debt_hours":2.23,"sleep_hours_delta":-2.23,"pre_stress":4,"pre_anxiety":0,"pre_energy":7,"post_energy":3,"post_mood":6,"post_mental_clarity":3,"post_body_stiffness":2,"pre_activity":"screen","context_note":"","total_interruption_minutes":0,"total_nap_minutes":0,"dream_count":0,"interruptions":0,"pre_bed_shower":true},
-  {"date":"2026-03-29","sleep_start":"2026-03-29T02:27","sleep_end":"2026-03-29T06:45","sleep_quality":7,"restfulness":6,"sleepiness_on_wake":3,"ease_of_falling_asleep":0,"sleep_start_delta_minutes":267,"wake_time_delta_minutes":45,"total_sleep_hours":4.3,"sleep_debt_hours":3.7,"sleep_hours_delta":-3.7,"pre_stress":3,"pre_anxiety":0,"pre_energy":3,"post_energy":4,"post_mood":6,"post_mental_clarity":5,"post_body_stiffness":2,"pre_activity":"other","context_note":"","total_interruption_minutes":0,"total_nap_minutes":0,"dream_count":0,"interruptions":0},
-  {"date":"2026-03-30","sleep_start":"2026-03-29T22:34","sleep_end":"2026-03-30T06:28","sleep_quality":8,"restfulness":7,"sleepiness_on_wake":4,"ease_of_falling_asleep":8,"sleep_start_delta_minutes":34,"wake_time_delta_minutes":28,"total_sleep_hours":7.9,"sleep_debt_hours":0.1,"sleep_hours_delta":-0.1,"pre_stress":3,"pre_anxiety":0,"pre_energy":3,"post_energy":6,"post_mood":6,"post_mental_clarity":6,"post_body_stiffness":0,"pre_activity":"screen","context_note":"","total_interruption_minutes":0,"total_nap_minutes":0,"dream_count":0,"interruptions":0}
-];
+// ═══════════════════════════════════════════════
+//  DYNAMIC DATA LOADER — reads all JSON files
+//  from the same folder on every page load
+// ═══════════════════════════════════════════════
+
+async function discoverJsonFiles() {
+  // Fetch the directory listing served by http-server
+  const resp = await fetch('./', { headers: { 'Accept': 'text/html' } });
+  const html = await resp.text();
+  // Parse all <a> links that end in .json
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const links = [...doc.querySelectorAll('a')];
+  const jsonFiles = links
+    .map(a => decodeURIComponent(a.getAttribute('href')))
+    .filter(href => href && href.endsWith('.json'));
+  return jsonFiles;
+}
+
+async function fetchAllSessions() {
+  const files = await discoverJsonFiles();
+  const sessions = [];
+  const fetches = files.map(async f => {
+    try {
+      const r = await fetch(f);
+      const data = await r.json();
+      // Normalize: derive a sort key from sleep_start
+      data._sourceFile = f;
+      sessions.push(data);
+    } catch(e) { console.warn('Skipped', f, e); }
+  });
+  await Promise.all(fetches);
+  // Sort chronologically by sleep_start
+  sessions.sort((a,b) => new Date(a.sleep_start) - new Date(b.sleep_start));
+  return sessions;
+}
 
 // ─── HELPERS ───
-const avg = arr => arr.reduce((a,b) => a+b, 0) / arr.length;
+const avg = arr => arr.length ? arr.reduce((a,b) => a+b, 0) / arr.length : 0;
 const round = (n, d=2) => Math.round(n * 10**d) / 10**d;
-const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 function pearson(x, y) {
-  const n = x.length;
+  const n = x.length; if(n<3) return 0;
   const mx = avg(x), my = avg(y);
   let num=0, dx=0, dy=0;
   for(let i=0;i<n;i++){ num+=(x[i]-mx)*(y[i]-my); dx+=(x[i]-mx)**2; dy+=(y[i]-my)**2; }
   return dx&&dy ? num/Math.sqrt(dx*dy) : 0;
 }
 function formatTime(iso) {
+  if(!iso) return '—';
   const d = new Date(iso);
   return d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
 }
 function deltaToReadable(m) {
+  if(m===0) return '✅ On time';
   const h = Math.floor(m/60), mn = m%60;
   return h ? `${h}h ${mn}m late` : `${mn}m late`;
 }
+function fmtDate(ds) {
+  return new Date(ds).toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+}
 
-// ─── COMPUTED STATS ───
-const hours = sessions.map(s=>s.total_sleep_hours);
-const qualities = sessions.map(s=>s.sleep_quality);
-const restful = sessions.map(s=>s.restfulness);
-const debts = sessions.map(s=>s.sleep_debt_hours);
-const deltas = sessions.map(s=>s.sleep_start_delta_minutes);
-const labels = sessions.map(s=>{const d=new Date(s.date);return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});});
+// ─── MAIN RENDER ───
+async function main() {
+  const sessions = await fetchAllSessions();
+  const N = sessions.length;
 
-const avgHours = round(avg(hours));
-const avgQuality = round(avg(qualities),1);
-const avgDebt = round(avg(debts.filter(d=>d>0)),1);
-const totalDebt = round(debts.filter(d=>d>0).reduce((a,b)=>a+b,0),1);
-const avgBedtimeDelay = round(avg(deltas));
-const bestNight = sessions.reduce((a,b)=>a.total_sleep_hours>b.total_sleep_hours?a:b);
-const worstNight = sessions.reduce((a,b)=>a.total_sleep_hours<b.total_sleep_hours?a:b);
-const onTimeNights = sessions.filter(s=>s.sleep_start_delta_minutes<=30).length;
-const nightsBelow6 = sessions.filter(s=>s.total_sleep_hours<6).length;
-const nightsAbove8 = sessions.filter(s=>s.total_sleep_hours>=8).length;
-const avgRestfulness = round(avg(restful),1);
-const consistency = round(Math.sqrt(hours.reduce((a,h)=>a+(h-avgHours)**2,0)/hours.length),2);
-
-// pre-activity grouping
-const activityGroups = {};
-sessions.forEach(s=>{
-  if(!activityGroups[s.pre_activity]) activityGroups[s.pre_activity]={hours:[],quality:[],ease:[],debt:[]};
-  activityGroups[s.pre_activity].hours.push(s.total_sleep_hours);
-  activityGroups[s.pre_activity].quality.push(s.sleep_quality);
-  activityGroups[s.pre_activity].ease.push(s.ease_of_falling_asleep);
-  activityGroups[s.pre_activity].debt.push(s.sleep_debt_hours);
-});
-
-// ─── KPI CARDS ───
-document.getElementById('kpi-row').innerHTML = `
-  <div class="card kpi"><div class="icon">⏱️</div><div class="value val-accent">${avgHours}h</div><div class="label">Avg Sleep</div><div class="sub">Target: 8h · Deficit: ${round(8-avgHours)}h</div></div>
-  <div class="card kpi"><div class="icon">⭐</div><div class="value val-pink">${avgQuality}/10</div><div class="label">Avg Quality</div><div class="sub">Restfulness: ${avgRestfulness}/10</div></div>
-  <div class="card kpi"><div class="icon">💤</div><div class="value ${totalDebt>10?'val-bad':'val-warn'}">${totalDebt}h</div><div class="label">Total Sleep Debt</div><div class="sub">${nightsBelow6} of 11 nights under 6h</div></div>
-  <div class="card kpi"><div class="icon">🕐</div><div class="value ${avgBedtimeDelay>120?'val-bad':'val-warn'}">${Math.round(avgBedtimeDelay)}m</div><div class="label">Avg Bedtime Delay</div><div class="sub">On-time (≤30m): ${onTimeNights}/11 nights</div></div>
-`;
-
-// ─── CHART DEFAULTS ───
-Chart.defaults.color = '#94a3b8';
-Chart.defaults.borderColor = 'rgba(99,102,241,0.08)';
-Chart.defaults.font.family = 'Inter';
-
-// ─── CHART: DURATION TREND ───
-new Chart(document.getElementById('chartDuration'),{
-  type:'bar',
-  data:{
-    labels,
-    datasets:[
-      {label:'Sleep Hours',data:hours,backgroundColor:hours.map(h=>h>=8?'rgba(74,222,128,0.7)':h>=6?'rgba(251,191,36,0.7)':'rgba(248,113,113,0.7)'),borderRadius:8,borderSkipped:false},
-      {label:'Target (8h)',data:Array(11).fill(8),type:'line',borderColor:'rgba(99,102,241,0.5)',borderDash:[6,4],pointRadius:0,borderWidth:2,fill:false}
-    ]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:16}},
-      tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw+'h'}}},
-    scales:{y:{beginAtZero:false,min:3,max:10,title:{display:true,text:'Hours'}}}
+  if(N === 0) {
+    document.getElementById('loading-overlay').classList.add('hidden');
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('kpi-row').innerHTML = '<div class="card kpi" style="grid-column:1/-1"><div class="icon">📭</div><div class="value val-warn">No Data</div><div class="label">No sleep JSON files found in this folder</div></div>';
+    return;
   }
-});
 
-// ─── CHART: QUALITY & RESTFULNESS ───
-new Chart(document.getElementById('chartQuality'),{
-  type:'line',
-  data:{
-    labels,
-    datasets:[
-      {label:'Quality',data:qualities,borderColor:'#818cf8',backgroundColor:'rgba(129,140,248,0.1)',fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:'#818cf8'},
-      {label:'Restfulness',data:restful,borderColor:'#f472b6',backgroundColor:'rgba(244,114,182,0.1)',fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:'#f472b6'},
-      {label:'Ease of Falling Asleep',data:sessions.map(s=>s.ease_of_falling_asleep),borderColor:'#34d399',backgroundColor:'rgba(52,211,153,0.05)',fill:false,tension:0.4,pointRadius:4,pointBackgroundColor:'#34d399'}
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}}},
-    scales:{y:{min:0,max:10,title:{display:true,text:'Score (0-10)'}}}
-  }
-});
+  // Computed arrays
+  const hours = sessions.map(s=>s.total_sleep_hours||0);
+  const qualities = sessions.map(s=>s.sleep_quality||0);
+  const restful = sessions.map(s=>s.restfulness||0);
+  const debts = sessions.map(s=>s.sleep_debt_hours||0);
+  const deltas = sessions.map(s=>s.sleep_start_delta_minutes||0);
+  const labels = sessions.map(s=>fmtDate(s.date));
 
-// ─── CHART: RADAR ───
-new Chart(document.getElementById('chartRadar'),{
-  type:'radar',
-  data:{
-    labels:['Quality','Restfulness','Ease of Sleep','Post Energy','Post Mood','Post Clarity'],
-    datasets:[
-      {label:'Average',data:[avgQuality,avgRestfulness,round(avg(sessions.map(s=>s.ease_of_falling_asleep)),1),round(avg(sessions.map(s=>s.post_energy)),1),round(avg(sessions.map(s=>s.post_mood)),1),round(avg(sessions.map(s=>s.post_mental_clarity)),1)],
-        borderColor:'#818cf8',backgroundColor:'rgba(129,140,248,0.15)',pointBackgroundColor:'#818cf8'},
-      {label:'Best Night (Mar 23)',data:[bestNight.sleep_quality,bestNight.restfulness,bestNight.ease_of_falling_asleep,bestNight.post_energy,bestNight.post_mood,bestNight.post_mental_clarity],
-        borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,0.1)',pointBackgroundColor:'#4ade80'},
-      {label:'Worst Night (Mar 29)',data:[worstNight.sleep_quality,worstNight.restfulness,worstNight.ease_of_falling_asleep,worstNight.post_energy,worstNight.post_mood,worstNight.post_mental_clarity],
-        borderColor:'#f87171',backgroundColor:'rgba(248,113,113,0.1)',pointBackgroundColor:'#f87171'}
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,
-    scales:{r:{min:0,max:10,ticks:{stepSize:2,backdropColor:'transparent'}}},
-    plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:12}}}
-  }
-});
+  const avgHours = round(avg(hours));
+  const avgQuality = round(avg(qualities),1);
+  const totalDebt = round(debts.filter(d=>d>0).reduce((a,b)=>a+b,0),1);
+  const avgBedtimeDelay = round(avg(deltas));
+  const bestNight = sessions.reduce((a,b)=>a.total_sleep_hours>b.total_sleep_hours?a:b);
+  const worstNight = sessions.reduce((a,b)=>a.total_sleep_hours<b.total_sleep_hours?a:b);
+  const onTimeNights = sessions.filter(s=>(s.sleep_start_delta_minutes||999)<=30).length;
+  const nightsBelow6 = sessions.filter(s=>s.total_sleep_hours<6).length;
+  const avgRestfulness = round(avg(restful),1);
+  const consistency = round(Math.sqrt(hours.reduce((a,h)=>a+(h-avgHours)**2,0)/hours.length),2);
 
-// ─── CHART: BEDTIME DELTA ───
-new Chart(document.getElementById('chartBedtime'),{
-  type:'bar',
-  data:{
-    labels,
-    datasets:[{label:'Minutes Late to Bed',data:deltas,backgroundColor:deltas.map(d=>d<=30?'rgba(74,222,128,0.7)':d<=120?'rgba(251,191,36,0.7)':'rgba(248,113,113,0.7)'),borderRadius:8,borderSkipped:false}]
-  },
-  options:{
-    indexAxis:'y',responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>deltaToReadable(ctx.raw)}}},
-    scales:{x:{title:{display:true,text:'Minutes Late'}}}
-  }
-});
+  // Date range
+  const firstDate = fmtDate(sessions[0].date);
+  const lastDate = fmtDate(sessions[N-1].date);
+  document.getElementById('dateRange').textContent = `${firstDate} – ${lastDate} · ${N} sessions tracked`;
 
-// ─── CHART: CUMULATIVE DEBT ───
-let cumDebt = []; let running = 0;
-sessions.forEach(s=>{ running += s.sleep_hours_delta; cumDebt.push(round(running)); });
-new Chart(document.getElementById('chartDebt'),{
-  type:'line',
-  data:{
-    labels,
-    datasets:[
+  // Activity groups
+  const activityGroups = {};
+  sessions.forEach(s=>{
+    const act = s.pre_activity || 'unknown';
+    if(!activityGroups[act]) activityGroups[act]={hours:[],quality:[],ease:[],debt:[]};
+    activityGroups[act].hours.push(s.total_sleep_hours||0);
+    activityGroups[act].quality.push(s.sleep_quality||0);
+    activityGroups[act].ease.push(s.ease_of_falling_asleep||0);
+    activityGroups[act].debt.push(s.sleep_debt_hours||0);
+  });
+
+  // ─── KPI CARDS ───
+  document.getElementById('kpi-row').innerHTML = `
+    <div class="card kpi"><div class="icon">⏱️</div><div class="value val-accent">${avgHours}h</div><div class="label">Avg Sleep</div><div class="sub">Target: 8h · Deficit: ${round(8-avgHours)}h</div></div>
+    <div class="card kpi"><div class="icon">⭐</div><div class="value val-pink">${avgQuality}/10</div><div class="label">Avg Quality</div><div class="sub">Restfulness: ${avgRestfulness}/10</div></div>
+    <div class="card kpi"><div class="icon">💤</div><div class="value ${totalDebt>10?'val-bad':'val-warn'}">${totalDebt}h</div><div class="label">Total Sleep Debt</div><div class="sub">${nightsBelow6} of ${N} nights under 6h</div></div>
+    <div class="card kpi"><div class="icon">🕐</div><div class="value ${avgBedtimeDelay>120?'val-bad':'val-warn'}">${Math.round(avgBedtimeDelay)}m</div><div class="label">Avg Bedtime Delay</div><div class="sub">On-time (≤30m): ${onTimeNights}/${N} nights</div></div>
+  `;
+
+  // ─── CHART DEFAULTS ───
+  Chart.defaults.color = '#94a3b8';
+  Chart.defaults.borderColor = 'rgba(99,102,241,0.08)';
+  Chart.defaults.font.family = 'Inter';
+
+  // ─── CHART: DURATION ───
+  new Chart(document.getElementById('chartDuration'),{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {label:'Sleep Hours',data:hours,backgroundColor:hours.map(h=>h>=8?'rgba(74,222,128,0.7)':h>=6?'rgba(251,191,36,0.7)':'rgba(248,113,113,0.7)'),borderRadius:8,borderSkipped:false},
+        {label:'Target (8h)',data:Array(N).fill(8),type:'line',borderColor:'rgba(99,102,241,0.5)',borderDash:[6,4],pointRadius:0,borderWidth:2,fill:false}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:16}}},scales:{y:{beginAtZero:false,min:3,max:10,title:{display:true,text:'Hours'}}}}
+  });
+
+  // ─── CHART: QUALITY ───
+  new Chart(document.getElementById('chartQuality'),{
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'Quality',data:qualities,borderColor:'#818cf8',backgroundColor:'rgba(129,140,248,0.1)',fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:'#818cf8'},
+        {label:'Restfulness',data:restful,borderColor:'#f472b6',backgroundColor:'rgba(244,114,182,0.1)',fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:'#f472b6'},
+        {label:'Ease of Falling Asleep',data:sessions.map(s=>s.ease_of_falling_asleep||0),borderColor:'#34d399',fill:false,tension:0.4,pointRadius:4,pointBackgroundColor:'#34d399'}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}}},scales:{y:{min:0,max:10,title:{display:true,text:'Score (0-10)'}}}}
+  });
+
+  // ─── CHART: RADAR ───
+  new Chart(document.getElementById('chartRadar'),{
+    type:'radar',
+    data:{
+      labels:['Quality','Restfulness','Ease of Sleep','Post Energy','Post Mood','Post Clarity'],
+      datasets:[
+        {label:'Average',data:[avgQuality,avgRestfulness,round(avg(sessions.map(s=>s.ease_of_falling_asleep||0)),1),round(avg(sessions.map(s=>s.post_energy||0)),1),round(avg(sessions.map(s=>s.post_mood||0)),1),round(avg(sessions.map(s=>s.post_mental_clarity||0)),1)],borderColor:'#818cf8',backgroundColor:'rgba(129,140,248,0.15)',pointBackgroundColor:'#818cf8'},
+        {label:`Best (${fmtDate(bestNight.date)})`,data:[bestNight.sleep_quality||0,bestNight.restfulness||0,bestNight.ease_of_falling_asleep||0,bestNight.post_energy||0,bestNight.post_mood||0,bestNight.post_mental_clarity||0],borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,0.1)',pointBackgroundColor:'#4ade80'},
+        {label:`Worst (${fmtDate(worstNight.date)})`,data:[worstNight.sleep_quality||0,worstNight.restfulness||0,worstNight.ease_of_falling_asleep||0,worstNight.post_energy||0,worstNight.post_mood||0,worstNight.post_mental_clarity||0],borderColor:'#f87171',backgroundColor:'rgba(248,113,113,0.1)',pointBackgroundColor:'#f87171'}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:10,ticks:{stepSize:2,backdropColor:'transparent'}}},plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:12}}}}
+  });
+
+  // ─── CHART: BEDTIME ───
+  new Chart(document.getElementById('chartBedtime'),{
+    type:'bar',
+    data:{labels,datasets:[{label:'Minutes Late to Bed',data:deltas,backgroundColor:deltas.map(d=>d<=30?'rgba(74,222,128,0.7)':d<=120?'rgba(251,191,36,0.7)':'rgba(248,113,113,0.7)'),borderRadius:8,borderSkipped:false}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>deltaToReadable(ctx.raw)}}},scales:{x:{title:{display:true,text:'Minutes Late'}}}}
+  });
+
+  // ─── CHART: DEBT ───
+  let cumDebt=[],running=0;
+  sessions.forEach(s=>{running+=(s.sleep_hours_delta||0);cumDebt.push(round(running));});
+  new Chart(document.getElementById('chartDebt'),{
+    type:'line',
+    data:{labels,datasets:[
       {label:'Cumulative Sleep Delta',data:cumDebt,borderColor:'#f87171',backgroundColor:'rgba(248,113,113,0.1)',fill:true,tension:0.35,pointRadius:5,pointBackgroundColor:cumDebt.map(c=>c>=0?'#4ade80':'#f87171')},
       {label:'Nightly Debt',data:debts,type:'bar',backgroundColor:debts.map(d=>d<=0?'rgba(74,222,128,0.5)':'rgba(248,113,113,0.4)'),borderRadius:6}
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}}},
-    scales:{y:{title:{display:true,text:'Hours'}}}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}}},scales:{y:{title:{display:true,text:'Hours'}}}}
+  });
+
+  // ─── CHART: PRE-STATE ───
+  new Chart(document.getElementById('chartPreState'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'Pre-Stress',data:sessions.map(s=>s.pre_stress||0),borderColor:'#f87171',tension:0.4,pointRadius:4,fill:false},
+      {label:'Pre-Anxiety',data:sessions.map(s=>s.pre_anxiety||0),borderColor:'#fbbf24',tension:0.4,pointRadius:4,fill:false},
+      {label:'Pre-Energy',data:sessions.map(s=>s.pre_energy||0),borderColor:'#818cf8',tension:0.4,pointRadius:4,fill:false}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}},title:{display:true,text:'How you felt BEFORE sleeping',color:'#e2e8f0',font:{size:13}}},scales:{y:{min:0,max:10,title:{display:true,text:'Score'}}}}
+  });
+
+  // ─── CHART: POST-STATE ───
+  new Chart(document.getElementById('chartPostState'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'Post-Energy',data:sessions.map(s=>s.post_energy||0),borderColor:'#34d399',tension:0.4,pointRadius:4,fill:false},
+      {label:'Post-Mood',data:sessions.map(s=>s.post_mood||0),borderColor:'#f472b6',tension:0.4,pointRadius:4,fill:false},
+      {label:'Post-Clarity',data:sessions.map(s=>s.post_mental_clarity||0),borderColor:'#818cf8',tension:0.4,pointRadius:4,fill:false},
+      {label:'Body Stiffness',data:sessions.map(s=>s.post_body_stiffness||0),borderColor:'#fbbf24',tension:0.4,pointRadius:4,borderDash:[5,3],fill:false}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}},title:{display:true,text:'How you felt AFTER waking',color:'#e2e8f0',font:{size:13}}},scales:{y:{min:0,max:10,title:{display:true,text:'Score'}}}}
+  });
+
+  // ─── CHART: ACTIVITY BAR ───
+  const actNames = Object.keys(activityGroups);
+  new Chart(document.getElementById('chartActivityBar'),{
+    type:'bar',
+    data:{
+      labels:actNames.map(n=>n.charAt(0).toUpperCase()+n.slice(1)),
+      datasets:[
+        {label:'Avg Hours',data:actNames.map(n=>round(avg(activityGroups[n].hours),1)),backgroundColor:'rgba(129,140,248,0.7)',borderRadius:6},
+        {label:'Avg Quality',data:actNames.map(n=>round(avg(activityGroups[n].quality),1)),backgroundColor:'rgba(244,114,182,0.7)',borderRadius:6},
+        {label:'Avg Ease',data:actNames.map(n=>round(avg(activityGroups[n].ease),1)),backgroundColor:'rgba(52,211,153,0.7)',borderRadius:6}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}},title:{display:true,text:'Impact of Pre-Bed Activity',color:'#e2e8f0',font:{size:13}}},scales:{y:{min:0,max:10}}}
+  });
+
+  // Activity insights text
+  let actHtml = '<h3 style="margin-bottom:16px;font-size:1.1rem;">Activity Breakdown</h3>';
+  for(const [name, g] of Object.entries(activityGroups)) {
+    const aH=round(avg(g.hours),1),aQ=round(avg(g.quality),1),aE=round(avg(g.ease),1),aD=round(avg(g.debt),1);
+    const col=aH>=7?'var(--good)':aH>=6?'var(--warn)':'var(--danger)';
+    actHtml+=`<div class="insight-box" style="border-left-color:${col}"><strong style="text-transform:capitalize">${name}</strong> (${g.hours.length} nights)<br>Avg: <strong>${aH}h</strong> sleep · Quality <strong>${aQ}/10</strong> · Ease <strong>${aE}/10</strong> · Debt <strong>${aD}h</strong></div>`;
   }
-});
+  document.getElementById('activityInsights').innerHTML = actHtml;
 
-// ─── CHART: PRE-SLEEP STATE ───
-new Chart(document.getElementById('chartPreState'),{
-  type:'line',
-  data:{
-    labels,
-    datasets:[
-      {label:'Pre-Stress',data:sessions.map(s=>s.pre_stress),borderColor:'#f87171',tension:0.4,pointRadius:4,fill:false},
-      {label:'Pre-Anxiety',data:sessions.map(s=>s.pre_anxiety),borderColor:'#fbbf24',tension:0.4,pointRadius:4,fill:false},
-      {label:'Pre-Energy',data:sessions.map(s=>s.pre_energy),borderColor:'#818cf8',tension:0.4,pointRadius:4,fill:false}
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}},
-      title:{display:true,text:'How you felt BEFORE sleeping',color:'#e2e8f0',font:{size:13}}},
-    scales:{y:{min:0,max:10,title:{display:true,text:'Score'}}}
-  }
-});
-
-// ─── CHART: POST-SLEEP STATE ───
-new Chart(document.getElementById('chartPostState'),{
-  type:'line',
-  data:{
-    labels,
-    datasets:[
-      {label:'Post-Energy',data:sessions.map(s=>s.post_energy),borderColor:'#34d399',tension:0.4,pointRadius:4,fill:false},
-      {label:'Post-Mood',data:sessions.map(s=>s.post_mood),borderColor:'#f472b6',tension:0.4,pointRadius:4,fill:false},
-      {label:'Post-Clarity',data:sessions.map(s=>s.post_mental_clarity),borderColor:'#818cf8',tension:0.4,pointRadius:4,fill:false},
-      {label:'Body Stiffness',data:sessions.map(s=>s.post_body_stiffness),borderColor:'#fbbf24',tension:0.4,pointRadius:4,borderDash:[5,3],fill:false}
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}},
-      title:{display:true,text:'How you felt AFTER waking',color:'#e2e8f0',font:{size:13}}},
-    scales:{y:{min:0,max:10,title:{display:true,text:'Score'}}}
-  }
-});
-
-// ─── CHART: ACTIVITY IMPACT ───
-const actNames = Object.keys(activityGroups);
-new Chart(document.getElementById('chartActivityBar'),{
-  type:'bar',
-  data:{
-    labels:actNames.map(n=>n.charAt(0).toUpperCase()+n.slice(1)),
-    datasets:[
-      {label:'Avg Hours',data:actNames.map(n=>round(avg(activityGroups[n].hours),1)),backgroundColor:'rgba(129,140,248,0.7)',borderRadius:6},
-      {label:'Avg Quality',data:actNames.map(n=>round(avg(activityGroups[n].quality),1)),backgroundColor:'rgba(244,114,182,0.7)',borderRadius:6},
-      {label:'Avg Ease',data:actNames.map(n=>round(avg(activityGroups[n].ease),1)),backgroundColor:'rgba(52,211,153,0.7)',borderRadius:6}
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}},
-      title:{display:true,text:'Impact of Pre-Bed Activity',color:'#e2e8f0',font:{size:13}}},
-    scales:{y:{min:0,max:10}}
-  }
-});
-
-// Activity insights text
-let actHtml = '<h3 style="margin-bottom:16px;font-size:1.1rem;">Activity Breakdown</h3>';
-for(const [name, g] of Object.entries(activityGroups)) {
-  const aH = round(avg(g.hours),1), aQ = round(avg(g.quality),1), aE = round(avg(g.ease),1), aD = round(avg(g.debt),1);
-  const col = aH>=7?'var(--good)':aH>=6?'var(--warn)':'var(--danger)';
-  actHtml += `<div class="insight-box" style="border-left-color:${col}">
-    <strong style="text-transform:capitalize">${name}</strong> (${g.hours.length} nights)<br>
-    Avg: <strong>${aH}h</strong> sleep · Quality <strong>${aQ}/10</strong> · Ease <strong>${aE}/10</strong> · Debt <strong>${aD}h</strong>
-  </div>`;
-}
-document.getElementById('activityInsights').innerHTML = actHtml;
-
-// ─── CHART: SCATTER (Hours vs Quality) ───
-new Chart(document.getElementById('chartScatter'),{
-  type:'scatter',
-  data:{
-    datasets:[
+  // ─── CHART: SCATTER ───
+  new Chart(document.getElementById('chartScatter'),{
+    type:'scatter',
+    data:{datasets:[
       {label:'Hours → Quality',data:sessions.map(s=>({x:s.total_sleep_hours,y:s.sleep_quality})),backgroundColor:'rgba(129,140,248,0.8)',pointRadius:7,pointHoverRadius:10},
-      {label:'Hours → Post-Energy',data:sessions.map(s=>({x:s.total_sleep_hours,y:s.post_energy})),backgroundColor:'rgba(52,211,153,0.8)',pointRadius:7,pointStyle:'triangle',pointHoverRadius:10},
-      {label:'Hours → Post-Clarity',data:sessions.map(s=>({x:s.total_sleep_hours,y:s.post_mental_clarity})),backgroundColor:'rgba(244,114,182,0.8)',pointRadius:7,pointStyle:'rectRot',pointHoverRadius:10}
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}},
-      title:{display:true,text:'Sleep Duration vs Outcomes (Scatter)',color:'#e2e8f0',font:{size:13}}},
-    scales:{x:{min:3,max:10,title:{display:true,text:'Sleep Hours'}},y:{min:0,max:10,title:{display:true,text:'Score'}}}
+      {label:'Hours → Post-Energy',data:sessions.map(s=>({x:s.total_sleep_hours,y:s.post_energy||0})),backgroundColor:'rgba(52,211,153,0.8)',pointRadius:7,pointStyle:'triangle',pointHoverRadius:10},
+      {label:'Hours → Post-Clarity',data:sessions.map(s=>({x:s.total_sleep_hours,y:s.post_mental_clarity||0})),backgroundColor:'rgba(244,114,182,0.8)',pointRadius:7,pointStyle:'rectRot',pointHoverRadius:10}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:14}},title:{display:true,text:'Sleep Duration vs Outcomes (Scatter)',color:'#e2e8f0',font:{size:13}}},scales:{x:{min:3,max:10,title:{display:true,text:'Sleep Hours'}},y:{min:0,max:10,title:{display:true,text:'Score'}}}}
+  });
+
+  // ─── SESSION TABLE ───
+  const tbody = document.querySelector('#sessionTable tbody');
+  tbody.innerHTML = '';
+  sessions.forEach(s=>{
+    const hCol=s.total_sleep_hours>=8?'val-good':s.total_sleep_hours>=6?'val-warn':'val-bad';
+    const qBg=s.sleep_quality>=7?'rgba(74,222,128,0.2)':s.sleep_quality>=5?'rgba(251,191,36,0.2)':'rgba(248,113,113,0.2)';
+    const qCol=s.sleep_quality>=7?'#4ade80':s.sleep_quality>=5?'#fbbf24':'#f87171';
+    const dCol=(s.sleep_debt_hours||0)<=0?'val-good':(s.sleep_debt_hours||0)<=1?'val-warn':'val-bad';
+    const note = s.context_note || '—';
+    tbody.innerHTML+=`<tr>
+      <td style="font-weight:600">${fmtDate(s.date)}</td>
+      <td>${formatTime(s.sleep_start)}</td>
+      <td>${formatTime(s.sleep_end)}</td>
+      <td class="${hCol}" style="font-weight:700">${s.total_sleep_hours}h</td>
+      <td><span class="score-badge" style="background:${qBg};color:${qCol}">${s.sleep_quality}</span></td>
+      <td>${s.restfulness}/10</td>
+      <td class="${dCol}" style="font-weight:600">${(s.sleep_debt_hours||0)>0?'+':''}${s.sleep_debt_hours||0}h</td>
+      <td>${deltaToReadable(s.sleep_start_delta_minutes||0)}</td>
+      <td style="text-transform:capitalize">${s.pre_activity||'—'}</td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${note}">${note}</td>
+    </tr>`;
+  });
+
+  // ─── CORRELATIONS ───
+  const corrPairs=[
+    {a:'total_sleep_hours',b:'sleep_quality',label:'Hours↔Quality'},
+    {a:'total_sleep_hours',b:'post_energy',label:'Hours↔Post Energy'},
+    {a:'total_sleep_hours',b:'post_mental_clarity',label:'Hours↔Mental Clarity'},
+    {a:'sleep_start_delta_minutes',b:'total_sleep_hours',label:'Bedtime Delay↔Hours'},
+    {a:'pre_stress',b:'sleep_quality',label:'Pre-Stress↔Quality'},
+    {a:'pre_stress',b:'ease_of_falling_asleep',label:'Pre-Stress↔Ease'},
+    {a:'pre_anxiety',b:'ease_of_falling_asleep',label:'Pre-Anxiety↔Ease'},
+    {a:'ease_of_falling_asleep',b:'sleep_quality',label:'Ease↔Quality'},
+    {a:'total_sleep_hours',b:'post_mood',label:'Hours↔Post Mood'},
+    {a:'pre_energy',b:'total_sleep_hours',label:'Pre-Energy↔Hours'},
+  ];
+  const corrs=corrPairs.map(p=>({...p,r:round(pearson(sessions.map(s=>s[p.a]||0),sessions.map(s=>s[p.b]||0)),2)}));
+
+  // ─── DEEP INSIGHTS ───
+  let insightHtml='';
+
+  insightHtml+=`<div class="insight-box danger"><span class="tag tag-warning">CRITICAL</span><strong>Chronic Sleep Deprivation</strong><br>You average <strong>${avgHours}h/night</strong> against a target of 8h, accumulating <strong>${totalDebt}h of debt</strong> over ${N} days. ${nightsBelow6} nights fell below 6h. Cumulative delta: <strong>${cumDebt[cumDebt.length-1]}h</strong>. Chronic sleep restriction impairs cognitive function, emotional regulation, and metabolic health.</div>`;
+
+  const maxDelay=Math.max(...deltas);
+  const maxDelaySession=sessions.find(s=>(s.sleep_start_delta_minutes||0)===maxDelay);
+  insightHtml+=`<div class="insight-box warn"><span class="tag tag-warning">PATTERN</span><strong>Severe Bedtime Inconsistency</strong><br>Only <strong>${onTimeNights}/${N} nights</strong> you went to bed within 30min of your 10 PM target. Average delay: <strong>${Math.round(avgBedtimeDelay)}min</strong>. Worst: <strong>${fmtDate(maxDelaySession.date)}</strong> — ${maxDelay}min late. Bedtime delay↔hours: <strong>r=${corrs.find(c=>c.label==='Bedtime Delay↔Hours').r}</strong>.</div>`;
+
+  insightHtml+=`<div class="insight-box"><span class="tag tag-stat">CORRELATIONS</span><strong>Key Statistical Relationships</strong><br><table style="width:100%;margin-top:8px;font-size:0.85rem"><tr><th style="text-align:left;padding:4px 8px;color:var(--text-dim)">Pair</th><th style="padding:4px 8px;color:var(--text-dim)">r</th><th style="text-align:left;padding:4px 8px;color:var(--text-dim)">Interpretation</th></tr>${corrs.map(c=>{const s=Math.abs(c.r)>=0.6?'Strong':Math.abs(c.r)>=0.3?'Moderate':'Weak';const d=c.r>0?'positive':'negative';const col=Math.abs(c.r)>=0.6?(c.r>0?'var(--good)':'var(--danger)'):Math.abs(c.r)>=0.3?'var(--warn)':'var(--text-dim)';return`<tr><td style="padding:4px 8px">${c.label}</td><td style="padding:4px 8px;text-align:center;font-weight:700;color:${col}">${c.r}</td><td style="padding:4px 8px">${s} ${d}</td></tr>`;}).join('')}</table></div>`;
+
+  // Activity analysis
+  const workData=activityGroups['work']||{hours:[],quality:[],ease:[]};
+  const screenData=activityGroups['screen']||{hours:[],quality:[],ease:[]};
+  const otherData=activityGroups['other']||{hours:[],quality:[],ease:[]};
+  if(workData.hours.length) insightHtml+=`<div class="insight-box"><span class="tag tag-finding">FINDING</span><strong>Work Before Bed</strong> (${workData.hours.length} nights): Avg ${round(avg(workData.hours),1)}h sleep, quality ${round(avg(workData.quality),1)}/10. Work dominates pre-bed routine (${round(workData.hours.length/N*100,0)}% of nights), correlating with later bedtimes and higher stress.</div>`;
+  if(screenData.hours.length) insightHtml+=`<div class="insight-box"><span class="tag tag-finding">FINDING</span><strong>Screen Before Bed</strong> (${screenData.hours.length} nights): Avg ${round(avg(screenData.hours),1)}h sleep, quality ${round(avg(screenData.quality),1)}/10. Blue light suppresses melatonin and delays circadian rhythm.</div>`;
+
+  // Best vs Worst
+  insightHtml+=`<div class="insight-box good"><span class="tag tag-finding">CONTRAST</span><strong>Best vs Worst Night</strong><br><strong>Best (${fmtDate(bestNight.date)}):</strong> ${bestNight.total_sleep_hours}h, quality ${bestNight.sleep_quality}/10, ${(bestNight.sleep_start_delta_minutes||0)===0?'went to bed exactly on time':'bedtime delay '+(bestNight.sleep_start_delta_minutes||0)+'min'}.<br><strong>Worst (${fmtDate(worstNight.date)}):</strong> ${worstNight.total_sleep_hours}h, bedtime delay ${worstNight.sleep_start_delta_minutes||0}min, quality ${worstNight.sleep_quality}/10.</div>`;
+
+  // Anxiety
+  const anxietyNights=sessions.filter(s=>(s.pre_anxiety||0)>0);
+  if(anxietyNights.length) {
+    const noAnx=sessions.filter(s=>(s.pre_anxiety||0)===0);
+    insightHtml+=`<div class="insight-box warn"><span class="tag tag-finding">MENTAL HEALTH</span><strong>Anxiety Impact</strong><br>Present on <strong>${anxietyNights.length}/${N} nights</strong>. Avg ease: <strong>${round(avg(anxietyNights.map(s=>s.ease_of_falling_asleep||0)),1)}/10</strong> vs <strong>${round(avg(noAnx.map(s=>s.ease_of_falling_asleep||0)),1)}/10</strong> on zero-anxiety nights. Avg sleep: <strong>${round(avg(anxietyNights.map(s=>s.total_sleep_hours)),1)}h</strong> vs <strong>${round(avg(noAnx.map(s=>s.total_sleep_hours)),1)}h</strong>.</div>`;
   }
-});
 
-// ─── SESSION TABLE ───
-const tbody = document.querySelector('#sessionTable tbody');
-sessions.forEach(s=>{
-  const hCol = s.total_sleep_hours>=8?'val-good':s.total_sleep_hours>=6?'val-warn':'val-bad';
-  const qBg = s.sleep_quality>=7?'rgba(74,222,128,0.2)':s.sleep_quality>=5?'rgba(251,191,36,0.2)':'rgba(248,113,113,0.2)';
-  const qCol = s.sleep_quality>=7?'#4ade80':s.sleep_quality>=5?'#fbbf24':'#f87171';
-  const dCol = s.sleep_debt_hours<=0?'val-good':s.sleep_debt_hours<=1?'val-warn':'val-bad';
-  const delayStr = s.sleep_start_delta_minutes===0?'✅ On time':deltaToReadable(s.sleep_start_delta_minutes);
-  const note = s.context_note || '—';
-  tbody.innerHTML += `<tr>
-    <td style="font-weight:600">${new Date(s.date).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</td>
-    <td>${formatTime(s.sleep_start)}</td>
-    <td>${formatTime(s.sleep_end)}</td>
-    <td class="${hCol}" style="font-weight:700">${s.total_sleep_hours}h</td>
-    <td><span class="score-badge" style="background:${qBg};color:${qCol}">${s.sleep_quality}</span></td>
-    <td>${s.restfulness}/10</td>
-    <td class="${dCol}" style="font-weight:600">${s.sleep_debt_hours>0?'+':''}${s.sleep_debt_hours}h</td>
-    <td>${delayStr}</td>
-    <td style="text-transform:capitalize">${s.pre_activity}</td>
-    <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${note}">${note}</td>
-  </tr>`;
-});
+  // Consistency
+  insightHtml+=`<div class="insight-box"><span class="tag tag-stat">CONSISTENCY</span><strong>Sleep Duration Variability</strong><br>SD: <strong>${consistency}h</strong>. Range: <strong>${Math.min(...hours)}h to ${Math.max(...hours)}h</strong> (spread: ${round(Math.max(...hours)-Math.min(...hours))}h). ${consistency>1?'This indicates social jetlag–like disruption.':'Relatively consistent.'}</div>`;
 
-// ─── CORRELATIONS ───
-const corrPairs = [
-  {a:'total_sleep_hours',b:'sleep_quality',label:'Hours↔Quality'},
-  {a:'total_sleep_hours',b:'post_energy',label:'Hours↔Post Energy'},
-  {a:'total_sleep_hours',b:'post_mental_clarity',label:'Hours↔Mental Clarity'},
-  {a:'sleep_start_delta_minutes',b:'total_sleep_hours',label:'Bedtime Delay↔Hours'},
-  {a:'pre_stress',b:'sleep_quality',label:'Pre-Stress↔Quality'},
-  {a:'pre_stress',b:'ease_of_falling_asleep',label:'Pre-Stress↔Ease'},
-  {a:'pre_anxiety',b:'ease_of_falling_asleep',label:'Pre-Anxiety↔Ease'},
-  {a:'ease_of_falling_asleep',b:'sleep_quality',label:'Ease↔Quality'},
-  {a:'total_sleep_hours',b:'post_mood',label:'Hours↔Post Mood'},
-  {a:'pre_energy',b:'total_sleep_hours',label:'Pre-Energy↔Hours'},
-];
-const corrs = corrPairs.map(p=>({...p, r:round(pearson(sessions.map(s=>s[p.a]),sessions.map(s=>s[p.b])),2)}));
+  // Late meals
+  const lateMealNights=sessions.filter(s=>s.late_meal);
+  if(lateMealNights.length) {
+    insightHtml+=`<div class="insight-box warn"><span class="tag tag-warning">NUTRITION</span><strong>Late Meal Pattern</strong><br><strong>${lateMealNights.length}/${N} nights</strong> had late meals. Avg quality: <strong>${round(avg(lateMealNights.map(s=>s.sleep_quality||0)),1)}/10</strong>, avg hours: <strong>${round(avg(lateMealNights.map(s=>s.total_sleep_hours)),1)}h</strong>. Late eating raises core body temp and disrupts deep sleep.</div>`;
+  }
 
-// ─── DEEP INSIGHTS ───
-let insightHtml = '';
+  // Trend
+  if(N>=4) {
+    const half=Math.floor(N/2);
+    const firstHalf=round(avg(hours.slice(0,half)),1);
+    const secondHalf=round(avg(hours.slice(half)),1);
+    const dir=secondHalf<firstHalf?'downward':'upward';
+    insightHtml+=`<div class="insight-box"><span class="tag tag-stat">TREND</span><strong>${dir==='downward'?'Declining':'Improving'} Trend</strong><br>First half avg: <strong>${firstHalf}h</strong>, second half avg: <strong>${secondHalf}h</strong>. ${dir==='downward'?'Sleep hygiene appears to be worsening.':'Sleep patterns appear to be improving.'}</div>`;
+  }
 
-// 1. Sleep deprivation pattern
-const avgDeficit = round(8-avgHours,1);
-insightHtml += `<div class="insight-box danger">
-  <span class="tag tag-warning">CRITICAL</span>
-  <strong>Chronic Sleep Deprivation Detected</strong><br>
-  You average <strong>${avgHours}h/night</strong> against a target of 8h, accumulating <strong>${totalDebt}h of debt</strong> over 11 days.
-  ${nightsBelow6} nights fell below 6h (critically low). Your cumulative delta stands at <strong>${cumDebt[cumDebt.length-1]}h</strong>.
-  This is clinically significant — chronic sleep restriction impairs cognitive function, emotional regulation, and metabolic health.
-</div>`;
+  document.getElementById('deepInsights').innerHTML = insightHtml;
 
-// 2. Bedtime consistency
-const onTimePct = round(onTimeNights/11*100,0);
-const maxDelay = Math.max(...deltas);
-const maxDelaySession = sessions.find(s=>s.sleep_start_delta_minutes===maxDelay);
-insightHtml += `<div class="insight-box warn">
-  <span class="tag tag-warning">PATTERN</span>
-  <strong>Severe Bedtime Inconsistency</strong><br>
-  Only <strong>${onTimeNights}/11 nights (${onTimePct}%)</strong> you went to bed within 30 minutes of your 10 PM target.
-  Average delay is <strong>${Math.round(avgBedtimeDelay)} minutes</strong> (${round(avgBedtimeDelay/60,1)}h late).
-  Your worst night was <strong>${new Date(maxDelaySession.date).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</strong> — ${maxDelay} min (${round(maxDelay/60,1)}h) past target.
-  Bedtime variance has a <strong>strong negative correlation (r=${corrs.find(c=>c.label==='Bedtime Delay↔Hours').r})</strong> with sleep duration.
-</div>`;
+  // ─── RECOMMENDATIONS ───
+  let recHtml='';
+  recHtml+=`<div class="insight-box good"><span class="tag tag-tip">PRIORITY 1</span><strong>Fix Your Bedtime</strong><br>Your #1 issue is going to bed ${round(avgBedtimeDelay/60,1)}h late on average. Set a hard 10:30 PM "screens off" alarm. Your on-time nights averaged <strong>${onTimeNights>0?round(avg(sessions.filter(s=>(s.sleep_start_delta_minutes||999)<=30).map(s=>s.total_sleep_hours)),1):'N/A'}h</strong> — the data proves this works.</div>`;
 
-// 3. Correlation highlights
-const strongCorrs = corrs.filter(c=>Math.abs(c.r)>=0.4);
-insightHtml += `<div class="insight-box">
-  <span class="tag tag-stat">CORRELATIONS</span>
-  <strong>Key Statistical Relationships</strong><br>
-  <table style="width:100%;margin-top:8px;font-size:0.85rem">
-    <tr><th style="text-align:left;padding:4px 8px;color:var(--text-dim)">Pair</th><th style="padding:4px 8px;color:var(--text-dim)">r</th><th style="text-align:left;padding:4px 8px;color:var(--text-dim)">Interpretation</th></tr>
-    ${corrs.map(c=>{
-      const strength = Math.abs(c.r)>=0.6?'Strong':Math.abs(c.r)>=0.3?'Moderate':'Weak';
-      const dir = c.r>0?'positive':'negative';
-      const col = Math.abs(c.r)>=0.6?(c.r>0?'var(--good)':'var(--danger)'):Math.abs(c.r)>=0.3?'var(--warn)':'var(--text-dim)';
-      return `<tr><td style="padding:4px 8px">${c.label}</td><td style="padding:4px 8px;text-align:center;font-weight:700;color:${col}">${c.r}</td><td style="padding:4px 8px">${strength} ${dir}</td></tr>`;
-    }).join('')}
-  </table>
-</div>`;
+  if(workData.hours.length>2) recHtml+=`<div class="insight-box good"><span class="tag tag-tip">PRIORITY 2</span><strong>Stop Working Before Bed</strong><br>${workData.hours.length}/${N} nights you worked right before sleeping. Create a 60-min wind-down buffer. Replace with reading, stretching, or journaling.</div>`;
 
-// 4. Activity analysis
-const workData = activityGroups['work'] || {hours:[]};
-const screenData = activityGroups['screen'] || {hours:[]};
-const otherData = activityGroups['other'] || {hours:[]};
-insightHtml += `<div class="insight-box">
-  <span class="tag tag-finding">FINDING</span>
-  <strong>Pre-Bed Activity Analysis</strong><br>
-  <strong>Work before bed</strong> (${workData.hours.length} nights): Avg ${round(avg(workData.hours),1)}h sleep, quality ${round(avg(workData.quality),1)}/10.
-  Work dominates your pre-bed routine (${round(workData.hours.length/11*100,0)}% of nights), correlating with later bedtimes and higher stress.<br>
-  <strong>Screen before bed</strong> (${screenData.hours.length} nights): Avg ${round(avg(screenData.hours),1)}h sleep, quality ${round(avg(screenData.quality),1)}/10.
-  Screen exposure suppresses melatonin and delays circadian rhythm.<br>
-  <strong>Other</strong> (${otherData.hours.length} nights): Avg ${round(avg(otherData.hours),1)}h sleep, quality ${round(avg(otherData.quality),1)}/10.
-</div>`;
+  if(lateMealNights.length>2) recHtml+=`<div class="insight-box good"><span class="tag tag-tip">PRIORITY 3</span><strong>Address Late Meals</strong><br>Stop eating at least 2h before bed. ${lateMealNights.length}/${N} nights had late meals.</div>`;
 
-// 5. Best vs Worst
-insightHtml += `<div class="insight-box good">
-  <span class="tag tag-finding">CONTRAST</span>
-  <strong>Best vs Worst Night</strong><br>
-  <strong>Best (${new Date(bestNight.date).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}):</strong> ${bestNight.total_sleep_hours}h, quality ${bestNight.sleep_quality}/10, went to bed exactly on time (10 PM).
-  Woke up with clarity ${bestNight.post_mental_clarity}/10.<br>
-  <strong>Worst (${new Date(worstNight.date).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}):</strong> ${worstNight.total_sleep_hours}h, went to bed ${worstNight.sleep_start_delta_minutes} min late (2:27 AM).
-  Still rated quality ${worstNight.sleep_quality}/10 — which suggests <strong>quality perception may be skewed</strong> when sleep-deprived.
-</div>`;
+  if(anxietyNights.length) recHtml+=`<div class="insight-box good"><span class="tag tag-tip">PRIORITY 4</span><strong>Manage Pre-Sleep Anxiety</strong><br>On anxiety nights, ease-of-sleep dropped significantly. Try 5-min breathing or body scan meditation before bed.</div>`;
 
-// 6. Anxiety spike
-const anxietyNights = sessions.filter(s=>s.pre_anxiety>0);
-if(anxietyNights.length) {
-  insightHtml += `<div class="insight-box warn">
-    <span class="tag tag-finding">MENTAL HEALTH</span>
-    <strong>Anxiety Impact</strong><br>
-    Pre-anxiety was present on <strong>${anxietyNights.length} of 11 nights</strong>.
-    On those nights, avg ease-of-falling-asleep was <strong>${round(avg(anxietyNights.map(s=>s.ease_of_falling_asleep)),1)}/10</strong>
-    compared to <strong>${round(avg(sessions.filter(s=>s.pre_anxiety===0).map(s=>s.ease_of_falling_asleep)),1)}/10</strong> on zero-anxiety nights.
-    Avg sleep was <strong>${round(avg(anxietyNights.map(s=>s.total_sleep_hours)),1)}h</strong> vs
-    <strong>${round(avg(sessions.filter(s=>s.pre_anxiety===0).map(s=>s.total_sleep_hours)),1)}h</strong>.
-  </div>`;
+  recHtml+=`<div class="insight-box good"><span class="tag tag-tip">RECOVERY</span><strong>Pay Back Sleep Debt Gradually</strong><br>Cumulative deficit: <strong>${Math.abs(cumDebt[cumDebt.length-1])}h</strong>. Add 30–60 extra min/night for 2 weeks. Avoid long naps that delay the next night's onset.</div>`;
+
+  recHtml+=`<div class="insight-box"><span class="tag tag-tip">BONUS</span><strong>Track What Works</strong><br>Keep logging — this analysis updates automatically with every new file. Over time, patterns will become clearer and recommendations more precise.</div>`;
+
+  document.getElementById('recommendations').innerHTML = recHtml;
+
+  // Stagger animations
+  document.querySelectorAll('.card').forEach((c,i)=>{c.style.animationDelay=`${0.05*i}s`;});
+
+  // Footer
+  document.getElementById('footer').textContent = `Auto-generated · ${N} sessions loaded · Last refreshed: ${new Date().toLocaleString('en-IN')}`;
+
+  // Show app, hide loader
+  document.getElementById('loading-overlay').classList.add('hidden');
+  document.getElementById('app').style.display = 'block';
 }
 
-// 7. Variance / consistency
-insightHtml += `<div class="insight-box">
-  <span class="tag tag-stat">CONSISTENCY</span>
-  <strong>Sleep Duration Variability</strong><br>
-  Standard deviation: <strong>${consistency}h</strong>. Your sleep ranges from <strong>${Math.min(...hours)}h to ${Math.max(...hours)}h</strong> — a spread of ${round(Math.max(...hours)-Math.min(...hours))}h.
-  This level of variability (>1h SD) indicates <strong>social jetlag</strong>-like disruption, where your internal clock never settles into a rhythm.
-  Consistent sleep schedules are more important than total duration for cognitive performance.
-</div>`;
-
-// 8. Late meals
-const lateMealNights = sessions.filter(s=>s.late_meal);
-if(lateMealNights.length) {
-  insightHtml += `<div class="insight-box warn">
-    <span class="tag tag-warning">NUTRITION</span>
-    <strong>Late Meal Pattern</strong><br>
-    <strong>${lateMealNights.length} of 11 nights</strong> had a late meal logged.
-    On those nights: avg quality <strong>${round(avg(lateMealNights.map(s=>s.sleep_quality)),1)}/10</strong>,
-    avg hours <strong>${round(avg(lateMealNights.map(s=>s.total_sleep_hours)),1)}h</strong>.
-    Late eating raises core body temperature and disrupts circadian digestion windows, reducing deep sleep phases.
-  </div>`;
-}
-
-// 9. Weekend pattern
-insightHtml += `<div class="insight-box">
-  <span class="tag tag-stat">TREND</span>
-  <strong>Declining Trend Alert</strong><br>
-  Looking at the second half of the period (Mar 25–30), your average dropped to <strong>${round(avg(hours.slice(5)),1)}h/night</strong>
-  compared to <strong>${round(avg(hours.slice(0,5)),1)}h</strong> in the first half (Mar 20–24).
-  This ${avg(hours.slice(5))<avg(hours.slice(0,5))?'downward':'upward'} trend, combined with mounting debt of ${round(cumDebt[cumDebt.length-1])}h,
-  suggests worsening sleep hygiene as the period progresses.
-</div>`;
-
-document.getElementById('deepInsights').innerHTML = insightHtml;
-
-// ─── RECOMMENDATIONS ───
-let recHtml = '';
-recHtml += `<div class="insight-box good">
-  <span class="tag tag-tip">PRIORITY 1</span>
-  <strong>Fix Your Bedtime — Non-Negotiable</strong><br>
-  Your #1 issue is going to bed 2+ hours late on average. Set a hard 10:30 PM "screens off" alarm. Your <strong>one on-time night (Mar 23, 10 PM)</strong> produced the <strong>best sleep of the entire period (8.95h, quality 7)</strong>. The data proves this works.
-</div>`;
-
-recHtml += `<div class="insight-box good">
-  <span class="tag tag-tip">PRIORITY 2</span>
-  <strong>Stop Working Before Bed</strong><br>
-  ${workData.hours.length} of 11 nights you worked right before sleeping. The Mar 22 session where you "did mathematics for straight 3 hours before bed" resulted in only <strong>5.92h, quality 4, ease 2/10</strong>.
-  Create a 60-min wind-down buffer. Replace with reading, stretching, or journaling.
-</div>`;
-
-recHtml += `<div class="insight-box good">
-  <span class="tag tag-tip">PRIORITY 3</span>
-  <strong>Address Late Meals</strong><br>
-  Stop eating at least 2 hours before bed. ${lateMealNights.length} of 11 nights had late meals, contributing to poorer sleep onset and reduced restfulness.
-</div>`;
-
-recHtml += `<div class="insight-box good">
-  <span class="tag tag-tip">PRIORITY 4</span>
-  <strong>Manage Pre-Sleep Anxiety</strong><br>
-  On nights with anxiety >0, your ease-of-falling-asleep dropped significantly. Try a 5-minute breathing exercise or body scan meditation before bed.
-  Consider keeping an anxiety journal to offload thoughts before sleep.
-</div>`;
-
-recHtml += `<div class="insight-box good">
-  <span class="tag tag-tip">PRIORITY 5</span>
-  <strong>Pay Back Sleep Debt Gradually</strong><br>
-  Your cumulative deficit is <strong>${Math.abs(cumDebt[cumDebt.length-1])}h</strong>. Don't try to recover in one day — add 30-60 extra minutes per night for the next 2 weeks.
-  Avoid long naps (your 122-min nap on Mar 20 may have delayed that night's sleep onset).
-</div>`;
-
-recHtml += `<div class="insight-box">
-  <span class="tag tag-tip">BONUS</span>
-  <strong>Track What Works</strong><br>
-  Your data shows the <strong>pre-bed shower</strong> appeared on good nights. Consider making it a consistent ritual.
-  The night you watched movies (Mar 27, Dhurandhar) and went to bed at ~11:51 PM still yielded <strong>8.15h, quality 7</strong> — suggesting relaxation activities before bed are superior to cognitive work.
-</div>`;
-
-document.getElementById('recommendations').innerHTML = recHtml;
-
-// Stagger card animations
-document.querySelectorAll('.card').forEach((c,i)=>{c.style.animationDelay=`${0.05*i}s`;});
+main().catch(err => {
+  console.error(err);
+  document.getElementById('loading-overlay').innerHTML = `<div style="color:var(--danger);text-align:center"><h2>Error loading data</h2><p>${err.message}</p><p style="color:var(--text-dim);margin-top:8px">Make sure this file is served via a local HTTP server (e.g. <code>npx http-server .</code>)</p></div>`;
+});
 </script>
 </body>
 </html>
